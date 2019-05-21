@@ -4,6 +4,7 @@ PLATFORM	= $(shell uname)
 CC		= gcc
 OBJDIR		= ./objs
 TESTS		= ./tests
+SOURCE  = ./src
 INCLUDES	= ./include
 INCFLAGS	:= -I${INCLUDES} -I${TESTS}
 #OPTFLAGS	:= -Os -DNDEBUG
@@ -12,7 +13,7 @@ CCFLAGS		:= -c ${OPTFLAGS} -Wall -std=c99
 
 # The list of objects to include in the library
 
-LIBEIOBJS	:= 	
+LIBEIOBJS	:=
 
 
 
@@ -21,7 +22,7 @@ LIBEIOBJS	:=
 ifeq (${PLATFORM},Darwin)
 
 	# Building for Mac OS X
-	
+
 	PLATDIR		= _osx
 	INCFLAGS	:= ${INCFLAGS} -I/opt/local/include/SDL
 	LINK		= ${CC}
@@ -33,7 +34,7 @@ ifeq (${PLATFORM},Darwin)
 else
 
 	# Building for Linux
-	
+
 	PLATDIR		= _x11
 	INCFLAGS	:= ${INCFLAGS} -I/usr/include/SDL
 	LINK		= ${CC}
@@ -71,11 +72,14 @@ ${OBJDIR}/minimal.o : ${TESTS}/minimal.c
 
 # lines
 
-lines : ${OBJDIR}/lines.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o lines ${OBJDIR}/lines.o ${LIBEI} ${LIBS}
-	
+lines : ${OBJDIR}/lines.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o lines ${OBJDIR}/lines.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+
 ${OBJDIR}/lines.o : ${TESTS}/lines.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/lines.c -o ${OBJDIR}/lines.o
+
+${OBJDIR}/draw.o : ${SOURCE}/ei_draw.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_draw.c -o ${OBJDIR}/draw.o
 
 # frame
 
