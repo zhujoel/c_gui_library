@@ -6,7 +6,7 @@
 #include <math.h>
 
 
-uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color){
+uint32_t ei_map_rgba (ei_surface_t surface, const ei_color_t* color){
 	int* ir = malloc(sizeof(int));
 	int* ig = malloc(sizeof(int));
 	int* ib = malloc(sizeof(int));
@@ -15,11 +15,11 @@ uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color){
 	uint32_t ret = 0;
 	if (*ia == -1)
 	{
-			ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + 0xff000000;
+		ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + 0xff000000;
 	}
 	else
 	{
-			ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + (color->alpha << (*ia)*8);
+		ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + (color->alpha << (*ia)*8);
 	}
 	return ret;
 }
@@ -29,6 +29,12 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 
+	// while(first_point->next != NULL){
+	// 	printf("%i\n", first_point->point.x);
+	// 	first_point = first_point->next;
+	// }
+	// first_point = first_point->next;
+
 	// point de départ
 	ei_point_t current = first_point->point;
 	// point d'arrivée
@@ -36,14 +42,13 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 	float erreur = 0;
 	int deltax = abs(arrivee.x - current.x);
 	int deltay = abs(arrivee.y - current.y);
-	if ( deltax > deltay){
-		// on incrémente x de 1
 
-		// while(first_point->next != NULL){
-		// 	printf("%i\n", first_point->point.x);
-		// 	first_point = first_point->next;
-		// }
-		// first_point = first_point->next;
+	if(deltax == 0){
+		
+	}else if(deltay == 0){
+
+	}else if ( deltax > deltay){
+		// on incrémente x de 1
 
 		while((current.x != arrivee.x) && (current.y != arrivee.y)){
 			current.x++;
