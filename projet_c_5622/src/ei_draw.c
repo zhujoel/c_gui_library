@@ -6,8 +6,21 @@
 
 
 uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color){
-	hw_surface_get_channel_indices()
-	return 0xba3030ff;
+	int* ir;
+	int* ig;
+	int* ib;
+	int* ia;
+	hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
+	uint32_t ret = 0;
+	if (*ia == -1)
+	{
+			ret = (color->red << (3-*ir)*8) + (color->green << (3-*ig)*8) + (color->blue << (3-*ib)*8) + 255;
+	}
+	else
+	{
+			ret = (color->red << (3-*ir)*8) + (color->green << (3-*ig)*8) + (color->blue << (3-*ib)*8) + (color->alpha << *ia*8);
+	}
+	return ret;
 }
 
 
