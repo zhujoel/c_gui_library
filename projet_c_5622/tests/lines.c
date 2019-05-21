@@ -17,11 +17,13 @@
 void test_line(ei_surface_t surface, ei_rect_t* clipper)
 {
 	ei_color_t		color		= { 255, 0, 255, 255 };
-	ei_linked_point_t	pts[2];
+	ei_linked_point_t	pts[3];
 
 	pts[0].point.x = 200; pts[0].point.y = 200; pts[0].next = &pts[1];
-	pts[1].point.x = 600; pts[1].point.y = 400; pts[1].next = NULL;
+	pts[1].point.x = 600; pts[1].point.y = 400; pts[1].next = &pts[2];
+	pts[2].point.x = 300; pts[2].point.y = 300; pts[2].next = NULL;
 
+	ei_draw_polyline(surface, pts, color, clipper);
 	ei_draw_polyline(surface, pts, color, clipper);
 
 }
