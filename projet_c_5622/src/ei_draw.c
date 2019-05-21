@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 
 uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color){
@@ -37,7 +38,6 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 	int deltay = abs(arrivee.y - current.y);
 	if ( deltax > deltay){
 		// on incrémente x de 1
-
 
 		// while(first_point->next != NULL){
 		// 	printf("%i\n", first_point->point.x);
