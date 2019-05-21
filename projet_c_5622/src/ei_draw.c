@@ -3,41 +3,57 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 
 uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color){
-	int* ir;
-	int* ig;
-	int* ib;
-	int* ia;
-	hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
-	uint32_t ret = 0;
-	if (*ia == -1)
-	{
-			ret = (color->red << (3-*ir)*8) + (color->green << (3-*ig)*8) + (color->blue << (3-*ib)*8) + 255;
-	}
-	else
-	{
-			ret = (color->red << (3-*ir)*8) + (color->green << (3-*ig)*8) + (color->blue << (3-*ib)*8) + (color->alpha << *ia*8);
-	}
-	return ret;
+	return 0xba3030ff;
 }
 
 
 void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_point, const ei_color_t color, const ei_rect_t* clipper){
 	hw_surface_lock(surface);
-	// while(first_point != NULL){
-	// 	printf("BOB");
-	// 	first_point = first_point->next;
-	// }
 
-	uint32_t* pixel;
-	pixel = (uint32_t*)hw_surface_get_buffer(surface);
+	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 
-	pixel += 800 * 100 + 50;
-	*pixel = ei_map_rgba(surface, &color);
+	// point de départ
+	ei_point_t current = first_point->point;
+	// point d'arrivée
+	ei_point_t arrivee = first_point->next->point;
+	float erreur = 0;
+	int deltax = abs(arrivee.x - current.x);
+	int deltay = abs(arrivee.y - current.y);
+	if ( deltax > deltay){
+		// on incrémente x de 1
 
-	//for (int i = 0; i < (800 * 600); i++)
+		while((current.x != arrivee.x) && (current.y != arrivee.y)){
+			current.x++;
+			erreur += (float)deltay/deltax;
+
+			if (erreur > 0.5){
+				current.y++;
+				erreur--;
+			}
+			pixel_ptr += current.x + current.y*800;
+			*pixel_ptr = 0xba3030ff;
+			pixel_ptr -= current.x + current.y*800;
+		}
+	}
+	else{
+		// on incrémente y de 1
+		while((current.x != arrivee.x) && (current.y != arrivee.y)){
+			current.y++;
+			erreur += (float)deltay/deltax;
+
+			if (erreur > 0.5){
+				current.x++;
+				erreur--;
+			}
+			pixel_ptr += current.x + current.y*800;
+			*pixel_ptr = 0xba3030ff;
+			pixel_ptr -= current.x + current.y*800;
+		}
+	}
 
 
 	hw_surface_unlock(surface);
