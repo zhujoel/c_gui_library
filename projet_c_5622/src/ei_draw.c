@@ -44,7 +44,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 	int deltay = abs(arrivee.y - current.y);
 
 	if(deltax == 0){
-		
+
 	}else if(deltay == 0){
 
 	}else if ( deltax > deltay){
