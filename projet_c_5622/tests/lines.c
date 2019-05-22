@@ -24,9 +24,6 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
 	pts[2].point.x = 300; pts[2].point.y = 300; pts[2].next = NULL;
 
 	ei_draw_polyline(surface, pts, color, clipper);
-	ei_draw_polyline(surface, pts, color, clipper);
-	ei_draw_polyline(surface, pts, color, clipper);
-	ei_draw_polyline(surface, pts, color, clipper);
 
 }
 
