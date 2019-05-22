@@ -32,7 +32,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 	// si il n'y a qu'un seul point
 	if(first_point->next == NULL){
 		pixel_ptr +=  first_point->point.x +  first_point->point.y*800;
-		*pixel_ptr = 0xba3030ff;
+		*pixel_ptr = ei_map_rgba(surface, &color);
 	}
 	// si on a plusieurs points
 	else{
@@ -62,7 +62,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 				while(current.y != arrivee.y){
 					current.y += incrementy;
 					pixel_ptr += current.x + current.y*800;
-					*pixel_ptr = 0xba3030ff;
+					*pixel_ptr = ei_map_rgba(surface, &color);
 					pixel_ptr -= current.x + current.y*800;
 				}
 			}
@@ -71,7 +71,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 				while(current.x != arrivee.x){
 					current.x += incrementx;
 					pixel_ptr += current.x + current.y*800;
-					*pixel_ptr = 0xba3030ff;
+					*pixel_ptr = ei_map_rgba(surface, &color);
 					pixel_ptr -= current.x + current.y*800;
 				}
 			}
@@ -87,7 +87,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 						erreur--;
 					}
 					pixel_ptr += current.x + current.y*800;
-					*pixel_ptr = 0xba3030ff;
+					*pixel_ptr = ei_map_rgba(surface, &color);
 					pixel_ptr -= current.x + current.y*800;
 				}
 			}
@@ -103,7 +103,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 						erreur--;
 					}
 					pixel_ptr += current.x + current.y*800;
-					*pixel_ptr = 0xba3030ff;
+					*pixel_ptr = ei_map_rgba(surface, &color);
 					pixel_ptr -= current.x + current.y*800;
 				}
 			}
