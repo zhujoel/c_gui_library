@@ -83,11 +83,14 @@ ${OBJDIR}/draw.o : ${SOURCE}/ei_draw.c
 
 # frame
 
-frame : ${OBJDIR}/frame.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o frame ${LDFLAGS} ${OBJDIR}/frame.o ${LIBEI} ${LIBS}
+frame : ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o frame ${LDFLAGS} ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/frame.o : ${TESTS}/frame.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/frame.c -o ${OBJDIR}/frame.o
+
+${OBJDIR}/appli.o : ${SOURCE}/ei_application.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_application.c -o ${OBJDIR}/appli.o
 
 # button
 
