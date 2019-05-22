@@ -29,55 +29,89 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 
-	// while(first_point->next != NULL){
-	// 	printf("%i\n", first_point->point.x);
-	// 	first_point = first_point->next;
-	// }
-	// first_point = first_point->next;
-	// point de départ
-	ei_point_t current = first_point->point;
-	// point d'arrivée
-	ei_point_t arrivee = first_point->next->point;
-
-	float erreur = 0;
-	int deltax = abs(arrivee.x - current.x);
-	int deltay = abs(arrivee.y - current.y);
-
-	if(deltax == 0){
-
-	}else if(deltay == 0){
-
-	}else if ( deltax > deltay){
-		// on incrémente x de 1
-
-		while((current.x != arrivee.x) && (current.y != arrivee.y)){
-			current.x++;
-			erreur += (float)deltay/deltax;
-
-			if (erreur > 0.5){
-				current.y++;
-				erreur--;
-			}
-			pixel_ptr += current.x + current.y*800;
-			*pixel_ptr = ei_map_rgba(surface,&color);
-			pixel_ptr -= current.x + current.y*800;
-		}
+	// si il n'y a qu'un seul point
+	if(first_point->next == NULL){
+		pixel_ptr +=  first_point->point.x +  first_point->point.y*800;
+		*pixel_ptr = 0xba3030ff;
 	}
+	// si on a plusieurs points
 	else{
-		// on incrémente y de 1
-		while((current.x != arrivee.x) && (current.y != arrivee.y)){
-			current.y++;
-			erreur += (float)deltax/deltay;
-
-			if (erreur > 0.5){
-				current.x++;
-				erreur--;
+		// point de départ
+		ei_point_t current = first_point->point;
+		// suiveur d'arrivée
+		ei_linked_point_t *suiveur_arrivee = first_point->next;
+		// on dessine les segments pour tous les points
+		while(suiveur_arrivee != NULL){
+			int8_t incrementx = 1;
+			int8_t incrementy = 1;
+			// point d'arrivée
+			ei_point_t arrivee = suiveur_arrivee->point;
+			// si le point 1 est "avant" le point 2 en x
+			if(current.x > arrivee.x){
+				incrementx = -1;
 			}
-			pixel_ptr += current.x + current.y*800;
-			*pixel_ptr = ei_map_rgba(surface,&color);
-			pixel_ptr -= current.x + current.y*800;
+			if(current.y > arrivee.y){
+				incrementy = -1;
+			}
+			int deltax = abs(arrivee.x - current.x);
+			int deltay = abs(arrivee.y - current.y);
+			float erreur = 0;
+
+			if(deltax == 0){
+				// on incrémente y de 1
+				while(current.y != arrivee.y){
+					current.y += incrementy;
+					pixel_ptr += current.x + current.y*800;
+					*pixel_ptr = 0xba3030ff;
+					pixel_ptr -= current.x + current.y*800;
+				}
+			}
+			else if(deltay == 0){
+				// on incrémente x de 1
+				while(current.x != arrivee.x){
+					current.x += incrementx;
+					pixel_ptr += current.x + current.y*800;
+					*pixel_ptr = 0xba3030ff;
+					pixel_ptr -= current.x + current.y*800;
+				}
+			}
+			else if (deltax > deltay){
+				// on incrémente x de 1
+				while((current.x != arrivee.x) && (current.y != arrivee.y)){
+					current.x += incrementx;
+
+					// calcul de l'erreur
+					erreur += (float)deltay/deltax;
+					if (erreur > 0.5){
+						current.y += incrementy;
+						erreur--;
+					}
+					pixel_ptr += current.x + current.y*800;
+					*pixel_ptr = 0xba3030ff;
+					pixel_ptr -= current.x + current.y*800;
+				}
+			}
+			else{
+				// on incrémente y de 1
+				while((current.x != arrivee.x) && (current.y != arrivee.y)){
+					current.y += incrementy;
+
+					// calcul de l'erreur
+					erreur += (float)deltax/deltay;
+					if (erreur > 0.5){
+						current.x += incrementx;
+						erreur--;
+					}
+					pixel_ptr += current.x + current.y*800;
+					*pixel_ptr = 0xba3030ff;
+					pixel_ptr -= current.x + current.y*800;
+				}
+			}
+			current = arrivee;
+			suiveur_arrivee = suiveur_arrivee->next;
 		}
 	}
+
 
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
