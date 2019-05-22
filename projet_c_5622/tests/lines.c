@@ -32,8 +32,7 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
 	pts[1].next = NULL;
 >>>>>>> 0f0ec509619b731a12319a94141eadcec6414d51*/
 
-	ei_draw_polyline(surface, pts, color, clipper);
-	ei_draw_polyline(surface, pts, color, clipper);
+	ei_draw_polygon(surface, pts, color, clipper);
 
 }
 
