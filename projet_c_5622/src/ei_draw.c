@@ -34,17 +34,17 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 	// 	first_point = first_point->next;
 	// }
 	// first_point = first_point->next;
-
 	// point de départ
 	ei_point_t current = first_point->point;
 	// point d'arrivée
 	ei_point_t arrivee = first_point->next->point;
+
 	float erreur = 0;
 	int deltax = abs(arrivee.x - current.x);
 	int deltay = abs(arrivee.y - current.y);
 
 	if(deltax == 0){
-		
+
 	}else if(deltay == 0){
 
 	}else if ( deltax > deltay){
@@ -59,7 +59,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 				erreur--;
 			}
 			pixel_ptr += current.x + current.y*800;
-			*pixel_ptr = 0xba3030ff;
+			*pixel_ptr = ei_map_rgba(surface,&color);
 			pixel_ptr -= current.x + current.y*800;
 		}
 	}
@@ -67,18 +67,17 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 		// on incrémente y de 1
 		while((current.x != arrivee.x) && (current.y != arrivee.y)){
 			current.y++;
-			erreur += (float)deltay/deltax;
+			erreur += (float)deltax/deltay;
 
 			if (erreur > 0.5){
 				current.x++;
 				erreur--;
 			}
 			pixel_ptr += current.x + current.y*800;
-			*pixel_ptr = 0xba3030ff;
+			*pixel_ptr = ei_map_rgba(surface,&color);
 			pixel_ptr -= current.x + current.y*800;
 		}
 	}
-
 
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
