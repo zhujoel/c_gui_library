@@ -17,17 +17,31 @@
 void test_line(ei_surface_t surface, ei_rect_t* clipper)
 {
 	ei_color_t		color		= { 255, 0, 255, 255 };
-	ei_linked_point_t	pts[9];
+	ei_linked_point_t	pts[23];
 
-	pts[0].point.x = 600; pts[0].point.y = 400; pts[0].next = &pts[1];
-	pts[1].point.x = 600; pts[1].point.y = 200; pts[1].next = &pts[2];
-	pts[2].point.x = 300; pts[2].point.y = 300; pts[2].next = &pts[3];
-	pts[3].point.x = 500; pts[3].point.y = 300; pts[3].next = &pts[4];
-	pts[4].point.x = 124; pts[4].point.y = 241; pts[4].next = &pts[5];
-	pts[5].point.x = 102; pts[5].point.y = 354; pts[5].next = &pts[6];
-	pts[6].point.x = 0; pts[6].point.y = 452; pts[6].next = &pts[7];
-	pts[7].point.x = 456; pts[7].point.y = 0; pts[7].next = &pts[8];
-	pts[8].point.x = 795; pts[8].point.y = 124; pts[8].next = NULL;
+	pts[0].point.x = 100; pts[0].point.y = 500; pts[0].next = &pts[1];
+	pts[1].point.x = 100; pts[1].point.y = 100; pts[1].next = &pts[2];
+	pts[2].point.x = 200; pts[2].point.y = 100; pts[2].next = &pts[3];
+	pts[3].point.x = 200; pts[3].point.y = 250; pts[3].next = &pts[4];
+	pts[4].point.x = 100; pts[4].point.y = 250; pts[4].next = &pts[5];
+	pts[5].point.x = 100; pts[5].point.y = 500; pts[5].next = &pts[6];
+	pts[6].point.x = 300; pts[6].point.y = 500; pts[6].next = &pts[7];
+	pts[7].point.x = 300; pts[7].point.y = 100; pts[7].next = &pts[8];
+	pts[8].point.x = 400; pts[8].point.y = 100; pts[8].next = &pts[9];
+	pts[9].point.x = 400; pts[9].point.y = 250; pts[9].next = &pts[10];
+	pts[10].point.x = 300; pts[10].point.y = 250; pts[10].next = &pts[11];
+	pts[11].point.x = 400; pts[11].point.y = 250; pts[11].next = &pts[12];
+	pts[12].point.x = 400; pts[12].point.y = 500; pts[12].next = &pts[13];
+	pts[13].point.x = 500; pts[13].point.y = 500; pts[13].next = &pts[14];
+	pts[14].point.x = 500; pts[14].point.y = 100; pts[14].next = &pts[15];
+	pts[15].point.x = 500; pts[15].point.y = 500; pts[15].next = &pts[16];
+	pts[16].point.x = 600; pts[16].point.y = 500; pts[16].next = &pts[17];
+	pts[17].point.x = 600; pts[17].point.y = 100; pts[17].next = &pts[18];
+	pts[18].point.x = 600; pts[18].point.y = 500; pts[18].next = &pts[19];
+	pts[19].point.x = 700; pts[19].point.y = 500; pts[19].next = &pts[20];
+	pts[20].point.x = 700; pts[20].point.y = 100; pts[20].next = &pts[21];
+	pts[21].point.x = 700; pts[21].point.y = 500; pts[21].next = &pts[22];
+	pts[22].point.x = 799; pts[22].point.y = 500; pts[22].next = NULL;
 
 	ei_draw_polyline(surface, pts, color, clipper);
 
