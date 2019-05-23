@@ -206,16 +206,6 @@ ei_cellule_t *derniere_cellule(ei_cellule_t* cellule) // Renvoie la derniere cel
 	else{return NULL;}
 }
 
-ei_linked_point_t *dernier_point(ei_linked_point_t* cellule)	// Renvoie le dernier point d'une liste chainée de points
-{
-		ei_linked_point_t* courant = cellule;
-		while (courant->next != NULL)
-		{
-			courant = courant->next;
-		}
-		return courant;
-}
-
 int TC_non_vide(ei_cellule_t** TC, int taille)	// Renvoie 1 si TC n'est pas vide, 0 sinon
 {
 	int flag = 0;
@@ -287,7 +277,7 @@ void maj_TCA(ei_cellule_t** TCA)		// Met à jour les abscisses d'intersection
 	ei_cellule_t *courant = *TCA;
 	if (courant != NULL)
 	{
-		while (courant->suivant != NULL)
+		while (courant != NULL)
 		{
 			courant->xymin = courant->xymin - courant->pente;
 			courant = courant->suivant;
@@ -318,22 +308,16 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 	courant->point = first_point->point;
 	courant->next = first_point->next;
 
-	ei_linked_point_t *retour_au_premierpoint = malloc(sizeof(ei_linked_point_t));
-	retour_au_premierpoint->point = first_point->point;
-	retour_au_premierpoint->next = NULL;
-	dernier_point(courant)->next = retour_au_premierpoint;
-
 	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * hw_surface_get_size(surface).height);
 	ei_cellule_t* TCA = malloc(sizeof(struct ei_cellule_t));
 	TCA = NULL;
 	int ydepart = hw_surface_get_size(surface).height;
-	printf("%i\n", hw_surface_get_size(surface).height);
 
-	while (courant->next != NULL)
+	while (courant->next != NULL)				// Remplissage de TC
 	{
-			int x1 = courant->point.x;
+			float x1 = courant->point.x;
 			int y1 = courant->point.y;
-			int x2 = courant->next->point.x;
+			float x2 = courant->next->point.x;
 			int y2 = courant->next->point.y;
 			if ((y2-y1)!=0)
 			{
@@ -348,65 +332,49 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 
 				if (TC[ymin] == NULL)
 				{
-					printf("a\n");
 					TC[ymin] = nouveau;
 				}
 				else
 				{
-					printf("b\n");
 					derniere_cellule(TC[ymin])->suivant = nouveau;
 				}
 			}
 			courant = courant->next;
-			printf("%p\n",courant->next);
 	}
-		//printf("%i\n",TC[200]->ymax);
-	printf("%p\n",TC);
-	printf("%p\n",TCA);
-	while ((TC_non_vide(TC, hw_surface_get_size(surface).height) == 1) || (nbr_TCA(&TCA) != 0))
+	while ((TC_non_vide(TC, hw_surface_get_size(surface).height) == 1) || (nbr_TCA(&TCA) != 0))		// Algorithme de remplissage
 	{
-			printf("entre\n");
-			if (TC[ydepart] != NULL)
-			{
-				printf("%i\n",TC[ydepart]->ymax);
-			}
-			printf("entre2\n");
 			if (derniere_cellule(TCA) == NULL)
 			{
 				TCA = TC[ydepart];
 			}
 			else { derniere_cellule(TCA)->suivant = TC[ydepart];}
-			printf("entre3\n");
+			//printf("%i\n",(nbr_TCA(&TCA)));
 			TC[ydepart] = NULL;
-			printf("entre4\n");
 			supr_TCA(&TCA, ydepart);
-			printf("entre5\n");
 			tri_TCA(&TCA);
-			printf("entre6\n");
 			ei_cellule_t *borne1 = TCA;
-			printf("entre7\n");
 			ei_cellule_t *borne2;
-			printf("entre8\n");
 			int currentx;
 			while (borne1 != NULL)
 			{
-				borne2 = borne1->suivant;
-				currentx = (int) borne1->xymin;
-				while (currentx < (int) borne2->xymin)
+				if (borne1->suivant != NULL)
 				{
-					pixel_ptr += currentx + ydepart*800;
-					*pixel_ptr = ei_map_rgba(surface,&color);
-					pixel_ptr -= currentx + ydepart*800;
-					currentx++;
+					borne2 = borne1->suivant;
+					currentx = (int) borne1->xymin;
+					while (currentx < (int) borne2->xymin)
+					{
+						pixel_ptr += currentx + ydepart*800;
+						*pixel_ptr = ei_map_rgba(surface,&color);
+						pixel_ptr -= currentx + ydepart*800;
+						currentx++;
+					}
+					borne1 = borne2->suivant;
 				}
-				borne1 = borne2->suivant;
+				else{borne1 = NULL;}
 			}
 			ydepart++;
-			printf("%i\n", ydepart);
 			maj_TCA(&TCA);
-			printf("derniere etape %i, %i\n", TC_non_vide(TC, hw_surface_get_size(surface).height), nbr_TCA(&TCA));
 	}
-	printf("sort\n");
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
 }
