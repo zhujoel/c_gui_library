@@ -267,6 +267,9 @@ void tri_TCA(ei_cellule_t** TCA)			// Tri le tableau TCA pas xymin croissant
 			int temp = courant->ymax;
 			courant->ymax = (*TCA)->ymax;
 			(*TCA)->ymax = temp;
+			float temp2 = courant->pente;
+			courant->pente = (*TCA)->pente;
+			(*TCA)->pente = temp2;
 			tri_TCA(&((*TCA)->suivant));
 		}
 	}
@@ -279,7 +282,7 @@ void maj_TCA(ei_cellule_t** TCA)		// Met à jour les abscisses d'intersection
 	{
 		while (courant != NULL)
 		{
-			courant->xymin = courant->xymin - courant->pente;
+			courant->xymin = courant->xymin + courant->pente;
 			courant = courant->suivant;
 		}
 	}
@@ -325,19 +328,20 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 	while (courant->next != NULL)				// Remplissage de TC
 	{
 			float x1 = courant->point.x;
-			int y1 = courant->point.y;
+			float y1 = courant->point.y;
 			float x2 = courant->next->point.x;
-			int y2 = courant->next->point.y;
+			float y2 = courant->next->point.y;
 			if ((y2-y1)!=0)
 			{
+				float pente = (x2-x1)/(y2-y1);
+
 				uint32_t ymin = y1<y2?y1:y2;
 				ydepart = ymin<ydepart?ymin:ydepart;
 				ei_cellule_t* nouveau = malloc(sizeof(struct ei_cellule_t));
 				nouveau->ymax =  y1>y2?y1:y2;
 				nouveau->xymin = y1<y2?x1:x2;
-				nouveau->pente = (x2-x1)/(y2-y1);
+				nouveau->pente = pente;
 				nouveau->suivant = NULL;
-
 				if (TC[ymin] == NULL)
 				{
 					TC[ymin] = nouveau;

@@ -49,6 +49,24 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
 
 }
 
+void test_pointe(ei_surface_t surface, ei_rect_t* clipper)
+{
+	ei_color_t		color		= { 255, 0, 255, 255 };
+	ei_linked_point_t	pts[23];
+
+	pts[0].point.x = 100; pts[0].point.y = 100; pts[0].next = &pts[1];
+	pts[1].point.x = 300; pts[1].point.y = 100; pts[1].next = &pts[2];
+	pts[2].point.x = 200; pts[2].point.y = 500; pts[2].next = &pts[3];
+	//pts[1].point.x = 200; pts[1].point.y = 500; pts[1].next = &pts[2];
+	//pts[2].point.x = 300; pts[2].point.y = 100; pts[2].next = &pts[3];
+	pts[3].point.x = 100; pts[3].point.y = 100; pts[3].next = NULL;
+
+
+	ei_draw_polygon(surface, pts, color, clipper);
+
+	ei_draw_polyline(surface, pts, color, clipper);
+
+}
 
 /* test_octogone --
  *
@@ -84,8 +102,8 @@ void test_octogone(ei_surface_t surface, ei_rect_t* clipper)
 	pts[i-1].next = NULL;
 
 	/* Draw the form with polylines */
-	ei_draw_polyline(surface, pts, color, clipper);
-	//ei_draw_polygon(surface, pts, color, clipper);
+	//ei_draw_polyline(surface, pts, color, clipper);
+	ei_draw_polygon(surface, pts, color, clipper);
 }
 
 
@@ -159,7 +177,8 @@ int ei_main(int argc, char** argv)
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
-	ei_rect_t		clipper		= ei_rect(ei_point(100, 150), ei_size(500, 300));
+	//ei_rect_t		clipper		= ei_rect(ei_point(100, 150), ei_size(500, 300));
+	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
 	clipper_ptr		= &clipper;
 
 	hw_init();
@@ -171,10 +190,11 @@ int ei_main(int argc, char** argv)
 	ei_fill		(main_window, &white, clipper_ptr);
 
 	/* Draw polylines. */
-	test_line	(main_window, clipper_ptr);
+	//test_line	(main_window, clipper_ptr);
 	test_octogone	(main_window, clipper_ptr);
-	test_square	(main_window, clipper_ptr);
-	test_dot	(main_window, clipper_ptr);
+	//test_square	(main_window, clipper_ptr);
+	//test_dot	(main_window, clipper_ptr);
+	//test_pointe(main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);
