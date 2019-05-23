@@ -4,6 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 
+static ei_widget_t* root;
+
+extern ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t* parent);
+
 void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
   //Initialize the hardware
   hw_init();
@@ -19,8 +23,7 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
 	main_window = hw_create_window(main_window_size, fullscreen);
 
   //Creates the root widget
-  ei_widget_t widget_root;
-  ei_widget_create("frame", &widget_root);
+  root = ei_widget_create_root("frame", NULL);
 
 }
 
@@ -30,8 +33,8 @@ void ei_app_free(){
 
 void ei_app_run(){
   //TODO : Parcours de la hiérarchie de widget
-  while()
-  ei_widget_t* current = ei_app_root_widget()->children_head;
+  //while()
+  //ei_widget_t* current = ei_app_root_widget()->children_head;
 
   //call drawfunc
 
@@ -48,7 +51,7 @@ void ei_app_quit_request(){
 }
 
 ei_widget_t* ei_app_root_widget(){
-  return widget_root;
+  return root;
 }
 
 ei_surface_t ei_app_root_surface(){
