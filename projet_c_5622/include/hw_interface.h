@@ -3,7 +3,7 @@
  *
  * @brief	Low level interface with the graphic hadware. This interface is based on the SDL
  *		library.
- * 
+ *
  *  Created by François Bérard on 30.12.11.
  *  Copyright 2011 Ensimag. All rights reserved.
  */
@@ -20,7 +20,7 @@ extern const int EI_MOUSEBUTTON_MIDDLE;
 extern const int EI_MOUSEBUTTON_RIGHT;
 
 /**
- * @typedef 	ei_surface_t 
+ * @typedef 	ei_surface_t
  * @brief 	Surface hidden type. A surface represents a 2 dimentional array of pixels
  *		where drawing can be done. The displayed screen itself is represented by a surface,
  *		it is accessed by \ref hw_create_window. Other "offscreen" surfaces can be created
@@ -95,7 +95,7 @@ void hw_surface_free(ei_surface_t surface);
  */
 void hw_surface_lock(ei_surface_t surface);
 
-/** 
+/**
  * @brief 	Releases the exclusive access to a surface that was locked by \ref hw_surface_lock.
  *
  * @param 	surface 	The surface to unlock.
@@ -126,7 +126,7 @@ void hw_surface_update_rects(ei_surface_t surface, const ei_linked_rect_t* rects
 
 void hw_surface_get_channel_indices(ei_surface_t surface, int* ir, int* ig, int* ib, int* ia);
 
-/** 
+/**
  * @brief	Sets the coordinates of the first pixel of the surface's memory.
  *		By default, the coordinates of the first pixel are (0, 0). This can be changed by
  *		a call to this function.
@@ -138,7 +138,7 @@ void hw_surface_get_channel_indices(ei_surface_t surface, int* ir, int* ig, int*
  */
 void hw_surface_set_origin(ei_surface_t surface, const ei_point_t origin);
 
-/** 
+/**
  * @brief	Returns a pointer to the address of the pixel at coordinated (0, 0) of a surface.
  *		This is usually the first pixel of the surface's memory. But after a call to
  * 		\ref hw_surface_set_origin, the (0, 0) pixel may point within the surface memory or not.
@@ -170,7 +170,7 @@ ei_size_t hw_surface_get_size(const ei_surface_t surface);
  */
 ei_rect_t hw_surface_get_rect(const ei_surface_t surface);
 
-/** 
+/**
  * @brief	Tells if a surface manages transparency, i.e. if the surface has an
  *		alpha channel.
  *

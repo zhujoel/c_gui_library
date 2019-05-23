@@ -23,11 +23,11 @@ int ei_main(int argc, char** argv)
 
 	// Lock the surface for drawing, fill in white, unlock, update screen.
 	hw_surface_lock(main_window);
-	
+
 	pixel_ptr = (uint32_t*)hw_surface_get_buffer(main_window);
 	for (i = 0; i < (main_window_size.width * main_window_size.height); i++)
 		*pixel_ptr++ = white;
-	
+
 	hw_surface_unlock(main_window);
 	hw_surface_update_rects(main_window, NULL);
 
