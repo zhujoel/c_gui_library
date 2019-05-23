@@ -412,6 +412,11 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 }
 
 void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* text, const ei_font_t font, const ei_color_t*	color, const ei_rect_t*	clipper){
+	hw_surface_lock(surface);
+	ei_surface_t text_surface = hw_text_create_surface(text, font, color);
+
+	hw_surface_unlock(surface);
+	hw_surface_update_rects(surface, NULL);
 
 }
 
@@ -421,5 +426,69 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 }
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
-	return 0;
+
+	// dimensions des surfaces source et destination
+	ei_size_t size_dest = hw_surface_get_size(destination);
+	ei_size_t size_src = hw_surface_get_size(source);
+
+	// si les surfaces ne sont pas identiques
+	if (size_dest.width != size_src.width && size_dest.height != size_src.height ){
+		// on ne peut pas copier
+		return 0;
+	}
+
+	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
+	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
+
+	// si le rectangle de destination n'est pas nul
+	if(dst_rect != NULL && src_rect == NULL){
+		hw_surface_set_origin(destination, dst_rect->top_left);
+		for (int i = dst_rect->top_left.x; i < dst_rect->size.width; i++){
+			for(int j = dst_rect->top_left.y; j < dst_rect->size.height; j++){
+				pixel_ptr_src += i + j*800;
+				pixel_ptr_dest += i + j*800;
+				*pixel_ptr_dest = *pixel_ptr_src;
+				pixel_ptr_dest -= i + j*800;
+				pixel_ptr_src -= i + j*800;
+			}
+		}
+	}
+	// si le rectangle de source n'est pas nul
+	else if (dst_rect == NULL && src_rect != NULL){
+		hw_surface_set_origin(source, src_rect->top_left);
+		for (int i = src_rect->top_left.x; i < src_rect->size.width; i++){
+			for(int j = src_rect->top_left.y; j < src_rect->size.height; j++){
+				pixel_ptr_src += i + j*800;
+				pixel_ptr_dest += i + j*800;
+				*pixel_ptr_dest = *pixel_ptr_src;
+				pixel_ptr_dest -= i + j*800;
+				pixel_ptr_src -= i + j*800;
+			}
+		}
+	}
+	else if (dst_rect != NULL && src_rect != NULL){
+		hw_surface_set_origin(destination, dst_rect->top_left);
+		hw_surface_set_origin(source, src_rect->top_left);
+		// coordoonnées de départ du parcours du rect en fonction de la position des deux rect
+		int x_min = 0;
+		int y_min = 0;
+		int x_max = 0;
+		int y_max = 0;
+	}
+	// si les rectangles de délimitations sont nuls
+	else{
+		// parcours chaque pixel pour copier
+		for(int i = 0; i < size_src.width; i++){
+			for(int j = 0; j < size_src.height; j++){
+				pixel_ptr_src += i + j*800;
+				pixel_ptr_dest += i + j*800;
+				*pixel_ptr_dest = *pixel_ptr_src;
+				pixel_ptr_dest -= i + j*800;
+				pixel_ptr_src -= i + j*800;
+			}
+		}
+	}
+
+	return 1;
+
 }

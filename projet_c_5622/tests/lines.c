@@ -49,6 +49,47 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
 
 }
 
+void test_text(ei_surface_t surface, ei_rect_t* clipper){
+	// dessine PAUUUUL a la position (100, 100) de l'écran.
+	char* text = "PAUUUUL";
+	ei_fontstyle_t fontstyle = ei_style_normal;
+	ei_font_t font = hw_text_font_create("fonts/AmaticSC-Regular.ttf", fontstyle, 10);
+	ei_point_t point = {100, 100};
+	ei_color_t color = {0, 255, 0, 255};
+	ei_draw_text(surface, &point, text, font, &color, clipper);
+}
+
+/* test ei_copy_surface --
+ *
+ * copie tous les pixels délimités par un rect d'une surface
+ * source à une surface destination.
+ */
+void test_copy(ei_surface_t destination){
+
+	/**
+	 * CREATION DE LA SURFACE SOURCE
+	 */
+	ei_size_t		win_size	= ei_size(800, 600);
+	ei_surface_t		source	= NULL;
+	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
+
+	source = hw_surface_create(destination, &win_size, 0);
+
+	/* Lock the drawing surface, paint it white. */
+	hw_surface_lock	(source);
+	ei_fill		(source, &white, NULL);
+
+	test_line	(source, NULL);
+
+	/* Unlock and update the surface. */
+	hw_surface_unlock(source);
+	hw_surface_update_rects(source, NULL);
+
+	/**
+	 * DÉBUT DU TEST DE COPY
+	 */
+	ei_copy_surface(destination, NULL, source, NULL, 0);
+}
 
 
 /* test_octogone --
@@ -158,7 +199,7 @@ int ei_main(int argc, char** argv)
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
-	ei_rect_t		clipper		= ei_rect(ei_point(200, 150), ei_size(400, 300));
+	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
 	clipper_ptr		= &clipper;
 
 	hw_init();
@@ -170,10 +211,12 @@ int ei_main(int argc, char** argv)
 	ei_fill		(main_window, &white, clipper_ptr);
 
 	/* Draw polylines. */
-	test_line	(main_window, clipper_ptr);
-	test_octogone	(main_window, clipper_ptr);
-	test_square	(main_window, clipper_ptr);
-	test_dot	(main_window, clipper_ptr);
+	//test_line	(main_window, clipper_ptr);
+	//test_octogone	(main_window, clipper_ptr);
+	//test_square	(main_window, clipper_ptr);
+	//test_dot	(main_window, clipper_ptr);
+	//test_text (main_window, clipper_ptr);
+	test_copy (main_window);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);
