@@ -57,7 +57,7 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 		//on dessine seulement si le point est à l'intérieur du clipper
 		if (coord_x < clipping_x2 && coord_x >= clipping_x1
 		&& coord_y < clipping_y2 && coord_y >= clipping_y1){
-				pixel_ptr +=  coord_x + coord_y*800;
+				pixel_ptr +=  coord_x + coord_y*hw_surface_get_size(surface).width;
 				*pixel_ptr = ei_map_rgba(surface, &color);
 		}
 
@@ -93,13 +93,13 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 				while(current.y != arrivee.y && current.y != 0 && current.y != surface_height-1){
 					// on incrémente y de 1
 					current.y += incrementy;
-					pixel_ptr += current.x + current.y*800;
+					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
 					//on dessine seulement si le point est à l'intérieur du clipper
 					if (current.x < clipping_x2 && current.x >= clipping_x1
 					&& current.y < clipping_y2 && current.y >= clipping_y1){
 						*pixel_ptr = ei_map_rgba(surface, &color);
 					}
-					pixel_ptr -= current.x + current.y*800;
+					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
 				}
 			}
 
@@ -109,13 +109,13 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 				while(current.x != arrivee.x && current.x != 0 && current.x != surface_width-1){
 					// on incrémente x de 1
 					current.x += incrementx;
-					pixel_ptr += current.x + current.y*800;
+					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
 					//on dessine seulement si le point est à l'intérieur du clipper
 					if (current.x < clipping_x2 && current.x >= clipping_x1
 					&& current.y < clipping_y2 && current.y >= clipping_y1){
 						*pixel_ptr = ei_map_rgba(surface, &color);
 					}
-					pixel_ptr -= current.x + current.y*800;
+					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
 				}
 			}
 
@@ -141,13 +141,13 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 						current.y += incrementy;
 						erreur--;
 					}
-					pixel_ptr += current.x + current.y*800;
+					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
 					//on dessine seulement si le point est à l'intérieur du clipper
 					if (current.x < clipping_x2 && current.x >= clipping_x1
 					&& current.y < clipping_y2 && current.y >= clipping_y1){
 						*pixel_ptr = ei_map_rgba(surface, &color);
 					}
-					pixel_ptr -= current.x + current.y*800;
+					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
 				}
 			}
 			// sinon, le segment est dirigé par y
@@ -172,13 +172,13 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 						current.x += incrementx;
 						erreur--;
 					}
-					pixel_ptr += current.x + current.y*800;
+					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
 					//on dessine seulement si le point est à l'intérieur du clipper
 					if (current.x < clipping_x2 && current.x >= clipping_x1
 					&& current.y < clipping_y2 && current.y >= clipping_y1){
 						*pixel_ptr = ei_map_rgba(surface, &color);
 					}
-					pixel_ptr -= current.x + current.y*800;
+					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
 				}
 			}
 			current.x = arrivee.x;
@@ -385,9 +385,9 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 						currentx = currentx>clipping_x1?currentx:clipping_x1;
 						while ((currentx < (int) borne2->xymin) && currentx < clipping_x2)
 						{
-							pixel_ptr += currentx + ydepart*800;
+							pixel_ptr += currentx + ydepart*hw_surface_get_size(surface).width;
 							*pixel_ptr = ei_map_rgba(surface,&color);
-							pixel_ptr -= currentx + ydepart*800;
+							pixel_ptr -= currentx + ydepart*hw_surface_get_size(surface).width;
 							currentx++;
 						}
 						borne1 = borne2->suivant;
@@ -404,8 +404,15 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 
 void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* text, const ei_font_t font, const ei_color_t*	color, const ei_rect_t*	clipper){
 	hw_surface_lock(surface);
+	// surface où on écrit le texte
 	ei_surface_t text_surface = hw_text_create_surface(text, font, color);
+	ei_rect_t text_surface_rect = hw_surface_get_rect(text_surface);
 
+	// surface où afficher ledit texte
+	ei_point_t surface_point = {where->x, where->y};
+	ei_rect_t surface_rect = {surface_point, text_surface_rect.size};
+	ei_copy_surface(surface, &surface_rect, text_surface, NULL, 0);
+	hw_surface_free(text_surface);
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
 
@@ -422,36 +429,32 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 	ei_size_t size_dest = hw_surface_get_size(destination);
 	ei_size_t size_src = hw_surface_get_size(source);
 
-	// si les surfaces ne sont pas identiques
-	if (size_dest.width != size_src.width && size_dest.height != size_src.height ){
-		// on ne peut pas copier
-		return 0;
-	}
-
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
 
 	// si le rectangle de destination n'est pas nul
 	if(dst_rect != NULL && src_rect == NULL){
-		for (int i = dst_rect->top_left.x; i < dst_rect->size.width+dst_rect->top_left.x; i++){
-			for(int j = dst_rect->top_left.y; j < dst_rect->size.height+dst_rect->top_left.y; j++){
-				pixel_ptr_src += i + j*800;
-				pixel_ptr_dest += i + j*800;
+		ei_rect_t source_rect = hw_surface_get_rect(source);
+		for (int i = source_rect.top_left.x; i < (source_rect.top_left.x+source_rect.size.width); i++){
+			for(int j = source_rect.top_left.y; j < (source_rect.top_left.y+source_rect.size.height); j++){
+				printf("%i %i \n", i, j);
+				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
+				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
 				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*800;
-				pixel_ptr_src -= i + j*800;
+				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
+				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
 			}
 		}
 	}
 	// si le rectangle de source n'est pas nul
 	else if (dst_rect == NULL && src_rect != NULL){
-		for (int i = src_rect->top_left.x; i < src_rect->size.width+src_rect->top_left.x; i++){
-			for(int j = src_rect->top_left.y; j < src_rect->size.height+src_rect->top_left.y; j++){
-				pixel_ptr_src += i + j*800;
-				pixel_ptr_dest += i + j*800;
+		for (int i = src_rect->top_left.x; i < (src_rect->size.width+src_rect->top_left.x); i++){
+			for(int j = src_rect->top_left.y; j < (src_rect->size.height+src_rect->top_left.y); j++){
+				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
+				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
 				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*800;
-				pixel_ptr_src -= i + j*800;
+				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
+				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
 			}
 		}
 	}
@@ -467,13 +470,14 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 		ei_point_t intersection_top_left = {inter_topleftx, inter_toplefty};
 		ei_size_t intersection_size = {inter_width, inter_height};
 		ei_rect_t intersection = {intersection_top_left, intersection_size};
+		printf("INTERSECTION %i %i %i %i \n", intersection.top_left.x, intersection.top_left.y, intersection.size.width, intersection.size.height);
 		for (int i = intersection.top_left.x; i < intersection.size.width+intersection.top_left.x; i++){
 			for(int j = intersection.top_left.y; j < intersection.size.height+intersection.top_left.y; j++){
-				pixel_ptr_src += i + j*800;
-				pixel_ptr_dest += i + j*800;
+				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
+				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
 				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*800;
-				pixel_ptr_src -= i + j*800;
+				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
+				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
 			}
 		}
 	}
@@ -482,11 +486,11 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 		// parcours chaque pixel pour copier
 		for(int i = 0; i < size_src.width; i++){
 			for(int j = 0; j < size_src.height; j++){
-				pixel_ptr_src += i + j*800;
-				pixel_ptr_dest += i + j*800;
+				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
+				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
 				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*800;
-				pixel_ptr_src -= i + j*800;
+				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
+				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
 			}
 		}
 	}
