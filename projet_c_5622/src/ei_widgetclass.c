@@ -9,6 +9,8 @@ typedef struct ei_widget_frame_t {
   ei_widget_t widget;
 
   //Specific attributes
+  const ei_color_t*	color;
+  int* border_width;
   ei_relief_t relief;
   char**  text;
   ei_font_t* text_font;
@@ -24,7 +26,10 @@ typedef struct ei_widget_button_t {
   ei_widget_t widget;
 
   //Specific attributes
-  ei_relief_t* relief;
+  const ei_color_t*	color;
+  int* border_width;
+  int* corner_radius;
+  ei_relief_t relief;
   char** text;
   ei_font_t* text_font;
   ei_color_t* text_color;
@@ -41,6 +46,8 @@ typedef struct ei_widget_toplevel_t {
   ei_widget_t widget;
 
   //Specific attributes
+  ei_color_t* color;
+  int* border_width;
   char** title;
   ei_bool_t* closable;
   ei_axis_set_t* resizable;
@@ -95,16 +102,27 @@ void frame_releasefunc(struct ei_widget_t* widget){
 void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
   /* implémentation du dessin d’un widget de la classe "frame" */
+  struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
+
+  ei_linked_point_t	pts[5];
+	pts[0].point.x = 100; pts[0].point.y = 500; pts[0].next = &pts[1];
+	pts[1].point.x = 100; pts[1].point.y = 100; pts[1].next = &pts[2];
+	pts[2].point.x = 200; pts[2].point.y = 100; pts[2].next = &pts[3];
+	pts[3].point.x = 200; pts[3].point.y = 250; pts[3].next = &pts[4];
+	pts[4].point.x = 100; pts[4].point.y = 250; pts[4].next = NULL;
+  ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
 }
 
 void frame_setdefaultsfunc(struct ei_widget_t* widget){
   struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
   ei_size_t	screen_size = {0, 0};
+  ei_color_t default_color = ei_default_background_color;
   widgetframe->widget.requested_size = screen_size;
+  widgetframe->color = &default_color;
+  widgetframe->border_width = 0;
   widgetframe->relief = ei_relief_none;
   widgetframe->text = NULL;
   widgetframe->text_font = ei_default_font;
-  ei_color_t default_color = ei_default_background_color;
   widgetframe->text_color = &default_color;
   ei_anchor_t anchor_center = ei_anc_center;
   widgetframe->text_anchor = &anchor_center;
@@ -129,7 +147,6 @@ void* button_allocfunc(){
 }
 
 void button_releasefunc(struct ei_widget_t* widget){
-
 }
 
 void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
@@ -139,7 +156,25 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 }
 
 void button_setdefaultsfunc(struct ei_widget_t*	widget){
+  struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+  ei_size_t	screen_size = {0, 0};
+  ei_color_t default_color = ei_default_background_color;
+  widgetbutton->widget.requested_size = screen_size;
+  widgetbutton->color = &default_color;
+  widgetbutton->relief = ei_relief_none;
+  widgetbutton->text = NULL;
+  widgetbutton->text_font = ei_default_font;
+  widgetbutton->text_color = &default_color;
+  ei_anchor_t anchor_center = ei_anc_center;
+  widgetbutton->text_anchor = &anchor_center;
+  widgetbutton->img = NULL;
+  widgetbutton->img_rect = NULL;
+  widgetbutton->img_anchor = &anchor_center;
 
+  int corner_radius = k_default_button_corner_radius;
+  int border_width = k_default_button_border_width;
+  widgetbutton->corner_radius = &corner_radius;
+  widgetbutton->border_width = &border_width;
 }
 
 void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -168,7 +203,16 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
 }
 
 void toplevel_setdefaultsfunc(struct ei_widget_t*	widget){
-
+  struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+  ei_size_t	screen_size = {0, 0};
+  ei_color_t default_color = ei_default_background_color;
+  widgettoplevel->widget.requested_size = screen_size;
+  widgettoplevel->color = &default_color;
+  widgettoplevel->border_width = 4;
+  widgettoplevel->title = "TopLevel";
+  widgettoplevel->closable
+  widgettoplevel->resizable
+  widgettoplevel->min_size
 }
 
 void toplevel_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
