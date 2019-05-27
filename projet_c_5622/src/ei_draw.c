@@ -435,6 +435,8 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 	// si le rectangle de destination n'est pas nul
 	if(dst_rect != NULL && src_rect == NULL){
 		ei_rect_t source_rect = hw_surface_get_rect(source);
+		// TODO: corriger les boucles fors pour que ça parcourt bien ce qu'on veut aka
+		// les rectangles
 		for (int i = source_rect.top_left.x; i < (source_rect.top_left.x+source_rect.size.width); i++){
 			for(int j = source_rect.top_left.y; j < (source_rect.top_left.y+source_rect.size.height); j++){
 				printf("%i %i \n", i, j);
