@@ -5,6 +5,13 @@
 #include <stdio.h>
 #include <math.h>
 
+#ifndef max
+	#define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#endif
+
+#ifndef min
+	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#endif
 
 uint32_t ei_map_rgba (ei_surface_t surface, const ei_color_t* color){
 	int* ir = malloc(sizeof(int));
@@ -426,9 +433,8 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 
 	// si le rectangle de destination n'est pas nul
 	if(dst_rect != NULL && src_rect == NULL){
-		hw_surface_set_origin(destination, dst_rect->top_left);
-		for (int i = dst_rect->top_left.x; i < dst_rect->size.width; i++){
-			for(int j = dst_rect->top_left.y; j < dst_rect->size.height; j++){
+		for (int i = dst_rect->top_left.x; i < dst_rect->size.width+dst_rect->top_left.x; i++){
+			for(int j = dst_rect->top_left.y; j < dst_rect->size.height+dst_rect->top_left.y; j++){
 				pixel_ptr_src += i + j*800;
 				pixel_ptr_dest += i + j*800;
 				*pixel_ptr_dest = *pixel_ptr_src;
@@ -439,9 +445,8 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 	}
 	// si le rectangle de source n'est pas nul
 	else if (dst_rect == NULL && src_rect != NULL){
-		hw_surface_set_origin(source, src_rect->top_left);
-		for (int i = src_rect->top_left.x; i < src_rect->size.width; i++){
-			for(int j = src_rect->top_left.y; j < src_rect->size.height; j++){
+		for (int i = src_rect->top_left.x; i < src_rect->size.width+src_rect->top_left.x; i++){
+			for(int j = src_rect->top_left.y; j < src_rect->size.height+src_rect->top_left.y; j++){
 				pixel_ptr_src += i + j*800;
 				pixel_ptr_dest += i + j*800;
 				*pixel_ptr_dest = *pixel_ptr_src;
@@ -450,16 +455,29 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 			}
 		}
 	}
+	// si les rectangles sources et destination sont pas nulls
 	else if (dst_rect != NULL && src_rect != NULL){
-		hw_surface_set_origin(destination, dst_rect->top_left);
-		hw_surface_set_origin(source, src_rect->top_left);
-		// coordoonnées de départ du parcours du rect en fonction de la position des deux rect
-		int x_min = 0;
-		int y_min = 0;
-		int x_max = 0;
-		int y_max = 0;
+		// dimensions du rectangle d'intersection des rectangles destination et source
+		int inter_topleftx = max(dst_rect->top_left.x, src_rect->top_left.x);
+		int inter_toplefty = max( dst_rect->top_left.y, src_rect->top_left.y);
+		int inter_bottomrightx = min( dst_rect->top_left.x + dst_rect->size.width, src_rect->top_left.x + src_rect->size.width );
+		int inter_bottomrighty = min( dst_rect->top_left.y + dst_rect->size.height, src_rect->top_left.y + src_rect->size.height );
+		int inter_width = inter_bottomrightx - inter_topleftx;
+		int inter_height = inter_bottomrighty - inter_toplefty;
+		ei_point_t intersection_top_left = {inter_topleftx, inter_toplefty};
+		ei_size_t intersection_size = {inter_width, inter_height};
+		ei_rect_t intersection = {intersection_top_left, intersection_size};
+		for (int i = intersection.top_left.x; i < intersection.size.width+intersection.top_left.x; i++){
+			for(int j = intersection.top_left.y; j < intersection.size.height+intersection.top_left.y; j++){
+				pixel_ptr_src += i + j*800;
+				pixel_ptr_dest += i + j*800;
+				*pixel_ptr_dest = *pixel_ptr_src;
+				pixel_ptr_dest -= i + j*800;
+				pixel_ptr_src -= i + j*800;
+			}
+		}
 	}
-	// si les rectangles de délimitations sont nuls
+	// si les rectangles source et destination sont nuls
 	else{
 		// parcours chaque pixel pour copier
 		for(int i = 0; i < size_src.width; i++){

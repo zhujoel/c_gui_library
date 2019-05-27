@@ -49,7 +49,6 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
 
 }
 
-<<<<<<< HEAD
 void test_text(ei_surface_t surface, ei_rect_t* clipper){
 	// dessine PAUUUUL a la position (100, 100) de l'écran.
 	char* text = "PAUUUUL";
@@ -64,8 +63,9 @@ void test_text(ei_surface_t surface, ei_rect_t* clipper){
  *
  * copie tous les pixels délimités par un rect d'une surface
  * source à une surface destination.
+ * Test de la méthode avec rectangles source et destionation nulls
  */
-void test_copy(ei_surface_t destination){
+void test_copy_null_null(ei_surface_t destination){
 
 	/**
 	 * CREATION DE LA SURFACE SOURCE
@@ -80,7 +80,7 @@ void test_copy(ei_surface_t destination){
 	hw_surface_lock	(source);
 	ei_fill		(source, &white, NULL);
 
-	test_line	(source, NULL);
+	test_line(source, NULL);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(source);
@@ -91,12 +91,123 @@ void test_copy(ei_surface_t destination){
 	 */
 	ei_copy_surface(destination, NULL, source, NULL, 0);
 }
-=======
+
+/* test ei_copy_surface --
+ *
+ * copie tous les pixels délimités par un rect d'une surface
+ * source à une surface destination.
+ * Test de la méthode avec rectangle destination non null et rectangle source null
+ */
+void test_copy_rect_null(ei_surface_t destination){
+
+	/**
+	 * CREATION DE LA SURFACE SOURCE
+	 */
+	ei_size_t		win_size	= ei_size(800, 600);
+	ei_surface_t		source	= NULL;
+	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
+	ei_point_t rect_top_left = {200, 200};
+	ei_size_t rect_size = {400, 400};
+	ei_rect_t rect_dest = {rect_top_left, rect_size};
+
+	source = hw_surface_create(destination, &win_size, 0);
+
+	/* Lock the drawing surface, paint it white. */
+	hw_surface_lock	(source);
+	ei_fill		(source, &white, NULL);
+
+	test_line(source, NULL);
+
+	/* Unlock and update the surface. */
+	hw_surface_unlock(source);
+	hw_surface_update_rects(source, NULL);
+
+	/**
+	 * DÉBUT DU TEST DE COPY
+	 */
+	ei_copy_surface(destination, &rect_dest, source, NULL, 0);
+}
+
+/* test ei_copy_surface --
+ *
+ * copie tous les pixels délimités par un rect d'une surface
+ * source à une surface destination.
+ * Test de la méthode avec rectangle destination null et rectangle source non null
+ */
+void test_copy_null_rect(ei_surface_t destination){
+
+	/**
+	 * CREATION DE LA SURFACE SOURCE
+	 */
+	ei_size_t		win_size	= ei_size(800, 600);
+	ei_surface_t		source	= NULL;
+	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
+	ei_point_t rect_top_left = {300, 300};
+	ei_size_t rect_size = {500, 300};
+	ei_rect_t rect_src = {rect_top_left, rect_size};
+
+	source = hw_surface_create(destination, &win_size, 0);
+
+	/* Lock the drawing surface, paint it white. */
+	hw_surface_lock	(source);
+	ei_fill		(source, &white, NULL);
+
+	test_line(source, NULL);
+
+	/* Unlock and update the surface. */
+	hw_surface_unlock(source);
+	hw_surface_update_rects(source, NULL);
+
+	/**
+	 * DÉBUT DU TEST DE COPY
+	 */
+	ei_copy_surface(destination, NULL, source, &rect_src, 0);
+}
+
+
+/* test ei_copy_surface --
+ *
+ * copie tous les pixels délimités par un rect d'une surface
+ * source à une surface destination.
+ * Test de la méthode avec rectangle destination non null et rectangle source non null
+ */
+void test_copy_rect_rect(ei_surface_t destination){
+
+	/**
+	 * CREATION DE LA SURFACE SOURCE
+	 */
+	ei_size_t		win_size	= ei_size(800, 600);
+	ei_surface_t		source	= NULL;
+	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
+	ei_point_t rect_dest_top_left = {300, 50};
+	ei_size_t rect_dest_size = {200, 300};
+	ei_rect_t rect_src = {rect_dest_top_left, rect_dest_size};
+	ei_point_t rect_src_top_left = {400, 300};
+	ei_size_t rect_src_size = {200, 300};
+	ei_rect_t rect_dest = {rect_src_top_left, rect_src_size};
+
+	source = hw_surface_create(destination, &win_size, 0);
+
+	/* Lock the drawing surface, paint it white. */
+	hw_surface_lock	(source);
+	ei_fill		(source, &white, NULL);
+
+	test_line(source, NULL);
+
+	/* Unlock and update the surface. */
+	hw_surface_unlock(source);
+	hw_surface_update_rects(source, NULL);
+
+	/**
+	 * DÉBUT DU TEST DE COPY
+	 */
+	ei_copy_surface(destination, &rect_dest, source, &rect_src, 0);
+}
+
 void test_pointe(ei_surface_t surface, ei_rect_t* clipper)
 {
 	ei_color_t		color		= { 255, 0, 255, 255 };
 	ei_linked_point_t	pts[23];
->>>>>>> d57f005ca8a581db71d07876bb948da5dc3659e8
 
 	pts[0].point.x = 100; pts[0].point.y = 100; pts[0].next = &pts[1];
 	pts[1].point.x = 300; pts[1].point.y = 100; pts[1].next = &pts[2];
@@ -221,10 +332,8 @@ int ei_main(int argc, char** argv)
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
-<<<<<<< HEAD
-=======
+
 	//ei_rect_t		clipper		= ei_rect(ei_point(100, 150), ei_size(500, 300));
->>>>>>> d57f005ca8a581db71d07876bb948da5dc3659e8
 	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
 	clipper_ptr		= &clipper;
 
@@ -237,20 +346,17 @@ int ei_main(int argc, char** argv)
 	ei_fill		(main_window, &white, clipper_ptr);
 
 	/* Draw polylines. */
-<<<<<<< HEAD
 	//test_line	(main_window, clipper_ptr);
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
 	//test_dot	(main_window, clipper_ptr);
 	//test_text (main_window, clipper_ptr);
-	test_copy (main_window);
-=======
-	test_line	(main_window, clipper_ptr);
-	test_octogone	(main_window, clipper_ptr);
-	test_square	(main_window, clipper_ptr);
-	test_dot	(main_window, clipper_ptr);
+	test_copy_rect_rect(main_window);
+	//test_line	(main_window, clipper_ptr);
+	//test_octogone	(main_window, clipper_ptr);
+	//test_square	(main_window, clipper_ptr);
+	//test_dot	(main_window, clipper_ptr);
 	//test_pointe(main_window, clipper_ptr);
->>>>>>> d57f005ca8a581db71d07876bb948da5dc3659e8
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);
