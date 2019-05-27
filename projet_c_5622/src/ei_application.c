@@ -19,8 +19,8 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
   //...
 
   //Creates the root window
-	ei_surface_t main_window = NULL;
-	main_window = hw_create_window(main_window_size, fullscreen);
+  //main_window =
+	hw_create_window(main_window_size, fullscreen);
 
   //Creates the root widget
   root = ei_widget_create_root("frame", NULL);
@@ -55,5 +55,5 @@ ei_widget_t* ei_app_root_widget(){
 }
 
 ei_surface_t ei_app_root_surface(){
-
+  return NULL;
 }

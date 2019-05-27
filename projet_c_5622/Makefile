@@ -83,14 +83,20 @@ ${OBJDIR}/draw.o : ${SOURCE}/ei_draw.c
 
 # frame
 
-frame : ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o frame ${LDFLAGS} ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${LIBEI} ${LIBS}
+frame : ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o frame ${LDFLAGS} ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/frame.o : ${TESTS}/frame.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/frame.c -o ${OBJDIR}/frame.o
 
 ${OBJDIR}/appli.o : ${SOURCE}/ei_application.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_application.c -o ${OBJDIR}/appli.o
+
+${OBJDIR}/widget.o : ${SOURCE}/ei_widget.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_widget.c -o ${OBJDIR}/widget.o
+
+${OBJDIR}/widgetclass.o : ${SOURCE}/ei_widgetclass.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_widgetclass.c -o ${OBJDIR}/widgetclass.o
 
 # button
 

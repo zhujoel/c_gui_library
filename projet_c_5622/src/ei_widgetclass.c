@@ -18,7 +18,7 @@ typedef struct ei_widget_frame_t {
   ei_rect_t** img_rect;
   ei_anchor_t* img_anchor;
 
-} ei_frame_t;
+} ei_widget_frame_t;
 
 typedef struct ei_widget_button_t {
   ei_widget_t widget;
@@ -41,6 +41,10 @@ typedef struct ei_widget_toplevel_t {
   ei_widget_t widget;
 
   //Specific attributes
+  char** title;
+  ei_bool_t* closable;
+  ei_axis_set_t* resizable;
+  ei_size_t** min_size;
 
 } ei_widget_toplevel_t;
 
@@ -58,17 +62,20 @@ void ei_widgetclass_register (ei_widgetclass_t* widgetclass){
     }
     //Add the new widgetclass
     current->next = widgetclass;
-  }widgetframe->
+  }
 }
 
 ei_widgetclass_t*	ei_widgetclass_from_name (ei_widgetclass_name_t name){
   ei_widgetclass_t* current = widgetsclass;
   if(current != NULL){
-    while(current != NULL){
-      if(current->name == name){
+    while(current->next != NULL){
+      if(strcmp(current->name, name)==0){
         return current;
       }
       current = current->next;
+    }
+    if(strcmp(current->name, name)==0){
+      return current;
     }
   }
   return NULL;
@@ -78,7 +85,7 @@ ei_widgetclass_t*	ei_widgetclass_from_name (ei_widgetclass_name_t name){
 //Widget frame
 //////////////////////
 void* frame_allocfunc(){
-  //return malloc(sizeof(struct ei_widget_frame_t));
+  return malloc(sizeof(struct ei_widget_frame_t));
 }
 
 void frame_releasefunc(struct ei_widget_t* widget){
@@ -97,10 +104,8 @@ void frame_setdefaultsfunc(struct ei_widget_t* widget){
   widgetframe->relief = ei_relief_none;
   widgetframe->text = NULL;
   widgetframe->text_font = ei_default_font;
-  widgetframe->text_color->red = ei_font_default_color.red;
-  widgetframe->text_color->green = ei_font_default_color.green;
-  widgetframe->text_color->blue = ei_font_default_color.blue;
-  widgetframe->text_color->alpha = ei_font_default_color.alpha;
+  ei_color_t default_color = ei_default_background_color;
+  widgetframe->text_color = &default_color;
   ei_anchor_t anchor_center = ei_anc_center;
   widgetframe->text_anchor = &anchor_center;
   widgetframe->img = NULL;
@@ -120,7 +125,7 @@ ei_bool_t frame_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event)
 //Widget button
 ///////////////////////
 void* button_allocfunc(){
-  //malloc()
+  return malloc(sizeof(struct ei_widget_button_t));
 }
 
 void button_releasefunc(struct ei_widget_t* widget){
@@ -149,7 +154,7 @@ ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event
 //Widget toplevel
 //////////////////////
 void* toplevel_allocfunc(){
-  return malloc(sizeof(int));
+  return malloc(sizeof(struct ei_widget_toplevel_t));
 }
 
 void toplevel_releasefunc(struct ei_widget_t* widget){
@@ -177,17 +182,17 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
 
 //registers
 void ei_frame_register_class (){
-  ei_widgetclass_t frame;
-  char* text = "char";
-  //ei_widgetclass_name_t* name[0] = text[0];
-  frame.name[0] = text[0];
-  frame.allocfunc = &frame_allocfunc;
-  frame.releasefunc = &frame_releasefunc;
-  frame.drawfunc = &frame_drawfunc;
-  frame.setdefaultsfunc = &frame_setdefaultsfunc;
-  frame.geomnotifyfunc = &frame_geomnotifyfunc;
-  frame.handlefunc = &frame_handlefunc;
-  ei_widgetclass_register(&frame);
+  ei_widgetclass_t* frame = malloc(sizeof(ei_widgetclass_t));
+  //ei_widgetclass_name_t* name = malloc(5 * sizeof(char));
+  strcpy(frame->name, "frame");
+  frame->allocfunc = &frame_allocfunc;
+  frame->releasefunc = &frame_releasefunc;
+  frame->drawfunc = &frame_drawfunc;
+  frame->setdefaultsfunc = &frame_setdefaultsfunc;
+  frame->geomnotifyfunc = &frame_geomnotifyfunc;
+  frame->handlefunc = &frame_handlefunc;
+  frame->next = NULL;
+  ei_widgetclass_register(frame);
 }
 
 void ei_button_register_class (){
@@ -198,6 +203,7 @@ void ei_button_register_class (){
   button.setdefaultsfunc = &button_setdefaultsfunc;
   button.geomnotifyfunc = &button_geomnotifyfunc;
   button.handlefunc = &button_handlefunc;
+  button.next = NULL;
   ei_widgetclass_register(&button);
 }
 
@@ -209,5 +215,6 @@ void ei_toplevel_register_class (){
   toplevel.setdefaultsfunc = &toplevel_setdefaultsfunc;
   toplevel.geomnotifyfunc = &toplevel_geomnotifyfunc;
   toplevel.handlefunc = &toplevel_handlefunc;
+  toplevel.next = NULL;
   ei_widgetclass_register(&toplevel);
 }
