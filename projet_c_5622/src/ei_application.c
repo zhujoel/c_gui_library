@@ -31,9 +31,68 @@ void ei_app_free(){
   hw_quit();
 }
 
+/* Création d'un type de liste chainée de widget pour
+le parcours en longueur de l'arbre de widget */
+typedef struct ei_widget_chaine_t{
+  ei_widget_t* widget;
+  struct ei_widget_chaine_t* suivant;
+} ei_widget_chaine_t;
+
+typedef struct {
+  struct ei_widget_chaine_t* tete;
+  struct ei_widget_chaine_t* queue;
+} ei_widget_liste_t;
+
+// Ajoute en tête, plante si le pointeur de liste en entrée est nul
+void ajout_tete(ei_widget_liste_t* liste, ei_widget_t* widget)
+{
+  struct ei_widget_chaine_t* cellule = malloc(sizeof(struct ei_widget_chaine_t));
+  cellule->widget = widget;
+  cellule->suivant = liste->tete;
+  liste->tete = cellule;
+  if (liste->queue == NULL)
+  {
+    liste->queue = cellule;
+  }
+}
+
+// Ajoute en queue, plante si le pointeur de liste en entrée est nul
+void ajout_queue(ei_widget_liste_t* liste, ei_widget_t* widget)
+{
+  struct ei_widget_chaine_t* cellule = malloc(sizeof(struct ei_widget_chaine_t));
+  cellule->widget = widget;
+  cellule->suivant = NULL;
+  if (liste->tete == NULL)
+  {
+    liste->tete = cellule;
+    liste->queue = cellule;
+  }
+  else
+  {
+  liste->queue->suivant = cellule;
+  liste->queue = cellule;
+  }
+}
+
+
 void ei_app_run(){
-  //TODO : Parcours de la hiérarchie de widget
-  //while()
+    //TODO : Parcours de la hiérarchie de widget
+
+    ei_widget_liste_t* courant = malloc(sizeof(ei_widget_liste_t));
+    struct ei_widget_chaine_t* first = malloc(sizeof(struct ei_widget_chaine_t));
+    first->widget = ei_app_root_widget();
+    first->suivant = NULL;
+    courant->tete = first;
+    courant->queue = first;
+    ei_widget_liste_t* suivante = malloc(sizeof(ei_widget_liste_t));
+    suivante->tete = NULL;
+    suivante->queue = NULL;
+    while ((courant->tete != NULL) || (suivante->tete != NULL))
+    {
+        courant->tete->widget->wclass->drawfunc(,,,);
+    //    if (courant->next_sibling)
+    }
+
   //ei_widget_t* current = ei_app_root_widget()->children_head;
 
   //call drawfunc
@@ -46,8 +105,8 @@ void ei_app_invalidate_rect(ei_rect_t* rect){
 
 }
 
-void ei_app_quit_request(){
-
+void ei_app_quit_request(int* flag){
+    *flag = 0;
 }
 
 ei_widget_t* ei_app_root_widget(){
@@ -55,5 +114,5 @@ ei_widget_t* ei_app_root_widget(){
 }
 
 ei_surface_t ei_app_root_surface(){
-  return NULL;
+  return main_window;
 }
