@@ -125,7 +125,7 @@ void ei_app_run(){
   //ei_widget_t* current = ei_app_root_widget()->children_head;
 
   //call drawfunc
-  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), ei_app_root_surface(), clipper_ptr);
+  //ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), ei_app_root_surface(), clipper_ptr);
 
   /* Wait for a character on command line. */
 	getchar();
