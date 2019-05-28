@@ -13,6 +13,9 @@
 	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
 #endif
 
+/**
+ * Prend une ei_color_t et renvoie sa représentation 32 bits
+ */
 uint32_t ei_map_rgba (ei_surface_t surface, const ei_color_t* color){
 	int* ir = malloc(sizeof(int));
 	int* ig = malloc(sizeof(int));
@@ -29,6 +32,19 @@ uint32_t ei_map_rgba (ei_surface_t surface, const ei_color_t* color){
 		ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + (color->alpha << (*ia)*8);
 	}
 	return ret;
+}
+
+/**
+ * Prend une couleur en représentation 32 bits et renvoie une ei_color_t
+ */
+ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color){
+		int* ir = malloc(sizeof(int));
+		int* ig = malloc(sizeof(int));
+		int* ib = malloc(sizeof(int));
+		int* ia = malloc(sizeof(int));
+		hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
+		ei_color_t ret = {(*color >> (8*(*ir))) & 0xff, (*color >> (8*(*ig))) & 0xff, (*color >> (8*(*ib))) & 0xff, (*color >> (8*(*ia))) & 0xff};
+	  return ret;
 }
 
 void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_point, const ei_color_t color, const ei_rect_t* clipper){
@@ -403,19 +419,15 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 }
 
 void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* text, const ei_font_t font, const ei_color_t*	color, const ei_rect_t*	clipper){
-	hw_surface_lock(surface);
-	// surface où on écrit le texte
+	// crée une surface pour écrire le texte
 	ei_surface_t text_surface = hw_text_create_surface(text, font, color);
 	ei_rect_t text_surface_rect = hw_surface_get_rect(text_surface);
 
 	// surface où afficher ledit texte
-	ei_point_t surface_point = {where->x, where->y};
-	ei_rect_t surface_rect = {surface_point, text_surface_rect.size};
-	ei_copy_surface(surface, &surface_rect, text_surface, NULL, 0);
+	ei_point_t dest_point = {where->x, where->y};
+	ei_rect_t dest_rect = {dest_point, text_surface_rect.size};
+	ei_copy_surface(surface, &dest_rect, text_surface, NULL, 1);
 	hw_surface_free(text_surface);
-	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
-
 }
 
 
@@ -424,6 +436,7 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 }
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
+	hw_surface_lock(destination);
 
 	// dimensions des surfaces source et destination
 	ei_size_t size_dest = hw_surface_get_size(destination);
@@ -433,18 +446,32 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
 
 	// si le rectangle de destination n'est pas nul
+	//TODO: we're in this
 	if(dst_rect != NULL && src_rect == NULL){
 		ei_rect_t source_rect = hw_surface_get_rect(source);
-		// TODO: corriger les boucles fors pour que ça parcourt bien ce qu'on veut aka
-		// les rectangles
-		for (int i = source_rect.top_left.x; i < (source_rect.top_left.x+source_rect.size.width); i++){
-			for(int j = source_rect.top_left.y; j < (source_rect.top_left.y+source_rect.size.height); j++){
-				printf("%i %i \n", i, j);
+		int i_max = source_rect.size.width;
+		int j_max = source_rect.size.height;
+		for (int i = 0; i < i_max; i++){
+			for(int j = 0; j < j_max; j++){
 				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
-				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
-				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
-				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
+				pixel_ptr_dest += (dst_rect->top_left.x + i) + (j + dst_rect->top_left.y)*hw_surface_get_size(destination).width;
+				if (alpha == 0){
+					*pixel_ptr_dest = *pixel_ptr_src;
+				}
+				else{
+ 					ei_color_t color_src = ei_map_color(destination, pixel_ptr_src);
+	 				ei_color_t color_dest = ei_map_color(destination, pixel_ptr_dest);
+					int somme_alpha = color_src.alpha + color_dest.alpha;
+					if (somme_alpha == 0){
+						somme_alpha++;
+					}
+					color_dest.red = ( color_src.alpha * color_src.red + color_dest.alpha * color_src.red ) / somme_alpha;
+					color_dest.green = ( color_src.alpha * color_src.green + color_dest.alpha * color_src.green ) / somme_alpha;
+					color_dest.blue = ( color_src.alpha * color_src.blue + color_dest.alpha * color_src.blue ) / somme_alpha;
+					*pixel_ptr_dest = ei_map_rgba(destination, &color_dest);
+				}
+				pixel_ptr_dest -= (dst_rect->top_left.x + i) + (j + dst_rect->top_left.y)*hw_surface_get_size(destination).width;
+				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;
 			}
 		}
 	}
@@ -496,6 +523,9 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 			}
 		}
 	}
+
+	hw_surface_unlock(destination);
+	hw_surface_update_rects(destination, NULL);
 
 	return 1;
 

@@ -54,13 +54,14 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
  */
 
 void test_text(ei_surface_t surface, ei_rect_t* clipper){
-	// dessine PAUUUUL a la position (100, 100) de l'écran.
-	char* text = "PAUUUUL";
+	// écrit qlq chose à une position de l'écran
+	char* text = "BIGUE TCHIZE 111";
 	ei_fontstyle_t fontstyle = ei_style_normal;
-	ei_font_t font = hw_text_font_create("misc/font.ttf", fontstyle, 10);
-	ei_point_t point = {100, 100};
-	ei_color_t color = {0xff, 0xff, 0xff, 0xff};
+	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 60);
+	ei_point_t point = {0, 200};
+	ei_color_t color = {0xff, 0xfa, 0x85, 0xff};
 	ei_draw_text(surface, &point, text, font, &color, clipper);
+	hw_text_font_free(font);
 }
 
 /* test ei_copy_surface --
