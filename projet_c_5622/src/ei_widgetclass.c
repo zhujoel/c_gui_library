@@ -52,7 +52,6 @@ void frame_releasefunc(struct ei_widget_t* widget){
 
 void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
-  printf("OMDFOMDGOMFOGMDFOGDMFg\n");
   /* implémentation du dessin d’un widget de la classe "frame" */
   if(widget->placer_params != NULL){
     printf("Widget PLACE !\n");
@@ -73,9 +72,8 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
     ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
   }else{
-    printf("Widget placer NULL\n");
+    printf("Avoid printing widget\n");
   }
-
 }
 
 void frame_setdefaultsfunc(struct ei_widget_t* widget){
