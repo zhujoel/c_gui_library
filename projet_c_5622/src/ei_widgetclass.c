@@ -1,53 +1,10 @@
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
+#include "../include/ei_widgets.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
-typedef struct ei_widget_frame_t {
-  ei_widget_t widget;
-
-  //Specific attributes
-  ei_relief_t relief;
-  char**  text;
-  ei_font_t* text_font;
-  ei_color_t* text_color;
-  ei_anchor_t* text_anchor;
-  ei_surface_t* img;
-  ei_rect_t** img_rect;
-  ei_anchor_t* img_anchor;
-
-} ei_widget_frame_t;
-
-typedef struct ei_widget_button_t {
-  ei_widget_t widget;
-
-  //Specific attributes
-  ei_relief_t* relief;
-  char** text;
-  ei_font_t* text_font;
-  ei_color_t* text_color;
-  ei_anchor_t* text_anchor;
-  ei_surface_t* img;
-  ei_rect_t** img_rect;
-  ei_anchor_t* img_anchor;
-  ei_callback_t* callback;
-  void** user_param;
-
-} ei_widget_button_t;
-
-typedef struct ei_widget_toplevel_t {
-  ei_widget_t widget;
-
-  //Specific attributes
-  char** title;
-  ei_bool_t* closable;
-  ei_axis_set_t* resizable;
-  ei_size_t** min_size;
-
-} ei_widget_toplevel_t;
-
 
 static ei_widgetclass_t* widgetsclass = NULL;
 
@@ -89,22 +46,38 @@ void* frame_allocfunc(){
 }
 
 void frame_releasefunc(struct ei_widget_t* widget){
-
+  free(widget);
 }
 
 void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
   /* implémentation du dessin d’un widget de la classe "frame" */
+  struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
+
+  int width = widgetframe->widget.requested_size.width;
+  int height = widgetframe->widget.requested_size.height;
+
+  ei_linked_point_t	pts[5];
+	pts[0].point.x = 0; pts[0].point.y = 0; pts[0].next = &pts[1];
+	pts[1].point.x = width; pts[1].point.y = 0; pts[1].next = &pts[2];
+	pts[2].point.x = width; pts[2].point.y = height; pts[2].next = &pts[3];
+	pts[3].point.x = 0; pts[3].point.y = height; pts[3].next = &pts[4];
+	pts[4].point.x = 0; pts[4].point.y = 0; pts[4].next = NULL;
+  ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
+
 }
 
 void frame_setdefaultsfunc(struct ei_widget_t* widget){
   struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
   ei_size_t	screen_size = {0, 0};
+  ei_color_t default_color = ei_default_background_color;
   widgetframe->widget.requested_size = screen_size;
-  widgetframe->relief = ei_relief_none;
+  widgetframe->color = &default_color;
+  widgetframe->border_width = 0;
+  ei_relief_t default_relief = ei_relief_none;
+  widgetframe->relief = &default_relief;
   widgetframe->text = NULL;
   widgetframe->text_font = ei_default_font;
-  ei_color_t default_color = ei_default_background_color;
   widgetframe->text_color = &default_color;
   ei_anchor_t anchor_center = ei_anc_center;
   widgetframe->text_anchor = &anchor_center;
@@ -129,7 +102,7 @@ void* button_allocfunc(){
 }
 
 void button_releasefunc(struct ei_widget_t* widget){
-
+  free(widget);
 }
 
 void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
@@ -139,7 +112,26 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 }
 
 void button_setdefaultsfunc(struct ei_widget_t*	widget){
+  struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+  ei_size_t	screen_size = {0, 0};
+  ei_color_t default_color = ei_default_background_color;
+  widgetbutton->widget.requested_size = screen_size;
+  widgetbutton->color = &default_color;
+  ei_relief_t default_relief = ei_relief_none;
+  widgetbutton->relief = &default_relief;
+  widgetbutton->text = NULL;
+  widgetbutton->text_font = ei_default_font;
+  widgetbutton->text_color = &default_color;
+  ei_anchor_t anchor_center = ei_anc_center;
+  widgetbutton->text_anchor = &anchor_center;
+  widgetbutton->img = NULL;
+  widgetbutton->img_rect = NULL;
+  widgetbutton->img_anchor = &anchor_center;
 
+  int corner_radius = k_default_button_corner_radius;
+  int border_width = k_default_button_border_width;
+  widgetbutton->corner_radius = &corner_radius;
+  widgetbutton->border_width = &border_width;
 }
 
 void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -158,7 +150,7 @@ void* toplevel_allocfunc(){
 }
 
 void toplevel_releasefunc(struct ei_widget_t* widget){
-
+  free(widget);
 }
 
 void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
@@ -168,7 +160,20 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
 }
 
 void toplevel_setdefaultsfunc(struct ei_widget_t*	widget){
-
+  struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+  ei_size_t	screen_size = {0, 0};
+  ei_color_t default_color = ei_default_background_color;
+  widgettoplevel->widget.requested_size = screen_size;
+  widgettoplevel->color = &default_color;
+  int default_width = 4;
+  widgettoplevel->border_width = &default_width;
+  strcpy(*widgettoplevel->title, "TopLevel");
+  ei_bool_t closable = EI_TRUE;
+  widgettoplevel->closable = &closable;
+  ei_axis_set_t axis = ei_axis_both;
+  widgettoplevel->resizable = &axis;
+  ei_size_t	min_size = {160, 120};
+  *widgettoplevel->min_size = &min_size;
 }
 
 void toplevel_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -183,7 +188,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
 //registers
 void ei_frame_register_class (){
   ei_widgetclass_t* frame = malloc(sizeof(ei_widgetclass_t));
-  //ei_widgetclass_name_t* name = malloc(5 * sizeof(char));
+
   strcpy(frame->name, "frame");
   frame->allocfunc = &frame_allocfunc;
   frame->releasefunc = &frame_releasefunc;
@@ -196,25 +201,29 @@ void ei_frame_register_class (){
 }
 
 void ei_button_register_class (){
-  ei_widgetclass_t button;
-  button.allocfunc = &button_allocfunc;
-  button.releasefunc = &button_releasefunc;
-  button.drawfunc = &button_drawfunc;
-  button.setdefaultsfunc = &button_setdefaultsfunc;
-  button.geomnotifyfunc = &button_geomnotifyfunc;
-  button.handlefunc = &button_handlefunc;
-  button.next = NULL;
-  ei_widgetclass_register(&button);
+  ei_widgetclass_t* button = malloc(sizeof(ei_widgetclass_t));
+
+  strcpy(button->name, "button");
+  button->allocfunc = &button_allocfunc;
+  button->releasefunc = &button_releasefunc;
+  button->drawfunc = &button_drawfunc;
+  button->setdefaultsfunc = &button_setdefaultsfunc;
+  button->geomnotifyfunc = &button_geomnotifyfunc;
+  button->handlefunc = &button_handlefunc;
+  button->next = NULL;
+  ei_widgetclass_register(button);
 }
 
 void ei_toplevel_register_class (){
-  ei_widgetclass_t toplevel;
-  toplevel.allocfunc = &toplevel_allocfunc;
-  toplevel.releasefunc = &toplevel_releasefunc;
-  toplevel.drawfunc = &toplevel_drawfunc;
-  toplevel.setdefaultsfunc = &toplevel_setdefaultsfunc;
-  toplevel.geomnotifyfunc = &toplevel_geomnotifyfunc;
-  toplevel.handlefunc = &toplevel_handlefunc;
-  toplevel.next = NULL;
-  ei_widgetclass_register(&toplevel);
+  ei_widgetclass_t* toplevel = malloc(sizeof(ei_widgetclass_t));
+
+  strcpy(toplevel->name, "toplevel");
+  toplevel->allocfunc = &toplevel_allocfunc;
+  toplevel->releasefunc = &toplevel_releasefunc;
+  toplevel->drawfunc = &toplevel_drawfunc;
+  toplevel->setdefaultsfunc = &toplevel_setdefaultsfunc;
+  toplevel->geomnotifyfunc = &toplevel_geomnotifyfunc;
+  toplevel->handlefunc = &toplevel_handlefunc;
+  toplevel->next = NULL;
+  ei_widgetclass_register(toplevel);
 }

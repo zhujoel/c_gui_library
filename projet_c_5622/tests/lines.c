@@ -49,13 +49,17 @@ void test_line(ei_surface_t surface, ei_rect_t* clipper)
 
 }
 
+/* test ei_draw_text --
+ * écrit un texte dans la fenetre
+ */
+
 void test_text(ei_surface_t surface, ei_rect_t* clipper){
 	// dessine PAUUUUL a la position (100, 100) de l'écran.
 	char* text = "PAUUUUL";
 	ei_fontstyle_t fontstyle = ei_style_normal;
-	ei_font_t font = hw_text_font_create("fonts/AmaticSC-Regular.ttf", fontstyle, 10);
+	ei_font_t font = hw_text_font_create("misc/font.ttf", fontstyle, 10);
 	ei_point_t point = {100, 100};
-	ei_color_t color = {0, 255, 0, 255};
+	ei_color_t color = {0xff, 0xff, 0xff, 0xff};
 	ei_draw_text(surface, &point, text, font, &color, clipper);
 }
 
@@ -181,10 +185,10 @@ void test_copy_rect_rect(ei_surface_t destination){
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_point_t rect_dest_top_left = {300, 50};
 	ei_size_t rect_dest_size = {200, 300};
-	ei_rect_t rect_src = {rect_dest_top_left, rect_dest_size};
+	ei_rect_t rect_dest = {rect_dest_top_left, rect_dest_size};
 	ei_point_t rect_src_top_left = {400, 300};
 	ei_size_t rect_src_size = {200, 300};
-	ei_rect_t rect_dest = {rect_src_top_left, rect_src_size};
+	ei_rect_t rect_src = {rect_src_top_left, rect_src_size};
 
 	source = hw_surface_create(destination, &win_size, 0);
 
@@ -350,8 +354,8 @@ int ei_main(int argc, char** argv)
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
 	//test_dot	(main_window, clipper_ptr);
-	//test_text (main_window, clipper_ptr);
-	test_copy_rect_rect(main_window);
+	test_text (main_window, NULL);
+	//test_copy_rect_rect(main_window);
 	//test_line	(main_window, clipper_ptr);
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
