@@ -25,6 +25,7 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
   //Creates the root widget
   root = ei_widget_create_root("frame", NULL);
   ei_frame_configure(ei_app_root_widget(), main_window_size, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  ei_place(ei_app_root_widget(), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 void ei_app_free(){
@@ -107,9 +108,11 @@ void ei_app_run(){
     ei_widget_liste_t* suivante = malloc(sizeof(ei_widget_liste_t));
     suivante->tete = NULL;
     suivante->queue = NULL;
-    while ((courant->tete != NULL) || (suivante->tete != NULL))
+    while ((courant->tete->widget != NULL)) //|| (suivante->tete != NULL))
     {
         struct ei_widget_t* wcourant = courant->tete->widget;
+        if(wcourant == NULL){
+        }
         wcourant->wclass->drawfunc(wcourant,ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
         retirer_tete(courant);
         ajouter_tete(courant, wcourant->next_sibling);
@@ -122,6 +125,12 @@ void ei_app_run(){
           suivante->queue = NULL;
         }
     }
+
+    ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(),ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
+    //ei_app_root_widget()->children_head->wclass->drawfunc(ei_app_root_widget()->children_head,ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
+
+
+    printf("salut\n");
 
   //ei_widget_t* current = ei_app_root_widget()->children_head;
 

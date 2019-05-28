@@ -1,6 +1,7 @@
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
 #include "../include/ei_widgets.h"
+//#include "../include/ei_placer.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -51,19 +52,29 @@ void frame_releasefunc(struct ei_widget_t* widget){
 
 void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
+  printf("OMDFOMDGOMFOGMDFOGDMFg\n");
   /* implémentation du dessin d’un widget de la classe "frame" */
-  struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
+  if(widget->placer_params != NULL){
+    printf("Widget PLACE !\n");
+    struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
 
-  int width = widgetframe->widget.requested_size.width;
-  int height = widgetframe->widget.requested_size.height;
+    ei_placer_params_t* placer_params = widget->placer_params;
 
-  ei_linked_point_t	pts[5];
-	pts[0].point.x = 0; pts[0].point.y = 0; pts[0].next = &pts[1];
-	pts[1].point.x = width; pts[1].point.y = 0; pts[1].next = &pts[2];
-	pts[2].point.x = width; pts[2].point.y = height; pts[2].next = &pts[3];
-	pts[3].point.x = 0; pts[3].point.y = height; pts[3].next = &pts[4];
-	pts[4].point.x = 0; pts[4].point.y = 0; pts[4].next = NULL;
-  ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
+    int x = placer_params->x_data;
+    int y = placer_params->y_data;
+    int w = placer_params->w_data;
+    int h = placer_params->h_data;
+
+    ei_linked_point_t	pts[5];
+    pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
+    pts[1].point.x = x + w; pts[1].point.y = y; pts[1].next = &pts[2];
+    pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
+    pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
+    pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
+    ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
+  }else{
+    printf("Widget placer NULL\n");
+  }
 
 }
 
