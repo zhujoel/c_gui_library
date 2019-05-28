@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 static ei_widget_t* root;
+static ei_surface_t main_window	= NULL;
 
 extern ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t* parent);
 
@@ -19,12 +20,11 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
   //...
 
   //Creates the root window
-  //main_window =
-	hw_create_window(main_window_size, fullscreen);
+  main_window =	hw_create_window(main_window_size, fullscreen);
 
   //Creates the root widget
   root = ei_widget_create_root("frame", NULL);
-
+  ei_frame_configure(ei_app_root_widget(), main_window_size, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 void ei_app_free(){
@@ -37,6 +37,8 @@ void ei_app_run(){
   //ei_widget_t* current = ei_app_root_widget()->children_head;
 
   //call drawfunc
+  ei_rect_t* clipper_ptr	= NULL;
+  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), ei_app_root_surface(), clipper_ptr);
 
   /* Wait for a character on command line. */
 	getchar();
@@ -55,5 +57,5 @@ ei_widget_t* ei_app_root_widget(){
 }
 
 ei_surface_t ei_app_root_surface(){
-  return NULL;
+  return main_window;
 }
