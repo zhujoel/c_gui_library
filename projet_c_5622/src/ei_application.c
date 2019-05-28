@@ -44,59 +44,87 @@ typedef struct {
 } ei_widget_liste_t;
 
 // Ajoute en tête, plante si le pointeur de liste en entrée est nul
-void ajout_tete(ei_widget_liste_t* liste, ei_widget_t* widget)
+void ajouter_tete(ei_widget_liste_t* liste, ei_widget_t* widget)
 {
-  struct ei_widget_chaine_t* cellule = malloc(sizeof(struct ei_widget_chaine_t));
-  cellule->widget = widget;
-  cellule->suivant = liste->tete;
-  liste->tete = cellule;
-  if (liste->queue == NULL)
+  if (widget != NULL)
   {
-    liste->queue = cellule;
+    struct ei_widget_chaine_t* cellule = malloc(sizeof(struct ei_widget_chaine_t));
+    cellule->widget = widget;
+    cellule->suivant = liste->tete;
+    liste->tete = cellule;
+    if (liste->queue == NULL)
+    {
+      liste->queue = cellule;
+    }
   }
 }
 
 // Ajoute en queue, plante si le pointeur de liste en entrée est nul
-void ajout_queue(ei_widget_liste_t* liste, ei_widget_t* widget)
+void ajouter_queue(ei_widget_liste_t* liste, ei_widget_t* widget)
 {
-  struct ei_widget_chaine_t* cellule = malloc(sizeof(struct ei_widget_chaine_t));
-  cellule->widget = widget;
-  cellule->suivant = NULL;
-  if (liste->tete == NULL)
+  if (widget != NULL)
   {
-    liste->tete = cellule;
+    struct ei_widget_chaine_t* cellule = malloc(sizeof(struct ei_widget_chaine_t));
+    cellule->widget = widget;
+    cellule->suivant = NULL;
+    if (liste->tete == NULL)
+    {
+      liste->tete = cellule;
+      liste->queue = cellule;
+    }
+    else
+    {
+    liste->queue->suivant = cellule;
     liste->queue = cellule;
+    }
   }
-  else
+}
+
+void retirer_tete(ei_widget_liste_t* liste)
+{
+  if (liste->tete != NULL)
   {
-  liste->queue->suivant = cellule;
-  liste->queue = cellule;
+    liste->tete = liste->tete->suivant;
+    if (liste->tete == NULL)
+    {
+      liste->queue = NULL;
+    }
   }
 }
 
 
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
-
+    ei_rect_t* clipper_ptr	= NULL;
+    // Liste des widgets du niveau courant
     ei_widget_liste_t* courant = malloc(sizeof(ei_widget_liste_t));
     struct ei_widget_chaine_t* first = malloc(sizeof(struct ei_widget_chaine_t));
     first->widget = ei_app_root_widget();
     first->suivant = NULL;
     courant->tete = first;
     courant->queue = first;
+    // Liste des widgets du niveau plus bas
     ei_widget_liste_t* suivante = malloc(sizeof(ei_widget_liste_t));
     suivante->tete = NULL;
     suivante->queue = NULL;
     while ((courant->tete != NULL) || (suivante->tete != NULL))
     {
-        courant->tete->widget->wclass->drawfunc(,,,);
-    //    if (courant->next_sibling)
+        courant->tete->widget->wclass->drawfunc(courant->tete->widget,ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
+        ajouter_tete(courant, courant->tete->widget->next_sibling);
+        ajouter_queue(suivante, courant->tete->widget->children_head);
+        retirer_tete(courant);
+        if (courant->tete == NULL)
+        {
+          courant->tete = suivante->tete;
+          courant->queue = suivante->queue;
+          suivante->tete = NULL;
+          suivante->queue = NULL;
+        }
     }
 
   //ei_widget_t* current = ei_app_root_widget()->children_head;
 
   //call drawfunc
-  ei_rect_t* clipper_ptr	= NULL;
   ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), ei_app_root_surface(), clipper_ptr);
 
   /* Wait for a character on command line. */
@@ -107,8 +135,8 @@ void ei_app_invalidate_rect(ei_rect_t* rect){
 
 }
 
-void ei_app_quit_request(int* flag){
-    *flag = 0;
+void ei_app_quit_request(){
+  printf("Je ferme");
 }
 
 ei_widget_t* ei_app_root_widget(){
