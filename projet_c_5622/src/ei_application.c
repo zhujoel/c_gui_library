@@ -33,6 +33,7 @@ void ei_app_free(){
 
 /* Création d'un type de liste chainée de widget pour
 le parcours en longueur de l'arbre de widget */
+/*
 typedef struct ei_widget_chaine_t{
   ei_widget_t* widget;
   struct ei_widget_chaine_t* suivant;
@@ -92,12 +93,46 @@ void retirer_tete(ei_widget_liste_t* liste)
   }
 }
 
+int taille(ei_widget_liste_t* liste)
+{
+  if (liste == NULL)
+  {
+    return 0;
+  }
+  else if (liste->tete==NULL)
+  {
+    return 0;
+  }
+  else
+  {
+    int ret = 1;
+    struct ei_widget_chaine_t* courant = liste->tete;
+    while (courant != liste->queue)
+    {
+      ret++;
+      courant = courant->suivant;
+    }
+    return ret;
+  }
+}
+*/
+
+void parcours_profondeur(ei_widget_t* widget, ei_rect_t* clipper){
+  widget->wclass->drawfunc(widget, ei_app_root_surface(), ei_app_root_surface(), clipper);
+  ei_widget_t* courant = widget->children_head;
+  while (courant != NULL)
+  {
+    parcours_profondeur(courant, clipper);
+    courant = courant->next_sibling;
+  }
+}
 
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
     ei_rect_t* clipper_ptr	= NULL;
+    parcours_profondeur(ei_app_root_widget(), clipper_ptr);
     // Liste des widgets du niveau courant
-    ei_widget_liste_t* courant = malloc(sizeof(ei_widget_liste_t));
+    /*ei_widget_liste_t* courant = malloc(sizeof(ei_widget_liste_t));
     struct ei_widget_chaine_t* first = malloc(sizeof(struct ei_widget_chaine_t));
     first->widget = ei_app_root_widget();
     first->suivant = NULL;
@@ -107,21 +142,34 @@ void ei_app_run(){
     ei_widget_liste_t* suivante = malloc(sizeof(ei_widget_liste_t));
     suivante->tete = NULL;
     suivante->queue = NULL;
-    while ((courant->tete != NULL) || (suivante->tete != NULL))
+    while (courant->tete != NULL)
     {
+
+        printf("entre while\n");
+
         struct ei_widget_t* wcourant = courant->tete->widget;
+
+        printf("def wcourant\n");
         wcourant->wclass->drawfunc(wcourant,ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
+        printf("drawfunc\n");
         retirer_tete(courant);
+        printf("enleve tete\n");
         ajouter_tete(courant, wcourant->next_sibling);
+        printf("ajout en tete\n");
         ajouter_queue(suivante, wcourant->children_head);
+        printf("ajout en queue\n");
+        printf("%i\n",taille(courant));
+        printf("%i\n",taille(suivante));
         if (courant->tete == NULL)
         {
+          printf("echange courant et suivant\n");
           courant->tete = suivante->tete;
           courant->queue = suivante->queue;
           suivante->tete = NULL;
           suivante->queue = NULL;
         }
     }
+  */
 
   //ei_widget_t* current = ei_app_root_widget()->children_head;
 
