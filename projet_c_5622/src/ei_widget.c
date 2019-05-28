@@ -22,10 +22,24 @@ ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t
     new_widget->pick_id = 0;
     //Hierarchy
     new_widget->parent = parent;
+    new_widget->children_head = NULL;
+    new_widget->children_tail = NULL;
+    new_widget->next_sibling = NULL;
+
+    if(parent != NULL){
+      if(parent->children_head == NULL){
+        parent->children_head = new_widget;
+      }else{
+        parent->children_tail->next_sibling = new_widget;
+      }
+      parent->children_tail = new_widget;
+    }
 
     //Geomeetry
+    new_widget->placer_params = NULL;
     new_widget->wclass->setdefaultsfunc(new_widget);
-    
+
+
 
     return new_widget;
 }

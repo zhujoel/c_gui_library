@@ -24,22 +24,30 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
 
   //Creates the root widget
   root = ei_widget_create_root("frame", NULL);
+
   ei_frame_configure(ei_app_root_widget(), main_window_size, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  ei_place(ei_app_root_widget(), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 void ei_app_free(){
   hw_quit();
 }
 
+void parcours_profondeur(ei_widget_t* widget, ei_rect_t* clipper){
+  widget->wclass->drawfunc(widget, ei_app_root_surface(), ei_app_root_surface(), clipper);
+  ei_widget_t* courant = widget->children_head;
+  while (courant != NULL)
+  {
+    parcours_profondeur(courant, clipper);
+    courant = courant->next_sibling;
+  }
+}
+
 void ei_app_run(){
-  //TODO : Parcours de la hiérarchie de widget
-  //while()
-  //ei_widget_t* current = ei_app_root_widget()->children_head;
+    //TODO : Parcours de la hiérarchie de widget
+    ei_rect_t* clipper_ptr	= NULL;
 
-  //call drawfunc
-  ei_rect_t* clipper_ptr	= NULL;
-  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), ei_app_root_surface(), clipper_ptr);
-
+    parcours_profondeur(ei_app_root_widget(), clipper_ptr);
   /* Wait for a character on command line. */
 	getchar();
 }
@@ -49,7 +57,7 @@ void ei_app_invalidate_rect(ei_rect_t* rect){
 }
 
 void ei_app_quit_request(){
-
+  printf("Je ferme");
 }
 
 ei_widget_t* ei_app_root_widget(){
