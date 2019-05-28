@@ -57,8 +57,8 @@ void test_text(ei_surface_t surface, ei_rect_t* clipper){
 	// écrit qlq chose à une position de l'écran
 	char* text = "BIGUE TCHIZE";
 	ei_fontstyle_t fontstyle = ei_style_normal;
-	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 60);
-	ei_point_t point = {300, 100};
+	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 70);
+	ei_point_t point = {200, 200};
 	ei_color_t color = {0xff, 0xfa, 0x85, 0xff};
 	ei_draw_text(surface, &point, text, font, &color, clipper);
 	hw_text_font_free(font);
@@ -184,11 +184,11 @@ void test_copy_rect_rect(ei_surface_t destination){
 	ei_size_t		win_size	= ei_size(800, 600);
 	ei_surface_t		source	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
-	ei_point_t rect_dest_top_left = {300, 50};
-	ei_size_t rect_dest_size = {200, 300};
+	ei_point_t rect_dest_top_left = {100, 100};
+	ei_size_t rect_dest_size = {300, 400};
 	ei_rect_t rect_dest = {rect_dest_top_left, rect_dest_size};
-	ei_point_t rect_src_top_left = {400, 300};
-	ei_size_t rect_src_size = {200, 300};
+	ei_point_t rect_src_top_left = {300, 200};
+	ei_size_t rect_src_size = {300, 400};
 	ei_rect_t rect_src = {rect_src_top_left, rect_src_size};
 
 	source = hw_surface_create(destination, &win_size, 0);
@@ -338,8 +338,7 @@ int ei_main(int argc, char** argv)
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
 
-	//ei_rect_t		clipper		= ei_rect(ei_point(100, 150), ei_size(500, 300));
-	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
+	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(400, 300));
 	clipper_ptr		= &clipper;
 
 	hw_init();
@@ -355,12 +354,11 @@ int ei_main(int argc, char** argv)
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
 	//test_dot	(main_window, clipper_ptr);
-	test_text (main_window, NULL);
+	test_text (main_window, clipper_ptr);
+	//test_copy_null_null(main_window);
+	//test_copy_null_rect(main_window);
+	//test_copy_rect_null(main_window);
 	//test_copy_rect_rect(main_window);
-	//test_line	(main_window, clipper_ptr);
-	//test_octogone	(main_window, clipper_ptr);
-	//test_square	(main_window, clipper_ptr);
-	//test_dot	(main_window, clipper_ptr);
 	//test_pointe(main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */

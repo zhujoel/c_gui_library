@@ -423,10 +423,31 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 	ei_surface_t text_surface = hw_text_create_surface(text, font, color);
 	ei_rect_t text_surface_rect = hw_surface_get_rect(text_surface);
 
-	// surface où afficher ledit texte
-	ei_point_t dest_point = {where->x, where->y};
-	ei_rect_t dest_rect = {dest_point, text_surface_rect.size};
-	ei_copy_surface(surface, &dest_rect, text_surface, NULL, 1);
+	// rectangle destination où afficher ledit texte
+	ei_point_t dst_point = {where->x, where->y};
+	ei_size_t dst_size = text_surface_rect.size;
+	ei_rect_t dst_rect = {dst_point, dst_size};
+
+	// rectangle source où copier le texte
+	if (clipper != NULL){
+		// si il y a un clipper, on va copier qu'une partie du texte :
+		// l'intersection entre le rectangle de destination et le clipper
+		int inter_topleftx = max(dst_rect.top_left.x, clipper->top_left.x);
+		int inter_toplefty = max(dst_rect.top_left.y, clipper->top_left.y);
+		int inter_bottomrightx = min(dst_rect.top_left.x + dst_rect.size.width, clipper->top_left.x + clipper->size.width );
+		int inter_bottomrighty = min(dst_rect.top_left.y + dst_rect.size.height, clipper->top_left.y + clipper->size.height );
+		int inter_width = inter_bottomrightx - inter_topleftx;
+		int inter_height = inter_bottomrighty - inter_toplefty;
+		ei_size_t intersection_size = {inter_width, inter_height};
+
+		ei_point_t src_point = {0, 0};
+		ei_size_t src_size = intersection_size;
+		ei_rect_t src_rect = {src_point, src_size};
+		ei_copy_surface(surface, &dst_rect, text_surface, &src_rect, 1);
+	}
+	else{
+		ei_copy_surface(surface, &dst_rect, text_surface, NULL, 1);
+	}
 	hw_surface_free(text_surface);
 }
 
@@ -443,84 +464,120 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
 
 	// variables pour le parcours de la surface source
-	int i_min = 0;
-	int j_min = 0;
 	int i_max = 0;
 	int j_max = 0;
-	ei_size_t size_src, size_dest;
+	ei_size_t size_src;
+	ei_size_t size_dest;
 
 	// variables pour le parcours de la surface destination
 	int i_dest = 0;
 	int j_dest = 0;
 
-	// si le rectangle de destination n'est pas nul
+	// variables pour le parcours de la surface source
+	int i_src = 0;
+	int j_src = 0;
+
+
+	// si on a un rectangle de destination
 	if(dst_rect != NULL && src_rect == NULL){
 		size_src = hw_surface_get_size(source);
-		if(size_src.width > dst_rect->size.width || size_src.height > dst_rect->size.height){
+		// si la surface source est plus grande que le rectangle de destination
+		if (size_src.width > dst_rect->size.width || size_src.height > dst_rect->size.height){
+			// impossible, on quitte
+			printf("1 surface source trop grande, impossible de faire la copy gros beau gosse \n");
 			return 0;
 		}
+		// on commence à parcourir la surface de destination,
+		// à partir du rectangle de destination
+		i_dest = dst_rect->top_left.x;
+		j_dest = dst_rect->top_left.y;
+
+		// on parcourt la surface source
 		i_max = size_src.width;
 		j_max = size_src.height;
-		i_dest = dst_rect->top_left.x;
-		j_dest = dst_rect->top_left.y;
 	}
 
-	// si le rectangle de source n'est pas nul
+	// si on a un rectangle de source
 	else if (dst_rect == NULL && src_rect != NULL){
 		size_dest = hw_surface_get_size(destination);
-		if(src_rect->size.width > size_dest.width || src_rect->size.height > size_dest.height){
+		// si le rectangle de source est plus grand que la surface de destination
+		if (src_rect->size.width > size_dest.width || src_rect->size.height > size_dest.height){
+			// impossible, on quitte
+			printf("2 rectangle source trop grande, impossible de faire la copy gros beau gosse \n");
 			return 0;
 		}
+		// on commence à parcourir la surface de source,
+		// à partir du rectangle de source
+		i_src = src_rect->top_left.x;
+		j_src = src_rect->top_left.y;
+
+		// on parcourt le rectangle de source
 		i_max = src_rect->size.width;
 		j_max = src_rect->size.height;
-	}
-	// si les rectangles sources et destination sont pas nuls
-	else if (dst_rect != NULL && src_rect != NULL){
-		if(src_rect->size.width > dst_rect->size.width || src_rect->size.height > dst_rect->size.width){
-			return 0;
-		}
-		i_max = src_rect->size.width;
-		j_max = src_rect->size.height;
-		i_dest = dst_rect->top_left.x;
-		j_dest = dst_rect->top_left.y;
 	}
 
-	// si les rectangles source et destination sont nuls
+	// si on a un rectangle de destination et de source
+	else if (dst_rect != NULL && src_rect != NULL){
+		// si le rectangle de source est plus grand que le rectangle de destination
+		if (src_rect->size.width > dst_rect->size.width || src_rect->size.height > dst_rect->size.height){
+			// impossible, on quitte
+			printf("3 rectangle source trop grande, impossible de faire la copy gros beau gosse \n");
+		}
+		// on commence à parcourir la surface de destination,
+		// à partir du rectangle de destination
+		i_dest = dst_rect->top_left.x;
+		j_dest = dst_rect->top_left.y;
+
+		// on commence à parcourir la surface de source,
+		// à partir du rectangle de source
+		i_src = src_rect->top_left.x;
+		j_src = src_rect->top_left.y;
+
+		// on parcourt le rectangle de source
+		i_max = src_rect->size.width;
+		j_max = src_rect->size.height;
+	}
+
+	// si on a pas de rectangle
 	else{
 		size_src = hw_surface_get_size(source);
 		size_dest = hw_surface_get_size(destination);
-		if(size_src.width > size_dest.width || size_src.height > size_dest.height){
-			return 0;
+		// si la surface de source est plus grande que la surface de destination
+		if (size_src.width > size_dest.width || size_src.height > size_dest.height){
+			// impossible, on quitte
+			printf("4 surface source trop grande, impossible de faire la copy gros beau gosse \n");
 		}
-		i_min = 0;
-		j_min = 0;
+		// on parcourt la surface source
 		i_max = size_src.width;
 		j_max = size_src.height;
 	}
 
-	printf("i j i j %i %i %i %i \n", i_min, j_min, i_max, j_max);
-	printf("dest %i %i \n", i_dest, j_dest);
-	for (int i = i_min; i < i_max; i++){
-		for(int j = j_min; j < j_max; j++){
-			pixel_ptr_src += i + j*hw_surface_get_size(source).width;
+	// parcourt la surface/rectangle source en fonction des parametres
+	for (int i = 0; i < i_max; i++){
+		for(int j = 0; j < j_max; j++){
+			pixel_ptr_src += (i_src + i) + (j + j_src)*hw_surface_get_size(source).width;
 			pixel_ptr_dest += (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;
+			// si alpha est nul, on fait une copie exacte
 			if (alpha == 0){
 				*pixel_ptr_dest = *pixel_ptr_src;
 			}
+			// sinon, on fait une moyenne des couleurs sources et destination
 			else{
 				ei_color_t color_src = ei_map_color(destination, pixel_ptr_src);
 				ei_color_t color_dest = ei_map_color(destination, pixel_ptr_dest);
 				int somme_alpha = color_src.alpha + color_dest.alpha;
+				// on veut pas diviser par 0, donc on divise par 1
 				if (somme_alpha == 0){
 					somme_alpha++;
 				}
+				// calcule de la moyenne pour chaque couleur
 				color_dest.red = ( color_src.alpha * color_src.red + color_dest.alpha * color_src.red ) / somme_alpha;
 				color_dest.green = ( color_src.alpha * color_src.green + color_dest.alpha * color_src.green ) / somme_alpha;
 				color_dest.blue = ( color_src.alpha * color_src.blue + color_dest.alpha * color_src.blue ) / somme_alpha;
 				*pixel_ptr_dest = ei_map_rgba(destination, &color_dest);
 			}
-			pixel_ptr_dest -= (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;
-			pixel_ptr_src -= i + j*hw_surface_get_size(source).width;
+				pixel_ptr_src -= (i_src + i) + (j + j_src)*hw_surface_get_size(source).width;
+				pixel_ptr_dest -= (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;
 		}
 	}
 
