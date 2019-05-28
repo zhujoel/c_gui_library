@@ -438,89 +438,89 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
 	hw_surface_lock(destination);
 
-	// dimensions des surfaces source et destination
-	ei_size_t size_dest = hw_surface_get_size(destination);
-	ei_size_t size_src = hw_surface_get_size(source);
-
+	// @ du pixel courant de la surface source/destination
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
 
+	// variables pour le parcours de la surface source
+	int i_min = 0;
+	int j_min = 0;
+	int i_max = 0;
+	int j_max = 0;
+	ei_size_t size_src, size_dest;
+
+	// variables pour le parcours de la surface destination
+	int i_dest = 0;
+	int j_dest = 0;
+
 	// si le rectangle de destination n'est pas nul
-	//TODO: we're in this
 	if(dst_rect != NULL && src_rect == NULL){
-		ei_rect_t source_rect = hw_surface_get_rect(source);
-		int i_max = source_rect.size.width;
-		int j_max = source_rect.size.height;
-		for (int i = 0; i < i_max; i++){
-			for(int j = 0; j < j_max; j++){
-				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
-				pixel_ptr_dest += (dst_rect->top_left.x + i) + (j + dst_rect->top_left.y)*hw_surface_get_size(destination).width;
-				if (alpha == 0){
-					*pixel_ptr_dest = *pixel_ptr_src;
-				}
-				else{
- 					ei_color_t color_src = ei_map_color(destination, pixel_ptr_src);
-	 				ei_color_t color_dest = ei_map_color(destination, pixel_ptr_dest);
-					int somme_alpha = color_src.alpha + color_dest.alpha;
-					if (somme_alpha == 0){
-						somme_alpha++;
-					}
-					color_dest.red = ( color_src.alpha * color_src.red + color_dest.alpha * color_src.red ) / somme_alpha;
-					color_dest.green = ( color_src.alpha * color_src.green + color_dest.alpha * color_src.green ) / somme_alpha;
-					color_dest.blue = ( color_src.alpha * color_src.blue + color_dest.alpha * color_src.blue ) / somme_alpha;
-					*pixel_ptr_dest = ei_map_rgba(destination, &color_dest);
-				}
-				pixel_ptr_dest -= (dst_rect->top_left.x + i) + (j + dst_rect->top_left.y)*hw_surface_get_size(destination).width;
-				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;
-			}
+		size_src = hw_surface_get_size(source);
+		if(size_src.width > dst_rect->size.width || size_src.height > dst_rect->size.height){
+			return 0;
 		}
+		i_max = size_src.width;
+		j_max = size_src.height;
+		i_dest = dst_rect->top_left.x;
+		j_dest = dst_rect->top_left.y;
 	}
+
 	// si le rectangle de source n'est pas nul
 	else if (dst_rect == NULL && src_rect != NULL){
-		for (int i = src_rect->top_left.x; i < (src_rect->size.width+src_rect->top_left.x); i++){
-			for(int j = src_rect->top_left.y; j < (src_rect->size.height+src_rect->top_left.y); j++){
-				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
-				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
-				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
-				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
-			}
+		size_dest = hw_surface_get_size(destination);
+		if(src_rect->size.width > size_dest.width || src_rect->size.height > size_dest.height){
+			return 0;
 		}
+		i_max = src_rect->size.width;
+		j_max = src_rect->size.height;
 	}
-	// si les rectangles sources et destination sont pas nulls
+	// si les rectangles sources et destination sont pas nuls
 	else if (dst_rect != NULL && src_rect != NULL){
-		// dimensions du rectangle d'intersection des rectangles destination et source
-		int inter_topleftx = max(dst_rect->top_left.x, src_rect->top_left.x);
-		int inter_toplefty = max( dst_rect->top_left.y, src_rect->top_left.y);
-		int inter_bottomrightx = min( dst_rect->top_left.x + dst_rect->size.width, src_rect->top_left.x + src_rect->size.width );
-		int inter_bottomrighty = min( dst_rect->top_left.y + dst_rect->size.height, src_rect->top_left.y + src_rect->size.height );
-		int inter_width = inter_bottomrightx - inter_topleftx;
-		int inter_height = inter_bottomrighty - inter_toplefty;
-		ei_point_t intersection_top_left = {inter_topleftx, inter_toplefty};
-		ei_size_t intersection_size = {inter_width, inter_height};
-		ei_rect_t intersection = {intersection_top_left, intersection_size};
-		printf("INTERSECTION %i %i %i %i \n", intersection.top_left.x, intersection.top_left.y, intersection.size.width, intersection.size.height);
-		for (int i = intersection.top_left.x; i < intersection.size.width+intersection.top_left.x; i++){
-			for(int j = intersection.top_left.y; j < intersection.size.height+intersection.top_left.y; j++){
-				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
-				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
-				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
-				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
-			}
+		if(src_rect->size.width > dst_rect->size.width || src_rect->size.height > dst_rect->size.width){
+			return 0;
 		}
+		i_max = src_rect->size.width;
+		j_max = src_rect->size.height;
+		i_dest = dst_rect->top_left.x;
+		j_dest = dst_rect->top_left.y;
 	}
+
 	// si les rectangles source et destination sont nuls
 	else{
-		// parcours chaque pixel pour copier
-		for(int i = 0; i < size_src.width; i++){
-			for(int j = 0; j < size_src.height; j++){
-				pixel_ptr_src += i + j*hw_surface_get_size(source).width;
-				pixel_ptr_dest += i + j*hw_surface_get_size(destination).width;
+		size_src = hw_surface_get_size(source);
+		size_dest = hw_surface_get_size(destination);
+		if(size_src.width > size_dest.width || size_src.height > size_dest.height){
+			return 0;
+		}
+		i_min = 0;
+		j_min = 0;
+		i_max = size_src.width;
+		j_max = size_src.height;
+	}
+
+	printf("i j i j %i %i %i %i \n", i_min, j_min, i_max, j_max);
+	printf("dest %i %i \n", i_dest, j_dest);
+	for (int i = i_min; i < i_max; i++){
+		for(int j = j_min; j < j_max; j++){
+			pixel_ptr_src += i + j*hw_surface_get_size(source).width;
+			pixel_ptr_dest += (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;
+			if (alpha == 0){
 				*pixel_ptr_dest = *pixel_ptr_src;
-				pixel_ptr_dest -= i + j*hw_surface_get_size(destination).width;
-				pixel_ptr_src -= i + j*hw_surface_get_size(source).width;;
 			}
+			else{
+				ei_color_t color_src = ei_map_color(destination, pixel_ptr_src);
+				ei_color_t color_dest = ei_map_color(destination, pixel_ptr_dest);
+				int somme_alpha = color_src.alpha + color_dest.alpha;
+				if (somme_alpha == 0){
+					somme_alpha++;
+				}
+				color_dest.red = ( color_src.alpha * color_src.red + color_dest.alpha * color_src.red ) / somme_alpha;
+				color_dest.green = ( color_src.alpha * color_src.green + color_dest.alpha * color_src.green ) / somme_alpha;
+				color_dest.blue = ( color_src.alpha * color_src.blue + color_dest.alpha * color_src.blue ) / somme_alpha;
+				*pixel_ptr_dest = ei_map_rgba(destination, &color_dest);
+			}
+			pixel_ptr_dest -= (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;
+			pixel_ptr_src -= i + j*hw_surface_get_size(source).width;
 		}
 	}
 
