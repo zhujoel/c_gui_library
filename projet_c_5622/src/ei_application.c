@@ -59,7 +59,7 @@ void ajouter_tete(ei_widget_liste_t* liste, ei_widget_t* widget)
   }
 }
 
-// Ajoute en queue, plante si le pointeur de liste en entrée est nul
+// Ajoute en queue, plante si le pointeur de liste en entrée est nul,
 void ajouter_queue(ei_widget_liste_t* liste, ei_widget_t* widget)
 {
   if (widget != NULL)
@@ -109,10 +109,11 @@ void ei_app_run(){
     suivante->queue = NULL;
     while ((courant->tete != NULL) || (suivante->tete != NULL))
     {
-        courant->tete->widget->wclass->drawfunc(courant->tete->widget,ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
-        ajouter_tete(courant, courant->tete->widget->next_sibling);
-        ajouter_queue(suivante, courant->tete->widget->children_head);
+        struct ei_widget_t* wcourant = courant->tete->widget;
+        wcourant->wclass->drawfunc(wcourant,ei_app_root_surface(),ei_app_root_surface(),clipper_ptr);
         retirer_tete(courant);
+        ajouter_tete(courant, wcourant->next_sibling);
+        ajouter_queue(suivante, wcourant->children_head);
         if (courant->tete == NULL)
         {
           courant->tete = suivante->tete;
