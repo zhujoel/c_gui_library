@@ -628,11 +628,15 @@ ei_linked_point_t* arc(const ei_point_t centre, double rayon, int angle_debut, i
 	int x = rayon * cos(angle_debut*(PI/180)) + centre.x;
 	int y = rayon * sin(angle_debut*(PI/180)) + centre.y;
 	int nbElems = abs(angle_debut-angle_fin);
-	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems);
-	for(int i = 0; i < nbElems-2; i++){
-		x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
-		y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
-		pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
+	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems+1);
+	int i = 0;
+	while(i < (nbElems-2)){
+			x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
+			y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
+			pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
+			i++;
 	}
+	pts[i-2].next = &pts[i-1];
+	pts[i-1].point.x = pts[0].point.x; pts[i-1].point.y = pts[0].point.y; pts[i-1].next = NULL;
 	return pts;
 }
