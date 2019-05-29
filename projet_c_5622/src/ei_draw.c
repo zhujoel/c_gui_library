@@ -443,13 +443,15 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 		int inter_width = inter_bottomrightx - inter_topleftx;
 		int inter_height = inter_bottomrighty - inter_toplefty;
 		ei_size_t intersection_size = {inter_width, inter_height};
+		ei_point_t intersection_point = {inter_topleftx, inter_toplefty};
+		ei_rect_t intersection = {intersection_point, intersection_size};
 
-		ei_point_t src_point = {0, 0};
+		ei_point_t src_point = {intersection.top_left.x - dst_rect.top_left.x, intersection.top_left.y - dst_rect.top_left.y};
 		ei_size_t src_size = intersection_size;
 		ei_rect_t src_rect = {src_point, src_size};
 
-		printf("dst_rect %i %i %i %i \n", dst_rect.top_left.x, dst_rect.top_left.y, dst_rect.size.width, dst_rect.size.height);
-		printf("src_rect %i %i %i %i \n", src_rect.top_left.x, src_rect.top_left.y, src_rect.size.width, src_rect.size.height);
+		dst_rect.top_left.x = inter_topleftx;
+		dst_rect.top_left.y = inter_toplefty;
 		ei_copy_surface(surface, &dst_rect, text_surface, &src_rect, 1);
 	}
 	else{
