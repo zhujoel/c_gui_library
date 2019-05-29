@@ -77,6 +77,7 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
   }
   if(text != NULL){
     widgetframe->text = text;
+    //ei_placer_run(); //TODO
   }
   if(text_font != NULL){
     widgetframe->text_font = text_font;
