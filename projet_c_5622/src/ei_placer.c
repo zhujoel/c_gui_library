@@ -8,7 +8,7 @@
 
 void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, int* width, int* height, float* rel_x, float* rel_y, float* rel_width, float* rel_height){
   ei_placer_params_t* placer_params = malloc(sizeof(ei_placer_params_t));
-
+  
   placer_params->anchor_data = anchor ? *anchor : ei_anc_northwest;
   placer_params->x_data = x ? *x : 0;
   placer_params->y_data = y ? *y : 0;

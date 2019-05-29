@@ -1,6 +1,7 @@
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
 #include "../include/ei_widgets.h"
+#include "../include/ei_utils.h"
 //#include "../include/ei_placer.h"
 
 #include <stdlib.h>
@@ -39,6 +40,43 @@ ei_widgetclass_t*	ei_widgetclass_from_name (ei_widgetclass_name_t name){
   return NULL;
 }
 
+void apply_anchor(ei_anchor_t anchor, int* x, int* y, int* w, int* h){
+  switch (anchor) {
+    case 0: //No anchor
+      break;
+    case 1: //Anchor center
+      *x -= *w / 2;
+      *y -= *h / 2;
+      break;
+    case 2: //Anchor north
+      *x -= *w / 2;
+      break;
+    case 3: //Anchor north east
+      *x -= *w;
+      break;
+    case 4: //Anchor east
+      *x -= *w;
+      *y -= *h / 2;
+      break;
+    case 5: //Anchor southeast
+      *x -= *w;
+      *y -= *h;
+      break;
+    case 6: //Anchor south
+      *x -= *w / 2;
+      *y -= *h;
+      break;
+    case 7: //Anchor southwest
+      *y -= *h;
+      break;
+    case 8: //Anchor west
+      *y -= *h / 2;
+      break;
+    case 9: //Anchor northwest
+      break;
+  }
+}
+
 ///////////////////////
 //Widget frame
 //////////////////////
@@ -54,7 +92,7 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
 {
   /* implémentation du dessin d’un widget de la classe "frame" */
   if(widget->placer_params != NULL){
-    printf("Widget PLACE !\n");
+    printf("Widget FRAME PLACE !\n");
     struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
 
     ei_placer_params_t* placer_params = widget->placer_params;
@@ -64,15 +102,53 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     int w = placer_params->w_data;
     int h = placer_params->h_data;
 
+
+    if(widget->parent != NULL){
+      x = x + (placer_params->rx_data * widget->parent->placer_params->w_data);
+      y = y + (placer_params->ry_data * widget->parent->placer_params->h_data);
+      w = w + (placer_params->rw_data * widget->parent->placer_params->w_data);
+      h = h + (placer_params->rh_data * widget->parent->placer_params->h_data);
+    }
+
+    apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
+
     ei_linked_point_t	pts[5];
     pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
     pts[1].point.x = x + w; pts[1].point.y = y; pts[1].next = &pts[2];
     pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
+
+    printf("TEST\n");
     ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
+
+    if (widgetframe->img != NULL){
+      //Draw the image frame
+    }else if (widgetframe->text != NULL){
+      // Draw the frame text
+      printf("Draw frame Text : %s\n", *widgetframe->text);
+
+      //Frame Clipper
+      ei_point_t point = ei_point(x, y);
+      ei_size_t size = ei_size(w, h);
+      ei_rect_t clipper = ei_rect(point, size);
+
+      //apply_anchor(widgetframe->text_anchor, )
+
+      ei_point_t text_point = ei_point(x - 10, y - 10);
+
+      printf("%i\n", clipper.top_left.x);
+      printf("%i\n", clipper.top_left.y);
+      printf("%i\n", clipper.size.width);
+      printf("%i\n", clipper.size.height);
+      printf("JOEL CA NE MARCHE PAS\n");
+
+    	ei_draw_text(surface, &text_point, *widgetframe->text, widgetframe->text_font, widgetframe->text_color, &clipper);
+    }
+
+    printf("TEST\n");
   }else{
-    printf("Avoid printing widget\n");
+    printf("Avoid printing frame widget\n");
   }
 }
 
@@ -117,7 +193,37 @@ void button_releasefunc(struct ei_widget_t* widget){
 void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
   /* implémentation du dessin d’un widget de la classe "button" */
+  if(widget->placer_params != NULL){
+    printf("Widget BUTTON PLACE !\n");
+    struct ei_widget_frame_t* widgetbutton = (struct ei_widget_frame_t*)widget;
 
+    ei_placer_params_t* placer_params = widget->placer_params;
+
+    int x = placer_params->x_data;
+    int y = placer_params->y_data;
+    int w = placer_params->w_data;
+    int h = placer_params->h_data;
+
+
+    if(widget->parent != NULL){
+      x = x + (placer_params->rx_data * widget->parent->placer_params->w_data);
+      y = y + (placer_params->ry_data * widget->parent->placer_params->h_data);
+      w = w + (placer_params->rw_data * widget->parent->placer_params->w_data);
+      h = h + (placer_params->rh_data * widget->parent->placer_params->h_data);
+    }
+
+    //apply_anchor(widget, &x, &y, &w, &h);
+
+    ei_linked_point_t	pts[5];
+    pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
+    pts[1].point.x = x + w; pts[1].point.y = y; pts[1].next = &pts[2];
+    pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
+    pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
+    pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
+    ei_draw_polygon (surface, pts, *widgetbutton->color, clipper);
+  }else{
+    printf("Avoid printing button widget\n");
+  }
 }
 
 void button_setdefaultsfunc(struct ei_widget_t*	widget){

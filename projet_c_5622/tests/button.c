@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ei_application.h"
-#include "ei_event.h"
-#include "hw_interface.h"
-#include "ei_widget.h"
+#include "../include/ei_application.h"
+#include "../include/ei_event.h"
+#include "../include/hw_interface.h"
+#include "../include/ei_widget.h"
 
 
 /*
