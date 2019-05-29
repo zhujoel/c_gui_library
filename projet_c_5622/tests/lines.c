@@ -330,8 +330,24 @@ void test_dot(ei_surface_t surface, ei_rect_t* clipper)
  *
  */
 void test_fill(ei_surface_t surface, ei_rect_t* clipper){
-	ei_color_t		color		= { 0xff, 0xff, 0xff, 0xff };
+	ei_color_t		color		= { 0xde, 0xad, 0xbe, 0xef};
 	ei_fill(surface, &color, clipper);
+}
+
+/* test arc
+ *
+ * vérifie les points générés par arc
+ *
+ */
+void test_arc(ei_surface_t surface, ei_rect_t* clipper){
+	ei_point_t centre = {50, 50};
+	float rayon = 50;
+	float angle_debut = 0;
+	float angle_fin = 182;
+	ei_linked_point_t* points = arc(centre, rayon, angle_debut, angle_fin);
+	ei_color_t color = {0xff, 0x65, 0x44, 0xff};
+	ei_draw_polygon(surface, points, color, clipper);
+
 }
 
 /*
@@ -368,7 +384,8 @@ int ei_main(int argc, char** argv)
 	//test_copy_rect_null(main_window);
 	//test_copy_rect_rect(main_window);
 	//test_pointe(main_window, clipper_ptr);
-	test_fill(main_window, NULL);
+	//test_fill(main_window, NULL);
+	test_arc (main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);

@@ -13,6 +13,11 @@
 	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
 #endif
 
+#ifndef PI
+	#define PI 3.14159265
+#endif
+
+
 /**
  * Prend une ei_color_t et renvoie sa représentation 32 bits
  */
@@ -453,6 +458,8 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 
 
 void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	clipper){
+	hw_surface_lock(surface);
+
 	uint32_t color32 = ei_map_rgba(surface, color);
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 	int i_min;
@@ -480,6 +487,9 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 			pixel_ptr -= i + j*hw_surface_get_size(surface).width;
 		}
 	}
+
+	hw_surface_unlock(surface);
+	hw_surface_update_rects(surface, NULL);
 }
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
@@ -612,4 +622,18 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 
 	return 1;
 
+}
+
+
+ei_linked_point_t* arc(const ei_point_t centre, double rayon, int angle_debut, int angle_fin){
+	int x = rayon * cos(angle_debut*(PI/180)) + centre.x;
+	int y = rayon * sin(angle_debut*(PI/180)) + centre.y;
+	int nbElems = abs(angle_debut-angle_fin);
+	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems);
+	for(int i = 0; i < nbElems-2; i++){
+		x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
+		y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
+		pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
+	}
+	return pts;
 }
