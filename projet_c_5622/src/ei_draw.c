@@ -430,7 +430,6 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 
 	// rectangle source où copier le texte
 	if (clipper != NULL){
-		printf("WOAWOIAOIS\n");
 		// si il y a un clipper, on va copier qu'une partie du texte :
 		// l'intersection entre le rectangle de destination et le clipper
 		int inter_topleftx = max(dst_rect.top_left.x, clipper->top_left.x);
@@ -485,7 +484,6 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
 	hw_surface_lock(destination);
-	printf("JOEL\n");
 
 	// @ du pixel courant de la surface source/destination
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
@@ -556,7 +554,6 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 		i_dest = dst_rect->top_left.x;
 		j_dest = dst_rect->top_left.y;
 
-		printf("Fromage\n");
 		// on commence à parcourir la surface de source,
 		// à partir du rectangle de source
 		i_src = src_rect->top_left.x;
@@ -604,7 +601,6 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 				color_dest.green = ( color_src.alpha * color_src.green + color_dest.alpha * color_src.green ) / somme_alpha;
 				color_dest.blue = ( color_src.alpha * color_src.blue + color_dest.alpha * color_src.blue ) / somme_alpha;
 				*pixel_ptr_dest = ei_map_rgba(destination, &color_dest);
-					printf("src %u \n dest %u \n", *pixel_ptr_src, *pixel_ptr_dest);
 			}
 				pixel_ptr_src -= (i_src + i) + (j + j_src)*hw_surface_get_size(source).width;
 				pixel_ptr_dest -= (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;

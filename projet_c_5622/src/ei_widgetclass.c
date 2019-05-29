@@ -77,6 +77,43 @@ void apply_anchor(ei_anchor_t anchor, int* x, int* y, int* w, int* h){
   }
 }
 
+void apply_anchor_text(ei_anchor_t anchor, int* x, int* y, int* w, int* h, int* w_parent, int* h_parent){
+  switch (anchor) {
+    case 0: //No anchor
+      break;
+    case 1: //Anchor center
+      *x += (*w_parent / 2) - (*w / 2);
+      *y += (*h_parent / 2) - (*h / 2);
+      break;
+    case 2: //Anchor north
+      *x += *w_parent / 2 - *w / 2;
+      break;
+    case 3: //Anchor north east
+      *x += *w_parent - *w;
+      break;
+    case 4: //Anchor east
+      *x += *w_parent - *w;
+      *y += *h_parent / 2 - *h / 2;
+      break;
+    case 5: //Anchor southeast
+      *x += *w_parent - *w;
+      *y += *h_parent - *h;
+      break;
+    case 6: //Anchor south
+      *x += *w_parent / 2 - *w / 2;
+      *y += *h_parent - *h;
+      break;
+    case 7: //Anchor southwest
+      *y += *h_parent - *h;
+      break;
+    case 8: //Anchor west
+      *y += *h / 2 - *h / 2;
+      break;
+    case 9: //Anchor northwest
+      break;
+  }
+}
+
 ///////////////////////
 //Widget frame
 //////////////////////
@@ -122,8 +159,11 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     printf("TEST\n");
     ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
 
+    printf("TEST\n");
     if (widgetframe->img != NULL){
+      printf("Draw frame IMAGE\n");
       //Draw the image frame
+      //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
     }else if (widgetframe->text != NULL){
       // Draw the frame text
       printf("Draw frame Text : %s\n", *widgetframe->text);
@@ -133,18 +173,20 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
       ei_size_t size = ei_size(w, h);
       ei_rect_t clipper = ei_rect(point, size);
 
-      //apply_anchor(widgetframe->text_anchor, )
+      //Point
+      int x_text = x;
+      int y_text = y;
+      int w_text;
+      int h_text;
+      hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w_text, &h_text);
 
-      ei_point_t text_point = ei_point(x - 10, y - 10);
+      apply_anchor_text(*widgetframe->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
 
-      printf("%i\n", clipper.top_left.x);
-      printf("%i\n", clipper.top_left.y);
-      printf("%i\n", clipper.size.width);
-      printf("%i\n", clipper.size.height);
-      printf("JOEL CA NE MARCHE PAS\n");
+      ei_point_t text_point = ei_point(x_text, y_text);
 
     	ei_draw_text(surface, &text_point, *widgetframe->text, widgetframe->text_font, widgetframe->text_color, &clipper);
     }
+
 
     printf("TEST\n");
   }else{
@@ -204,7 +246,6 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     int w = placer_params->w_data;
     int h = placer_params->h_data;
 
-
     if(widget->parent != NULL){
       x = x + (placer_params->rx_data * widget->parent->placer_params->w_data);
       y = y + (placer_params->ry_data * widget->parent->placer_params->h_data);
@@ -212,7 +253,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
       h = h + (placer_params->rh_data * widget->parent->placer_params->h_data);
     }
 
-    //apply_anchor(widget, &x, &y, &w, &h);
+    apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
     ei_linked_point_t	pts[5];
     pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
@@ -220,9 +261,37 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
-    ei_draw_polygon (surface, pts, *widgetbutton->color, clipper);
+
+    //ei_draw_button(surface, pts, *widgetbutton->color, clipper);
+
+    if (widgetbutton->img != NULL){
+      printf("Draw frame IMAGE\n");
+      //Draw the image frame
+      //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
+    }else if (widgetbutton->text != NULL){
+      // Draw the frame text
+      printf("Draw frame Text : %s\n", *widgetbutton->text);
+
+      //Frame Clipper
+      ei_point_t point = ei_point(x, y);
+      ei_size_t size = ei_size(w, h);
+      ei_rect_t clipper = ei_rect(point, size);
+
+      //Point
+      int x_text = x;
+      int y_text = y;
+      int w_text;
+      int h_text;
+      hw_text_compute_size (*widgetbutton->text, widgetbutton->text_font, &w_text, &h_text);
+
+      apply_anchor_text(*widgetbutton->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
+
+      ei_point_t text_point = ei_point(x_text, y_text);
+
+    	ei_draw_text(surface, &text_point, *widgetbutton->text, widgetbutton->text_font, widgetbutton->text_color, &clipper);
+    }
   }else{
-    printf("Avoid printing button widget\n");
+    printf("Avoid printing Button widget\n");
   }
 }
 

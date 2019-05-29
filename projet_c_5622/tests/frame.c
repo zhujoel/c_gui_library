@@ -36,17 +36,26 @@ int ei_main(int argc, char** argv)
 	ei_fontstyle_t fontstyle = ei_style_normal;
 	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 20);
 	ei_color_t color = {0xff, 0xfa, 0x85, 0xff};
+	ei_anchor_t text_anchor = ei_anc_east;
 	//hw_text_font_free(font);
 
+	static char* image_filename	= "misc/klimt.jpg";
+	ei_surface_t image;
+	ei_size_t image_size;
+	ei_size_t image_rect_size;
+	ei_anchor_t image_anchor = ei_anc_none;
 
 	/* Create the application and change the color of the background. */
 	ei_app_create(&screen_size, EI_FALSE);
 	ei_frame_configure(ei_app_root_widget(), NULL, &root_bgcol, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+	//image = hw_image_load(image_filename, ei_app_root_surface());
+	//image_size	= hw_surface_get_size(image);
+
 	/* Create, configure and place the frame on screen. */
 	frame = ei_widget_create("frame", ei_app_root_widget());
 	ei_frame_configure	(frame, &frame_size, &frame_color,
-				 &frame_border_width, &frame_relief, &text, font, &color, NULL,
+				 &frame_border_width, &frame_relief, &text, font, &color, &text_anchor,
 				 NULL, NULL, NULL);
 	ei_place(frame, &frame_anchor, &frame_x, &frame_y, &frame_w, &frame_h, &frame_rx, &frame_ry, &frame_wr, &frame_hr );
 
