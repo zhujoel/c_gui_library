@@ -32,7 +32,16 @@
  */
 uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color);
 
-
+/**
+ * Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs
+ * d'une surface.
+ *
+ * @param surface Surface où récupérer l'ordre des couleurs
+ * @param color color en 32 bits à convertir
+ *
+ * @return une variable ei_color_t qui correspond au couleur 32 bits converti
+ */
+ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color);
 
 /**
  * \brief	Draws a line made of many line segments.
@@ -127,7 +136,34 @@ int			ei_copy_surface		(ei_surface_t		destination,
 						 const ei_rect_t*	src_rect,
 						 const ei_bool_t	alpha);
 
+/**
+ * Génère une liste de points définissant un arc
+ *
+ * @param centre Centre de l'arc
+ * @param rayon Rayon de l'arc
+ * @param angle_debut Angle de début de l'arc
+ * @param angle_fin Angle de fin de l'arc
+ *
+ * @return Retourne la liste de points définissant l'arc
+ */
+ei_linked_point_t* arc (const ei_point_t centre,
+							double rayon,
+							int angle_debut,
+							int angle_fin);
 
+/**
+ * Génère une liste de points définissant un cadre aux bords arrondis
+ *
+ * @param rectangle  Rectangle de départ
+ * @param rayon Angle des bords
+ * @param parties Bords du rectangle à arrondir, dans l'ordre : top, right, bottom, left
+ * Si NULL, arrondit tous les bords
+ *
+ * @return Retourne liste de points définissant un cadre aux bords arrondis
+ */
+ei_point_t* rounded_frame (const ei_rect_t rectangle,
+											const ei_point_t rayon,
+											const ei_bool_t* bords);
 
 
 #endif
