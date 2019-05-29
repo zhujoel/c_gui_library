@@ -340,10 +340,12 @@ void test_fill(ei_surface_t surface, ei_rect_t* clipper){
  *
  */
 void test_arc(ei_surface_t surface, ei_rect_t* clipper){
+
 	ei_point_t centre = {50, 50};
 	float rayon = 50;
-	float angle_debut = 0;
-	float angle_fin = 182;
+	float angle_debut = 45;
+	float angle_fin = 210;
+
 	ei_linked_point_t* points = arc(centre, rayon, angle_debut, angle_fin);
 	ei_color_t color = {0xff, 0x65, 0x44, 0xff};
 	ei_draw_polygon(surface, points, color, clipper);
@@ -362,11 +364,7 @@ int ei_main(int argc, char** argv)
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
 
-<<<<<<< HEAD
-	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), win_size);//ei_size(400, 300));
-=======
-	ei_rect_t		clipper		= ei_rect(ei_point(100, 100), ei_size(400, 300));
->>>>>>> 67bc876b0cea20187b15e2aa53a9deb499d002bb
+	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
 	clipper_ptr		= &clipper;
 
 	hw_init();
@@ -382,14 +380,14 @@ int ei_main(int argc, char** argv)
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
 	//test_dot	(main_window, clipper_ptr);
-	test_text (main_window, clipper_ptr);
+	//test_text (main_window, clipper_ptr);
 	//test_copy_null_null(main_window);
 	//test_copy_null_rect(main_window);
 	//test_copy_rect_null(main_window);
 	//test_copy_rect_rect(main_window);
 	//test_pointe(main_window, clipper_ptr);
 	//test_fill(main_window, NULL);
-	//test_arc (main_window, clipper_ptr);
+	test_arc (main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);

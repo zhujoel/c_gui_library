@@ -443,13 +443,15 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 		int inter_width = inter_bottomrightx - inter_topleftx;
 		int inter_height = inter_bottomrighty - inter_toplefty;
 		ei_size_t intersection_size = {inter_width, inter_height};
+		ei_point_t intersection_point = {inter_topleftx, inter_toplefty};
+		ei_rect_t intersection = {intersection_point, intersection_size};
 
-		ei_point_t src_point = {0, 0};
+		ei_point_t src_point = {intersection.top_left.x - dst_rect.top_left.x, intersection.top_left.y - dst_rect.top_left.y};
 		ei_size_t src_size = intersection_size;
 		ei_rect_t src_rect = {src_point, src_size};
 
-		printf("dst_rect %i %i %i %i \n", dst_rect.top_left.x, dst_rect.top_left.y, dst_rect.size.width, dst_rect.size.height);
-		printf("src_rect %i %i %i %i \n", src_rect.top_left.x, src_rect.top_left.y, src_rect.size.width, src_rect.size.height);
+		dst_rect.top_left.x = inter_topleftx;
+		dst_rect.top_left.y = inter_toplefty;
 		ei_copy_surface(surface, &dst_rect, text_surface, &src_rect, 1);
 	}
 	else{
@@ -496,10 +498,6 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
 	hw_surface_lock(destination);
-<<<<<<< HEAD
-
-=======
->>>>>>> 2c4429d9c846a58af1abdd840c014198c46bef1c
 	// @ du pixel courant de la surface source/destination
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
@@ -630,11 +628,15 @@ ei_linked_point_t* arc(const ei_point_t centre, double rayon, int angle_debut, i
 	int x = rayon * cos(angle_debut*(PI/180)) + centre.x;
 	int y = rayon * sin(angle_debut*(PI/180)) + centre.y;
 	int nbElems = abs(angle_debut-angle_fin);
-	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems);
-	for(int i = 0; i < nbElems-2; i++){
-		x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
-		y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
-		pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
+	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems+1);
+	int i = 0;
+	while(i < (nbElems-2)){
+			x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
+			y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
+			pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
+			i++;
 	}
+	pts[i-2].next = &pts[i-1];
+	pts[i-1].point.x = pts[0].point.x; pts[i-1].point.y = pts[0].point.y; pts[i-1].next = NULL;
 	return pts;
 }
