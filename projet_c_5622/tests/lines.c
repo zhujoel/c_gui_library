@@ -324,7 +324,15 @@ void test_dot(ei_surface_t surface, ei_rect_t* clipper)
 	ei_draw_polyline(surface, pts, color, clipper);
 }
 
-
+/* test ei_fill
+ *
+ * remplie une surface d'une couleur
+ *
+ */
+void test_fill(ei_surface_t surface, ei_rect_t* clipper){
+	ei_color_t		color		= { 0xff, 0xff, 0xff, 0xff };
+	ei_fill(surface, &color, clipper);
+}
 
 /*
  * ei_main --
@@ -338,7 +346,7 @@ int ei_main(int argc, char** argv)
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
 
-	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(400, 300));
+	ei_rect_t		clipper		= ei_rect(ei_point(100, 100), ei_size(400, 300));
 	clipper_ptr		= &clipper;
 
 	hw_init();
@@ -354,12 +362,13 @@ int ei_main(int argc, char** argv)
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
 	//test_dot	(main_window, clipper_ptr);
-	test_text (main_window, clipper_ptr);
+	//test_text (main_window, clipper_ptr);
 	//test_copy_null_null(main_window);
 	//test_copy_null_rect(main_window);
 	//test_copy_rect_null(main_window);
 	//test_copy_rect_rect(main_window);
 	//test_pointe(main_window, clipper_ptr);
+	test_fill(main_window, NULL);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);

@@ -453,7 +453,33 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 
 
 void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	clipper){
+	uint32_t color32 = ei_map_rgba(surface, color);
+	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
+	int i_min;
+	int i_max;
+	int j_min;
+	int j_max;
+	if (clipper == NULL){
+		ei_size_t surface_size = hw_surface_get_size(surface);
+		i_min = 0;
+		i_max = surface_size.width;
+		j_min = 0;
+		j_max = surface_size.height;
+	}
+	else{
+		i_min = clipper->top_left.x;
+		i_max = clipper->size.width;
+		j_min = clipper->top_left.y;
+		j_max = clipper->size.height;
+	}
 
+	for(int i = i_min; i < i_max; i++){
+		for(int j = j_min; j < j_max; j++){
+			pixel_ptr += i + j*hw_surface_get_size(surface).width;
+			*pixel_ptr = color32;
+			pixel_ptr -= i + j*hw_surface_get_size(surface).width;
+		}
+	}
 }
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){

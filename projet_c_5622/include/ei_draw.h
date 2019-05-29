@@ -32,7 +32,16 @@
  */
 uint32_t		ei_map_rgba		(ei_surface_t surface, const ei_color_t* color);
 
-
+/**
+ * Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs
+ * d'une surface.
+ *
+ * @param surface Surface où récupérer l'ordre des couleurs
+ * @param color color en 32 bits à convertir
+ *
+ * @return une variable ei_color_t qui correspond au couleur 32 bits converti
+ */
+ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color);
 
 /**
  * \brief	Draws a line made of many line segments.
