@@ -57,7 +57,7 @@ void test_text(ei_surface_t surface, ei_rect_t* clipper){
 	// écrit qlq chose à une position de l'écran
 	char* text = "BIGUE TCHIZE";
 	ei_fontstyle_t fontstyle = ei_style_normal;
-	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 70);
+	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 50);
 	ei_point_t point = {200, 200};
 	ei_color_t color = {0xff, 0xfa, 0x85, 0xff};
 	ei_draw_text(surface, &point, text, font, &color, clipper);
@@ -77,13 +77,13 @@ void test_copy_null_null(ei_surface_t destination){
 	 */
 	ei_size_t		win_size	= ei_size(800, 600);
 	ei_surface_t		source	= NULL;
-	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
+	ei_color_t		black		= { 0xff, 0xff, 0xff, 0xff };
 
 	source = hw_surface_create(destination, &win_size, 0);
 
 	/* Lock the drawing surface, paint it white. */
 	hw_surface_lock	(source);
-	ei_fill		(source, &white, NULL);
+	ei_fill		(source, &black, NULL);
 
 	test_line(source, NULL);
 
@@ -371,21 +371,21 @@ int ei_main(int argc, char** argv)
 
 	/* Lock the drawing surface, paint it white. */
 	hw_surface_lock	(main_window);
-	ei_fill		(main_window, &white, clipper_ptr);
+	ei_fill		(main_window, &white, NULL);
 
 	/* Draw polylines. */
 	//test_line	(main_window, clipper_ptr);
 	//test_octogone	(main_window, clipper_ptr);
 	//test_square	(main_window, clipper_ptr);
 	//test_dot	(main_window, clipper_ptr);
-	//test_text (main_window, clipper_ptr);
+	test_text (main_window, clipper_ptr);
 	//test_copy_null_null(main_window);
 	//test_copy_null_rect(main_window);
 	//test_copy_rect_null(main_window);
 	//test_copy_rect_rect(main_window);
 	//test_pointe(main_window, clipper_ptr);
 	//test_fill(main_window, NULL);
-	test_arc (main_window, clipper_ptr);
+	//test_arc (main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);
