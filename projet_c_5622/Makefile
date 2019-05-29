@@ -103,11 +103,14 @@ ${OBJDIR}/placer.o : ${SOURCE}/ei_placer.c
 
 # button
 
-button : ${OBJDIR}/button.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o button ${LDFLAGS} ${OBJDIR}/button.o ${LIBEI} ${LIBS}
+button : ${OBJDIR}/button.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o button ${LDFLAGS} ${OBJDIR}/button.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/button.o : ${TESTS}/button.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/button.c -o ${OBJDIR}/button.o
+
+${OBJDIR}/event.o : ${SOURCE}/ei_event.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_event.c -o ${OBJDIR}/event.o
 
 # hello_world
 

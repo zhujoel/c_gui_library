@@ -498,6 +498,10 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
 	hw_surface_lock(destination);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2c4429d9c846a58af1abdd840c014198c46bef1c
 	// @ du pixel courant de la surface source/destination
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);

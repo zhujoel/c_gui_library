@@ -1,7 +1,11 @@
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
 #include "../include/ei_widgets.h"
+<<<<<<< HEAD
+#include "../include/ei_event.h"
+=======
 #include "../include/ei_utils.h"
+>>>>>>> 67bc876b0cea20187b15e2aa53a9deb499d002bb
 //#include "../include/ei_placer.h"
 
 #include <stdlib.h>
@@ -9,6 +13,7 @@
 #include <stdio.h>
 
 static ei_widgetclass_t* widgetsclass = NULL;
+static ei_point_t* position_precedente;
 
 void ei_widgetclass_register (ei_widgetclass_t* widgetclass){
   if(widgetsclass == NULL){
@@ -77,6 +82,43 @@ void apply_anchor(ei_anchor_t anchor, int* x, int* y, int* w, int* h){
   }
 }
 
+void apply_anchor_text(ei_anchor_t anchor, int* x, int* y, int* w, int* h, int* w_parent, int* h_parent){
+  switch (anchor) {
+    case 0: //No anchor
+      break;
+    case 1: //Anchor center
+      *x += (*w_parent / 2) - (*w / 2);
+      *y += (*h_parent / 2) - (*h / 2);
+      break;
+    case 2: //Anchor north
+      *x += *w_parent / 2 - *w / 2;
+      break;
+    case 3: //Anchor north east
+      *x += *w_parent - *w;
+      break;
+    case 4: //Anchor east
+      *x += *w_parent - *w;
+      *y += *h_parent / 2 - *h / 2;
+      break;
+    case 5: //Anchor southeast
+      *x += *w_parent - *w;
+      *y += *h_parent - *h;
+      break;
+    case 6: //Anchor south
+      *x += *w_parent / 2 - *w / 2;
+      *y += *h_parent - *h;
+      break;
+    case 7: //Anchor southwest
+      *y += *h_parent - *h;
+      break;
+    case 8: //Anchor west
+      *y += *h / 2 - *h / 2;
+      break;
+    case 9: //Anchor northwest
+      break;
+  }
+}
+
 ///////////////////////
 //Widget frame
 //////////////////////
@@ -122,8 +164,11 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     printf("TEST\n");
     ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
 
+    printf("TEST\n");
     if (widgetframe->img != NULL){
+      printf("Draw frame IMAGE\n");
       //Draw the image frame
+      //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
     }else if (widgetframe->text != NULL){
       // Draw the frame text
       printf("Draw frame Text : %s\n", *widgetframe->text);
@@ -133,18 +178,20 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
       ei_size_t size = ei_size(w, h);
       ei_rect_t clipper = ei_rect(point, size);
 
-      //apply_anchor(widgetframe->text_anchor, )
+      //Point
+      int x_text = x;
+      int y_text = y;
+      int w_text;
+      int h_text;
+      hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w_text, &h_text);
 
-      ei_point_t text_point = ei_point(x - 10, y - 10);
+      apply_anchor_text(*widgetframe->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
 
-      printf("%i\n", clipper.top_left.x);
-      printf("%i\n", clipper.top_left.y);
-      printf("%i\n", clipper.size.width);
-      printf("%i\n", clipper.size.height);
-      printf("JOEL CA NE MARCHE PAS\n");
+      ei_point_t text_point = ei_point(x_text, y_text);
 
     	ei_draw_text(surface, &text_point, *widgetframe->text, widgetframe->text_font, widgetframe->text_color, &clipper);
     }
+
 
     printf("TEST\n");
   }else{
@@ -204,7 +251,6 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     int w = placer_params->w_data;
     int h = placer_params->h_data;
 
-
     if(widget->parent != NULL){
       x = x + (placer_params->rx_data * widget->parent->placer_params->w_data);
       y = y + (placer_params->ry_data * widget->parent->placer_params->h_data);
@@ -212,7 +258,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
       h = h + (placer_params->rh_data * widget->parent->placer_params->h_data);
     }
 
-    //apply_anchor(widget, &x, &y, &w, &h);
+    apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
     ei_linked_point_t	pts[5];
     pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
@@ -220,9 +266,37 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
-    ei_draw_polygon (surface, pts, *widgetbutton->color, clipper);
+
+    //ei_draw_button(surface, pts, *widgetbutton->color, clipper);
+
+    if (widgetbutton->img != NULL){
+      printf("Draw frame IMAGE\n");
+      //Draw the image frame
+      //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
+    }else if (widgetbutton->text != NULL){
+      // Draw the frame text
+      printf("Draw frame Text : %s\n", *widgetbutton->text);
+
+      //Frame Clipper
+      ei_point_t point = ei_point(x, y);
+      ei_size_t size = ei_size(w, h);
+      ei_rect_t clipper = ei_rect(point, size);
+
+      //Point
+      int x_text = x;
+      int y_text = y;
+      int w_text;
+      int h_text;
+      hw_text_compute_size (*widgetbutton->text, widgetbutton->text_font, &w_text, &h_text);
+
+      apply_anchor_text(*widgetbutton->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
+
+      ei_point_t text_point = ei_point(x_text, y_text);
+
+    	ei_draw_text(surface, &text_point, *widgetbutton->text, widgetbutton->text_font, widgetbutton->text_color, &clipper);
+    }
   }else{
-    printf("Avoid printing button widget\n");
+    printf("Avoid printing Button widget\n");
   }
 }
 
@@ -254,7 +328,18 @@ void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 }
 
 ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-  return EI_FALSE;
+  struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+  if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
+  {
+    *(widgetbutton->relief) = ei_relief_sunken;
+    return  EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
+  {
+    *(widgetbutton->relief) = ei_relief_raised;
+    return  EI_TRUE;
+  }
+  else {return EI_FALSE;}
 }
 
 ///////////////////////
@@ -295,8 +380,44 @@ void toplevel_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 
 }
 
+/* Vérifie que le point est dans un rectangle, dont (x1,y1) est topleft
+ et (x2,y2) est bottom right */
+ei_bool_t dedans(ei_point_t point, int x1, int x2, int y1, int y2)
+{
+  return (x1 < point.x) && (x2 > point.x) && (y1 < point.y) && (y2 > point.y);
+}
+
 ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-  return EI_FALSE;
+  //return EI_FALSE;
+  struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+  int x1 = widget->placer_params->x_data;
+  int x2 = x1 + widget->placer_params->w_data;
+  int y1 = widget->placer_params->y_data;
+  int y2 = y1 + *widgettoplevel->border_width; // border_width = taille de l'entête ??????
+  if (event->type == ei_ev_mouse_buttondown
+    && event->param->mouse.button_number == 1
+    && dedans(event->param->mouse.where,x1,x2,y1,y2))
+  {
+    ei_event_set_active_widget(widget);
+    position_precedente->x = event->param->mouse.where.x;
+    position_precedente->y = event->param->mouse.where.y;
+    return EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_buttonup && event->param->mouse.button_number == 1)
+  {
+    ei_event_set_active_widget(NULL);
+    return EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_move && event->param->mouse.button_number == 1)
+  {
+    int deltax = event->param->mouse.where.x - position_precedente->x;
+    int deltay = event->param->mouse.where.y - position_precedente->y;
+    widget->placer_params->x_data += deltax;
+    widget->placer_params->y_data += deltay; 
+    position_precedente->x = event->param->mouse.where.x;
+    position_precedente->y = event->param->mouse.where.y;
+  }
+  else {return EI_FALSE;}
 }
 
 

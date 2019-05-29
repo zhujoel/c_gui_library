@@ -38,8 +38,13 @@ void parcours_profondeur(ei_widget_t* widget, ei_rect_t* clipper){
   ei_widget_t* courant = widget->children_head;
   while (courant != NULL)
   {
-    parcours_profondeur(courant, clipper);
-    courant = courant->next_sibling;
+    if(widget->placer_params == NULL){
+      courant = NULL;
+    }else{
+      parcours_profondeur(courant, clipper);
+      courant = courant->next_sibling;
+    }
+
   }
 }
 
