@@ -6,6 +6,7 @@
 
 static ei_widget_t* root;
 static ei_surface_t main_window	= NULL;
+static ei_bool_t continuer = EI_TRUE;
 
 extern ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t* parent);
 
@@ -38,21 +39,26 @@ void parcours_profondeur(ei_widget_t* widget, ei_rect_t* clipper){
   ei_widget_t* courant = widget->children_head;
   while (courant != NULL)
   {
-    if(widget->placer_params == NULL){
-      courant = NULL;
-    }else{
-      parcours_profondeur(courant, clipper);
-      courant = courant->next_sibling;
-    }
-
+    parcours_profondeur(courant, clipper);
+    courant = courant->next_sibling;
   }
 }
 
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
     ei_rect_t* clipper_ptr	= NULL;
-
+    /*struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
     parcours_profondeur(ei_app_root_widget(), clipper_ptr);
+    while (continuer)
+    {
+      parcours_profondeur(ei_app_root_widget(), clipper_ptr);
+      hw_event_wait_next(event);
+      if ()
+      {
+
+      }
+    }*/
+    //parcours_profondeur(ei_app_root_widget(), clipper_ptr);
   /* Wait for a character on command line. */
 	getchar();
 }
@@ -62,7 +68,7 @@ void ei_app_invalidate_rect(ei_rect_t* rect){
 }
 
 void ei_app_quit_request(){
-  printf("Je ferme");
+  continuer = EI_FALSE;
 }
 
 ei_widget_t* ei_app_root_widget(){

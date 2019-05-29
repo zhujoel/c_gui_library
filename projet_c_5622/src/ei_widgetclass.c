@@ -1,11 +1,8 @@
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
 #include "../include/ei_widgets.h"
-<<<<<<< HEAD
 #include "../include/ei_event.h"
-=======
 #include "../include/ei_utils.h"
->>>>>>> 67bc876b0cea20187b15e2aa53a9deb499d002bb
 //#include "../include/ei_placer.h"
 
 #include <stdlib.h>
@@ -388,34 +385,34 @@ ei_bool_t dedans(ei_point_t point, int x1, int x2, int y1, int y2)
 }
 
 ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-  //return EI_FALSE;
   struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   int x1 = widget->placer_params->x_data;
   int x2 = x1 + widget->placer_params->w_data;
   int y1 = widget->placer_params->y_data;
   int y2 = y1 + *widgettoplevel->border_width; // border_width = taille de l'entête ??????
   if (event->type == ei_ev_mouse_buttondown
-    && event->param->mouse.button_number == 1
-    && dedans(event->param->mouse.where,x1,x2,y1,y2))
+    && event->param.mouse.button_number == 1
+    && dedans(event->param.mouse.where,x1,x2,y1,y2))
   {
     ei_event_set_active_widget(widget);
-    position_precedente->x = event->param->mouse.where.x;
-    position_precedente->y = event->param->mouse.where.y;
+    position_precedente->x = event->param.mouse.where.x;
+    position_precedente->y = event->param.mouse.where.y;
     return EI_TRUE;
   }
-  else if (event->type == ei_ev_mouse_buttonup && event->param->mouse.button_number == 1)
+  else if (event->type == ei_ev_mouse_buttonup && event->param.mouse.button_number == 1)
   {
     ei_event_set_active_widget(NULL);
     return EI_TRUE;
   }
-  else if (event->type == ei_ev_mouse_move && event->param->mouse.button_number == 1)
+  else if (event->type == ei_ev_mouse_move && event->param.mouse.button_number == 1)
   {
-    int deltax = event->param->mouse.where.x - position_precedente->x;
-    int deltay = event->param->mouse.where.y - position_precedente->y;
+    int deltax = event->param.mouse.where.x - position_precedente->x;
+    int deltay = event->param.mouse.where.y - position_precedente->y;
     widget->placer_params->x_data += deltax;
-    widget->placer_params->y_data += deltay; 
-    position_precedente->x = event->param->mouse.where.x;
-    position_precedente->y = event->param->mouse.where.y;
+    widget->placer_params->y_data += deltay;
+    position_precedente->x = event->param.mouse.where.x;
+    position_precedente->y = event->param.mouse.where.y;
+    return EI_TRUE;
   }
   else {return EI_FALSE;}
 }
