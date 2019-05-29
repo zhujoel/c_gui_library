@@ -13,6 +13,11 @@
 	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
 #endif
 
+#ifndef PI
+	#define PI 3.14159265
+#endif
+
+
 /**
  * Prend une ei_color_t et renvoie sa représentation 32 bits
  */
@@ -44,7 +49,7 @@ ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color){
 		int* ia = malloc(sizeof(int));
 		hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
 		ei_color_t ret = {(*color >> (8*(*ir))) & 0xff, (*color >> (8*(*ig))) & 0xff, (*color >> (8*(*ib))) & 0xff, (*color >> (8*(*ia))) & 0xff};
-	  return ret;
+		return ret;
 }
 
 void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_point, const ei_color_t color, const ei_rect_t* clipper){
@@ -422,7 +427,6 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 	// crée une surface pour écrire le texte
 	ei_surface_t text_surface = hw_text_create_surface(text, font, color);
 	ei_rect_t text_surface_rect = hw_surface_get_rect(text_surface);
-
 	// rectangle destination où afficher ledit texte
 	ei_point_t dst_point = {where->x, where->y};
 	ei_size_t dst_size = text_surface_rect.size;
@@ -443,6 +447,9 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 		ei_point_t src_point = {0, 0};
 		ei_size_t src_size = intersection_size;
 		ei_rect_t src_rect = {src_point, src_size};
+
+		printf("dst_rect %i %i %i %i \n", dst_rect.top_left.x, dst_rect.top_left.y, dst_rect.size.width, dst_rect.size.height);
+		printf("src_rect %i %i %i %i \n", src_rect.top_left.x, src_rect.top_left.y, src_rect.size.width, src_rect.size.height);
 		ei_copy_surface(surface, &dst_rect, text_surface, &src_rect, 1);
 	}
 	else{
@@ -453,6 +460,8 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 
 
 void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	clipper){
+	hw_surface_lock(surface);
+
 	uint32_t color32 = ei_map_rgba(surface, color);
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 	int i_min;
@@ -480,11 +489,17 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 			pixel_ptr -= i + j*hw_surface_get_size(surface).width;
 		}
 	}
+
+	hw_surface_unlock(surface);
+	hw_surface_update_rects(surface, NULL);
 }
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
 	hw_surface_lock(destination);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c4429d9c846a58af1abdd840c014198c46bef1c
 	// @ du pixel courant de la surface source/destination
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
@@ -589,17 +604,13 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 			}
 			// sinon, on fait une moyenne des couleurs sources et destination
 			else{
-				ei_color_t color_src = ei_map_color(destination, pixel_ptr_src);
-				ei_color_t color_dest = ei_map_color(destination, pixel_ptr_dest);
-				int somme_alpha = color_src.alpha + color_dest.alpha;
-				// on veut pas diviser par 0, donc on divise par 1
-				if (somme_alpha == 0){
-					somme_alpha++;
-				}
+				ei_color_t color_src = ei_map_color(source, pixel_ptr_src);
+				ei_color_t color_dest = ei_map_color(source, pixel_ptr_dest);
+
 				// calcule de la moyenne pour chaque couleur
-				color_dest.red = ( color_src.alpha * color_src.red + color_dest.alpha * color_src.red ) / somme_alpha;
-				color_dest.green = ( color_src.alpha * color_src.green + color_dest.alpha * color_src.green ) / somme_alpha;
-				color_dest.blue = ( color_src.alpha * color_src.blue + color_dest.alpha * color_src.blue ) / somme_alpha;
+				color_dest.red = ( color_src.alpha * color_src.red + (255 - color_src.alpha) * color_dest.red) / 255;
+				color_dest.green = ( color_src.alpha * color_src.green + (255 - color_src.alpha) * color_dest.green) / 255;
+				color_dest.blue = ( color_src.alpha * color_src.blue + (255 - color_src.alpha) * color_dest.blue) / 255;
 				*pixel_ptr_dest = ei_map_rgba(destination, &color_dest);
 			}
 				pixel_ptr_src -= (i_src + i) + (j + j_src)*hw_surface_get_size(source).width;
@@ -612,4 +623,18 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 
 	return 1;
 
+}
+
+
+ei_linked_point_t* arc(const ei_point_t centre, double rayon, int angle_debut, int angle_fin){
+	int x = rayon * cos(angle_debut*(PI/180)) + centre.x;
+	int y = rayon * sin(angle_debut*(PI/180)) + centre.y;
+	int nbElems = abs(angle_debut-angle_fin);
+	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems);
+	for(int i = 0; i < nbElems-2; i++){
+		x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
+		y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
+		pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
+	}
+	return pts;
 }
