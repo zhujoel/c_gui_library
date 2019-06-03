@@ -364,12 +364,8 @@ int ei_main(int argc, char** argv)
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
 	ei_rect_t*		clipper_ptr	= NULL;
 
-<<<<<<< HEAD
-	ei_rect_t		clipper		= ei_rect(ei_point(100, 100), ei_size(400, 300));
-
-=======
 	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
->>>>>>> 322f62e6f3d346d733fb043c612ac0b743acea39
+
 	clipper_ptr		= &clipper;
 
 	hw_init();

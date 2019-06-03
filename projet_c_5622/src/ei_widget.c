@@ -54,7 +54,7 @@ ei_widget_t* ei_widget_create (ei_widgetclass_name_t	class_name, ei_widget_t* pa
 }
 
 void ei_widget_destroy (ei_widget_t* widget){
-
+  free(widget);
 }
 
 ei_widget_t* ei_widget_pick (ei_point_t* where){

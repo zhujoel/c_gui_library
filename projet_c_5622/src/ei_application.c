@@ -47,6 +47,7 @@ void parcours_profondeur(ei_widget_t* widget, ei_rect_t* clipper){
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
     ei_rect_t* clipper_ptr	= NULL;
+    parcours_profondeur(ei_app_root_widget(), clipper_ptr);
     /*struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
     parcours_profondeur(ei_app_root_widget(), clipper_ptr);
     while (continuer)

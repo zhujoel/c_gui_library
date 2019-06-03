@@ -1,10 +1,7 @@
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
 #include "../include/ei_widgets.h"
-<<<<<<< HEAD
-=======
 #include "../include/ei_event.h"
->>>>>>> 322f62e6f3d346d733fb043c612ac0b743acea39
 #include "../include/ei_utils.h"
 //#include "../include/ei_placer.h"
 
@@ -328,18 +325,18 @@ void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 }
 
 ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-  // struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
-  // if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
-  // {
-  //   *(widgetbutton->relief) = ei_relief_sunken;
-  //   return  EI_TRUE;
-  // }
-  // else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
-  // {
-  //   *(widgetbutton->relief) = ei_relief_raised;
-  //   return  EI_TRUE;
-  // }
-  // else {return EI_FALSE;}
+  struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+  if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
+  {
+    *(widgetbutton->relief) = ei_relief_sunken;
+    return  EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
+  {
+    *(widgetbutton->relief) = ei_relief_raised;
+    return  EI_TRUE;
+  }
+  else {return EI_FALSE;}
 }
 
 ///////////////////////
@@ -388,7 +385,6 @@ ei_bool_t dedans(ei_point_t point, int x1, int x2, int y1, int y2)
 }
 
 ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-<<<<<<< HEAD
   //return EI_FALSE;
   // struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   // int x1 = widget->placer_params->x_data;
@@ -419,7 +415,6 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
   //   position_precedente->y = event->param->mouse.where.y;
   // }
   // else {return EI_FALSE;}
-=======
   struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   int x1 = widget->placer_params->x_data;
   int x2 = x1 + widget->placer_params->w_data;
@@ -450,7 +445,6 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     return EI_TRUE;
   }
   else {return EI_FALSE;}
->>>>>>> 322f62e6f3d346d733fb043c612ac0b743acea39
 }
 
 
