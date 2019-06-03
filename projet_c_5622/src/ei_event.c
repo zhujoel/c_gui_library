@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 static ei_widget_t* actif = NULL;
-static ei_default_handle_func_t defaultfun = NULL;
+static ei_default_handle_func_t* defaultfun = NULL;
 
 
 /**

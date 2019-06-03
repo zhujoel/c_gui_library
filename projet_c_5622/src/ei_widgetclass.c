@@ -9,8 +9,15 @@
 #include <string.h>
 #include <stdio.h>
 
+typedef enum {
+  ei_none = 0,
+	ei_deplace,
+	ei_redim,
+} ei_interaction_t;
+
 static ei_widgetclass_t* widgetsclass = NULL;
 static ei_point_t* position_precedente;
+static ei_interaction_t action = ei_none;
 
 void ei_widgetclass_register (ei_widgetclass_t* widgetclass){
   if(widgetsclass == NULL){
@@ -379,41 +386,80 @@ void toplevel_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 
 /* Vérifie que le point est dans un rectangle, dont (x1,y1) est topleft
  et (x2,y2) est bottom right */
-ei_bool_t dedans(ei_point_t point, int x1, int x2, int y1, int y2)
+ei_bool_t dedans(ei_point_t point, int x1, int y1, int x2, int y2)
 {
   return (x1 < point.x) && (x2 > point.x) && (y1 < point.y) && (y2 > point.y);
 }
 
 ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
+<<<<<<< HEAD
   //return EI_FALSE;
+=======
+>>>>>>> ca28a58fc0d8cbd1061681c179bf479898f17539
   // struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   // int x1 = widget->placer_params->x_data;
-  // int x2 = x1 + widget->placer_params->w_data;
   // int y1 = widget->placer_params->y_data;
-  // int y2 = y1 + *widgettoplevel->border_width; // border_width = taille de l'entête ??????
-  // if (event->type == ei_ev_mouse_buttondown
-  //   && event->param->mouse.button_number == 1
-  //   && dedans(event->param->mouse.where,x1,x2,y1,y2))
+  // int x2 = x1 + widget->placer_params->w_data;
+  // int y2 = y1 + widget->placer_params->h_data;
+  // int y3 = y1 + *widgettoplevel->border_width; // border_width = taille de l'entête ??????
+  // ei_widget_t* actif = ei_event_get_active_widget();
+  //
+  // if (actif == NULL)   // On a pas de widget actif
   // {
-  //   ei_event_set_active_widget(widget);
-  //   position_precedente->x = event->param->mouse.where.x;
-  //   position_precedente->y = event->param->mouse.where.y;
-  //   return EI_TRUE;
+  //   if (event->type == ei_ev_mouse_buttondown
+  //   && event->param->mouse.button_number == 1)
+  //   {
+  //     if (dedans(event->param->mouse.where,x1,y1,x2,y3))) // Pour déplacer la fenetre
+  //     {
+  //       *position_precedente = event->param->mouse.where;
+  //       ei_event_set_active_widget(widget);
+  //       action = ei_deplace;
+  //       return EI_TRUE;
+  //     }
+  //     else if (widget->resizable != ei_axis_none
+  //             && dedans(event->param->mouse.where,x2-10,y2-10,x2,y2))       // Pour redimensionner la fenetre
+  //     {
+  //       *position_precedente = event->param->mouse.where;
+  //       ei_event_set_active_widget(widget);
+  //       action = ei_redim;
+  //       return EI_TRUE;
+  //     }
+  //   }
   // }
-  // else if (event->type == ei_ev_mouse_buttonup && event->param->mouse.button_number == 1)
+  //
+  // else if (actif == widget)  // le widget actif est le widget sélectionné
   // {
-  //   ei_event_set_active_widget(NULL);
-  //   return EI_TRUE;
+  //   if (event->type == ei_ev_mouse_buttonup
+  //      && event->param->mouse.button_number == 1  )
+  //   {
+  //     ei_event_set_active_widget(NULL);
+  //     return EI_TRUE;
+  //   }
+  //   else if (event->type == ei_ev_mouse_move)
+  //   {
+  //     int deltax = event->param->mouse.where.x - position_precedente->x;
+  //     int deltay = event->param->mouse.where.y - position_precedente->y;
+  //     if (action == ei_)deplace
+  //     {
+  //       widget->placer_params->x_data += deltax;
+  //       widget->placer_params->y_data += deltay;
+  //     }
+  //     else if (action == ei_redim)
+  //     {
+  //       if (widget->resizable == ei_axis_x || widget->resizable == ei_axis_both)
+  //       {
+  //         widget->placer_params->w_data += deltax;
+  //       }
+  //       if (widget->resizable == ei_axis_y || widget->resizable == ei_axis_both)
+  //       {
+  //         widget->placer_params->h_data += deltay;
+  //       }
+  //     }
+  //     *position_precedente = event->param->mouse.where
+  //     return EI_TRUE;
+  //   }
   // }
-  // else if (event->type == ei_ev_mouse_move && event->param->mouse.button_number == 1)
-  // {
-  //   int deltax = event->param->mouse.where.x - position_precedente->x;
-  //   int deltay = event->param->mouse.where.y - position_precedente->y;
-  //   widget->placer_params->x_data += deltax;
-  //   widget->placer_params->y_data += deltay;
-  //   position_precedente->x = event->param->mouse.where.x;
-  //   position_precedente->y = event->param->mouse.where.y;
-  // }
+<<<<<<< HEAD
   // else {return EI_FALSE;}
   struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   int x1 = widget->placer_params->x_data;
@@ -445,6 +491,10 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     return EI_TRUE;
   }
   else {return EI_FALSE;}
+=======
+
+  return EI_FALSE;
+>>>>>>> ca28a58fc0d8cbd1061681c179bf479898f17539
 }
 
 
