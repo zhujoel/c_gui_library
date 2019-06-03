@@ -147,7 +147,7 @@ int			ei_copy_surface		(ei_surface_t		destination,
  * @return Retourne la liste de points définissant l'arc
  */
 ei_linked_point_t* arc (const ei_point_t centre,
-							double rayon,
+							float rayon,
 							int angle_debut,
 							int angle_fin);
 
@@ -155,15 +155,15 @@ ei_linked_point_t* arc (const ei_point_t centre,
  * Génère une liste de points définissant un cadre aux bords arrondis
  *
  * @param rectangle  Rectangle de départ
- * @param rayon Angle des bords
- * @param parties Bords du rectangle à arrondir, dans l'ordre : top, right, bottom, left
- * Si NULL, arrondit tous les bords
+ * @param rayon Rayon des arrondis
+ * @param parties Bords du rectangle à arrondir, dans l'ordre : top-left, top-right,
+ * bottom-right, bottom-left. Si NULL, arrondit tous les bords
  *
  * @return Retourne liste de points définissant un cadre aux bords arrondis
  */
-ei_point_t* rounded_frame (const ei_rect_t rectangle,
-											const ei_point_t rayon,
-											const ei_bool_t* bords);
+ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
+											float rayon,
+											ei_bool_t* bords);
 
 
 #endif
