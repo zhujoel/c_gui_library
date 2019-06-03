@@ -332,18 +332,18 @@ void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 }
 
 ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-  // struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
-  // if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
-  // {
-  //   *(widgetbutton->relief) = ei_relief_sunken;
-  //   return  EI_TRUE;
-  // }
-  // else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
-  // {
-  //   *(widgetbutton->relief) = ei_relief_raised;
-  //   return  EI_TRUE;
-  // }
-  // else {return EI_FALSE;}
+  struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+  if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
+  {
+    *(widgetbutton->relief) = ei_relief_sunken;
+    return  EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
+  {
+    *(widgetbutton->relief) = ei_relief_raised;
+    return  EI_TRUE;
+  }
+  else {return EI_FALSE;}
 }
 
 ///////////////////////
@@ -455,8 +455,37 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
   //     return EI_TRUE;
   //   }
   // }
-
-  return EI_FALSE;
+  // else {return EI_FALSE;}
+  struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+  int x1 = widget->placer_params->x_data;
+  int x2 = x1 + widget->placer_params->w_data;
+  int y1 = widget->placer_params->y_data;
+  int y2 = y1 + *widgettoplevel->border_width; // border_width = taille de l'entête ??????
+  if (event->type == ei_ev_mouse_buttondown
+    && event->param.mouse.button_number == 1
+    && dedans(event->param.mouse.where,x1,x2,y1,y2))
+  {
+    ei_event_set_active_widget(widget);
+    position_precedente->x = event->param.mouse.where.x;
+    position_precedente->y = event->param.mouse.where.y;
+    return EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_buttonup && event->param.mouse.button_number == 1)
+  {
+    ei_event_set_active_widget(NULL);
+    return EI_TRUE;
+  }
+  else if (event->type == ei_ev_mouse_move && event->param.mouse.button_number == 1)
+  {
+    int deltax = event->param.mouse.where.x - position_precedente->x;
+    int deltay = event->param.mouse.where.y - position_precedente->y;
+    widget->placer_params->x_data += deltax;
+    widget->placer_params->y_data += deltay;
+    position_precedente->x = event->param.mouse.where.x;
+    position_precedente->y = event->param.mouse.where.y;
+    return EI_TRUE;
+  }
+  else {return EI_FALSE;}
 }
 
 

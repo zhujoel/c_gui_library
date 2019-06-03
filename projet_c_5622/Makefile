@@ -83,8 +83,8 @@ ${OBJDIR}/draw.o : ${SOURCE}/ei_draw.c
 
 # frame
 
-frame : ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o frame ${LDFLAGS} ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${LIBEI} ${LIBS}
+frame : ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o frame ${LDFLAGS} ${OBJDIR}/frame.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/frame.o : ${TESTS}/frame.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/frame.c -o ${OBJDIR}/frame.o
