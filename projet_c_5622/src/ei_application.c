@@ -1,4 +1,5 @@
 #include "../include/ei_application.h"
+#include "../include/ei_utils.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -6,6 +7,7 @@
 
 static ei_widget_t* root;
 static ei_surface_t main_window	= NULL;
+static ei_surface_t picking_surface = NULL;
 static ei_bool_t continuer = EI_TRUE;
 
 extern ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t* parent);
@@ -16,12 +18,13 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
 
   //Register widgets
   ei_frame_register_class();
-  //ei_button_register_class();
-  //ei_toplevel_register_class();
+  ei_button_register_class();
+  ei_toplevel_register_class();
   //...
 
   //Creates the root window
   main_window =	hw_create_window(main_window_size, fullscreen);
+  picking_surface = hw_surface_create(main_window, main_window_size, EI_TRUE);
 
   //Creates the root widget
   root = ei_widget_create_root("frame", NULL);
@@ -34,20 +37,24 @@ void ei_app_free(){
   hw_quit();
 }
 
-void parcours_profondeur(ei_widget_t* widget, ei_rect_t* clipper){
-  widget->wclass->drawfunc(widget, ei_app_root_surface(), ei_app_root_surface(), clipper);
+void parcours_profondeur(ei_widget_t* widget){
+  printf("PARCROUS PROFONDEUR ------\n");
+  printf("%i\n", widget->screen_location.top_left.x);
+  printf("%i\n", widget->screen_location.top_left.y);
+  printf("%i\n", widget->screen_location.size.width);
+  printf("%i\n", widget->screen_location.size.height);
+  widget->wclass->drawfunc(widget, ei_app_root_surface(), picking_surface, &widget->screen_location);//widget->content_rect);
   ei_widget_t* courant = widget->children_head;
   while (courant != NULL)
   {
-    parcours_profondeur(courant, clipper);
+    parcours_profondeur(courant);
     courant = courant->next_sibling;
   }
 }
 
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
-    ei_rect_t* clipper_ptr	= NULL;
-    parcours_profondeur(ei_app_root_widget(), clipper_ptr);
+    parcours_profondeur(ei_app_root_widget());
     /*struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
     parcours_profondeur(ei_app_root_widget(), clipper_ptr);
     while (continuer)

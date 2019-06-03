@@ -6,6 +6,13 @@
 #include <string.h>
 #include <stdio.h>
 
+static uint32_t picks_id = 0;
+
+ei_color_t convertIdToColor(uint32_t id){
+  ei_color_t pick_color = {id & 0x000000FF, (id & 0x0000FF00) >> 8, (id & 0x00FF0000) >> 16, (id & 0xFF000000) >> 24};
+  return pick_color;
+}
+
 //create a widget regardless of the parent, can be NULL (to create the root widget)
 ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t* parent){
     ei_widgetclass_t* widgetclass = ei_widgetclass_from_name(class_name);
@@ -19,7 +26,9 @@ ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t
     struct ei_widget_t* new_widget = widgetclass->allocfunc();
 
     new_widget->wclass = widgetclass;
-    new_widget->pick_id = 0;
+    new_widget->pick_id = picks_id++;
+    ei_color_t pick_color = convertIdToColor(new_widget->pick_id);
+    new_widget->pick_color = &pick_color;
     //Hierarchy
     new_widget->parent = parent;
     new_widget->children_head = NULL;
@@ -75,12 +84,15 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
   if(relief != NULL){
     widgetframe->relief = relief;
   }
-  if(text != NULL){
-    widgetframe->text = text;
-    //ei_placer_run(); //TODO
-  }
   if(text_font != NULL){
     widgetframe->text_font = text_font;
+  }
+  if(text != NULL){
+    widgetframe->text = text;
+    if(widget->placer_params != NULL){
+      printf("placer run\n");
+      ei_placer_run(widget);
+    }
   }
   if(text_color != NULL){
     widgetframe->text_color = text_color;
@@ -104,34 +116,41 @@ void ei_button_configure (ei_widget_t* widget, ei_size_t* requested_size, const 
   if(requested_size != NULL){
     widgetbutton->widget.requested_size = *requested_size;
   }
-  if(widgetbutton->relief != NULL){
+  if(color != NULL){
+    widgetbutton->color = color;
+  }
+  if(relief != NULL){
     widgetbutton->relief = relief;
   }
-  if(widgetbutton->text != NULL){
-    widgetbutton->text = text;
-  }
-  if(widgetbutton->text_font != NULL){
+  if(text_font != NULL){
     widgetbutton->text_font = text_font;
   }
-  if(widgetbutton->text_color != NULL){
+  if(text != NULL){
+    widgetbutton->text = text;
+    printf("%s\n", *text);
+    if(widget->placer_params != NULL){
+      ei_placer_run(widget);
+    }
+  }
+  if(text_color != NULL){
     widgetbutton->text_color = text_color;
   }
-  if(widgetbutton->text_anchor != NULL){
+  if(text_anchor != NULL){
     widgetbutton->text_anchor = text_anchor;
   }
-  if(widgetbutton->img != NULL){
+  if(img != NULL){
     widgetbutton->img = img;
   }
-  if(widgetbutton->img_rect != NULL){
+  if(img_rect != NULL){
     widgetbutton->img_rect = img_rect;
   }
-  if(widgetbutton->img_anchor != NULL){
+  if(img_anchor != NULL){
     widgetbutton->img_anchor = img_anchor;
   }
-  if(widgetbutton->callback != NULL){
+  if(callback != NULL){
     widgetbutton->callback = callback;
   }
-  if(widgetbutton->user_param != NULL){
+  if(user_param != NULL){
     widgetbutton->user_param = user_param;
   }
 }

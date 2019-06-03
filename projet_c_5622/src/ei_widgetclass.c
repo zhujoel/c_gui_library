@@ -165,10 +165,8 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
 
-    printf("TEST\n");
     ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
 
-    printf("TEST\n");
     if (widgetframe->img != NULL){
       printf("Draw frame IMAGE\n");
       //Draw the image frame
@@ -244,9 +242,12 @@ void button_releasefunc(struct ei_widget_t* widget){
 void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
   /* implémentation du dessin d’un widget de la classe "button" */
+
+//TODO : Regarder Content_rect
+
   if(widget->placer_params != NULL){
     printf("Widget BUTTON PLACE !\n");
-    struct ei_widget_frame_t* widgetbutton = (struct ei_widget_frame_t*)widget;
+    struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
 
     ei_placer_params_t* placer_params = widget->placer_params;
 
@@ -271,16 +272,21 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
 
-    //ei_draw_button(surface, pts, *widgetbutton->color, clipper);
+    printf("1\n");
+
+    //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
+    ei_draw_polygon (surface, pts, *widgetbutton->color, clipper);
+    ei_draw_polygon (pick_surface, pts, *widget->pick_color, clipper);
+
+    printf("1\n");
 
     if (widgetbutton->img != NULL){
-      printf("Draw frame IMAGE\n");
+      printf("Draw Button IMAGE\n");
       //Draw the image frame
       //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
     }else if (widgetbutton->text != NULL){
       // Draw the frame text
-      printf("Draw frame Text : %s\n", *widgetbutton->text);
-
+      printf("Draw Button Text : %p\n", widgetbutton->text);
       //Frame Clipper
       ei_point_t point = ei_point(x, y);
       ei_size_t size = ei_size(w, h);
@@ -299,6 +305,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 
     	ei_draw_text(surface, &text_point, *widgetbutton->text, widgetbutton->text_font, widgetbutton->text_color, &clipper);
     }
+
   }else{
     printf("Avoid printing Button widget\n");
   }

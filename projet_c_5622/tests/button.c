@@ -64,12 +64,16 @@ int ei_main(int argc, char** argv)
 	/* Create, configure and place the button on screen. */
 	button = ei_widget_create("button", ei_app_root_widget());
 	ei_button_configure	(button, &button_size, &button_color,
-				 &button_border_width, &button_corner_radius, &button_relief, &button_title, NULL, &button_text_color, NULL,
-				 NULL, NULL, NULL, &button_callback, NULL);
+	 			 &button_border_width, &button_corner_radius, &button_relief, &button_title, NULL, &button_text_color, NULL,
+	 			 NULL, NULL, NULL, &button_callback, NULL);
 	ei_place(button, NULL, &button_x, &button_y, NULL, NULL, NULL, NULL, NULL, NULL );
 
+	char*		button_title2		= "FROMAGE DE CHEVRE";
+	ei_button_configure	(button, NULL, NULL, NULL, NULL, NULL, &button_title2, NULL, NULL, NULL,
+	 			 NULL, NULL, NULL, NULL, NULL);
+
 	/* Hook the keypress callback to the event. */
-	ei_frame_configure(ei_app_root_widget(), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	//ei_frame_configure(ei_app_root_widget(), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	/* Run the application's main loop. */
 	ei_app_run();
