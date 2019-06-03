@@ -711,13 +711,16 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 	}
 
 	// rectangle de base sous forme de linked_point
-	ei_linked_point_t* rectangle_rounded = malloc(sizeof(ei_linked_point_t)*5);
+	ei_linked_point_t* rectangle_rounded = malloc(sizeof(ei_linked_point_t)*4);
 	// les points du rectangle dans l'ordre : topleft, topright, bottomleft, bottomright
 	rectangle_rounded[0].point.x = rectangle.top_left.x; rectangle_rounded[0].point.y = rectangle.top_left.y; rectangle_rounded[0].next = &rectangle_rounded[1];
 	rectangle_rounded[1].point.x = rectangle.top_left.x+rectangle.size.width; rectangle_rounded[1].point.y = rectangle.top_left.y; rectangle_rounded[1].next = &rectangle_rounded[2];
 	rectangle_rounded[2].point.x = rectangle.top_left.x+rectangle.size.width; rectangle_rounded[2].point.y = rectangle.top_left.y + rectangle.size.height; rectangle_rounded[2].next = &rectangle_rounded[3];
-	rectangle_rounded[3].point.x = rectangle.top_left.x; rectangle_rounded[3].point.y = rectangle.top_left.y + rectangle.size.height; rectangle_rounded[3].next = &rectangle_rounded[4];
-	rectangle_rounded[4].point.x = rectangle.top_left.x; rectangle_rounded[4].point.y = rectangle.top_left.y; rectangle_rounded[4].next = NULL;
+	rectangle_rounded[3].point.x = rectangle.top_left.x; rectangle_rounded[3].point.y = rectangle.top_left.y + rectangle.size.height; rectangle_rounded[3].next = NULL;
+
+	// dernier point du rectangle, pour ne pas boucler infiniment
+	ei_linked_point_t* last_point = malloc(sizeof(ei_linked_point_t));
+	last_point[0].point.x = rectangle_rounded[0].point.x; last_point[0].point.y = rectangle_rounded[0].point.y; last_point[0].next = NULL;
 
 	// on relie les points pour créer le rectangle avec les bords arrondis
 	// si on a souhaité arrondir les deux bords qui se suivent
@@ -757,33 +760,28 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 	// 	bord4[nbElemsArc].next = NULL;
 	// }
 	if (bord1 != NULL){
-		rectangle_rounded[0] = bord1[0];
-		if (bord2 != NULL){
-			bord1[nbElemsArc].next = &bord2[0];
-			if(bord3 != NULL){
-				bord2[nbElemsArc].next = &bord3[0];
-				if(bord4 != NULL){
-					bord3[nbElemsArc].next = &bord4[0];
-					ei_linked_point_t* last_point_linked = malloc(sizeof(ei_linked_point_t));
-					last_point_linked[0].point.x = bord1[0].point.x; last_point_linked[0].point.y = bord1[0].point.y; last_point_linked[0].next = NULL;
-					bord4[nbElemsArc].next = last_point_linked;
-				}
-			}
-		}
+		rectangle_rounded[0].point.x = bord1[0].point.x; rectangle_rounded[0].point.y = bord1[0].point.y;  rectangle_rounded[0].next = &bord1[0];
+		last_point[0].point.x = rectangle_rounded[0].point.x; last_point[0].point.y = rectangle_rounded[0].point.y; last_point[0].next = NULL;
+		bord1[nbElemsArc].next = &rectangle_rounded[1];
 	}
-	printf("%i %i \n", bord2[nbElemsArc].point.x, bord2[nbElemsArc].point.y);
-	printf("%i %i \n", bord2[nbElemsArc].next->point.x, bord2[nbElemsArc].next->point.y);
 
+	if (bord2 != NULL){
+		rectangle_rounded[1].point.x = bord2[0].point.x; rectangle_rounded[1].point.y = bord2[0].point.y; rectangle_rounded[1].next = &bord2[0];
+		bord2[nbElemsArc].next = &rectangle_rounded[2];
+	}
 
-	// ei_linked_point_t* point = &rectangle_rounded[0];
-	// int i = 0;
-	// while (point->next != NULL){
-	// 		printf("%i %i \n", point->point.x, point->point.y);
-	// 		printf("%i \n", i);
-	// 		i++;
-	// 		point = point->next;
-	// }
+	if(bord3 != NULL){
+		rectangle_rounded[2].point.x = bord3[0].point.x; rectangle_rounded[2].point.y = bord3[0].point.y; rectangle_rounded[2].next = &bord3[0];
+		bord3[nbElemsArc].next = &rectangle_rounded[3];
+	}
 
+	if(bord4 != NULL){
+		rectangle_rounded[3].point.x = bord4[0].point.x; rectangle_rounded[3].point.y = bord4[0].point.y; rectangle_rounded[3].next = &bord4[0];
+		bord4[nbElemsArc].next = last_point;
+	}
+	else{
+		rectangle_rounded[3].next = last_point;
+	}
 
 	return rectangle_rounded;
 }
