@@ -392,10 +392,6 @@ ei_bool_t dedans(ei_point_t point, int x1, int y1, int x2, int y2)
 }
 
 ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-<<<<<<< HEAD
-  //return EI_FALSE;
-=======
->>>>>>> ca28a58fc0d8cbd1061681c179bf479898f17539
   // struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   // int x1 = widget->placer_params->x_data;
   // int y1 = widget->placer_params->y_data;
@@ -459,7 +455,6 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
   //     return EI_TRUE;
   //   }
   // }
-<<<<<<< HEAD
   // else {return EI_FALSE;}
   struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   int x1 = widget->placer_params->x_data;
@@ -491,10 +486,6 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     return EI_TRUE;
   }
   else {return EI_FALSE;}
-=======
-
-  return EI_FALSE;
->>>>>>> ca28a58fc0d8cbd1061681c179bf479898f17539
 }
 
 
