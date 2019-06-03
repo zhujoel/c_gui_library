@@ -108,7 +108,6 @@ void			ei_fill			(ei_surface_t		surface,
 						 const ei_color_t*	color,
 						 const ei_rect_t*	clipper);
 
-
 /**
  * \brief	Copies a surface, or a subpart, to another one.
  *		The source and destination area of the copy (either the entire surfaces, or
@@ -164,6 +163,21 @@ ei_linked_point_t* arc (const ei_point_t centre,
 ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
 											float rayon,
 											ei_bool_t* bords);
+
+/**
+ * Dessine un bouton en relief
+ *
+ * @param surface Surface sur laquelle dessiner le bouton
+ * @param first_point Point par lequel commencer à dessiner le bouton
+ * @param coloor Couleur du bouton
+ * @param clipper Clipper du dessin
+ * @param rayon Rayon des arrondis du bouton
+ */
+void ei_draw_button (ei_surface_t surface,
+							 const ei_linked_point_t* first_point,
+							 const ei_color_t color,
+							 const ei_rect_t* clipper,
+						   float rayon);
 
 
 #endif

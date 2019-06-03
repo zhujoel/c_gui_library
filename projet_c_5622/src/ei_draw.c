@@ -785,3 +785,12 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 
 	return rectangle_rounded;
 }
+
+
+void ei_draw_button (ei_surface_t surface, const ei_linked_point_t* first_point, const ei_color_t color, const ei_rect_t* clipper, float rayon){
+	hw_surface_lock(surface);
+
+
+	hw_surface_unlock(surface);
+	hw_surface_update_rects(surface, NULL);
+}

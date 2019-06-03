@@ -351,6 +351,12 @@ void test_arc(ei_surface_t surface, ei_rect_t* clipper){
 	ei_draw_polyline(surface, points, color, clipper);
 }
 
+/* test rounded_frame
+ *
+ * vérifie que rounded_frame génère bien les points qui permettent de rounder les frames
+ * sur un rectangle
+ *
+ */
 void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
 	ei_point_t topleft = {100, 100};
 	ei_size_t size = {300, 300};
@@ -365,6 +371,26 @@ void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
 	ei_linked_point_t* rectangle_arrondis = rounded_frame(rectangle, rayon, bords);
 	ei_color_t color = {0xff, 0x65, 0x44, 0xff};
 	ei_draw_polygon(surface, rectangle_arrondis, color, clipper);
+}
+
+/**
+ * test ei_draw_button
+ *
+ * vérifie que la fonction dessine bien un bouton avec le relief et tout
+ */
+void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
+		ei_color_t		color		= { 255, 0, 255, 255 };
+		ei_linked_point_t	pts[4];
+		float rayon = 20;
+
+		pts[0].point.x = 100; pts[0].point.y = 100; pts[0].next = &pts[1];
+		pts[1].point.x = 100; pts[1].point.y = 500; pts[1].next = &pts[2];
+		pts[2].point.x = 300; pts[2].point.y = 500; pts[2].next = &pts[3];
+		pts[3].point.x = 300; pts[3].point.y = 100; pts[3].next = NULL;
+
+
+		ei_draw_button(surface, pts, color, clipper, rayon);
+
 }
 
 /*
