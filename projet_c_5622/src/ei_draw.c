@@ -17,6 +17,16 @@
 	#define PI 3.14159265
 #endif
 
+// nombre de points dans un arc
+#ifndef NB_ELEMS_ARC
+	#define NB_ELEMS_ARC 87
+#endif
+
+// nombre de points dans un semi-arc
+#ifndef NB_ELEMS_SEMI_ARC
+	#define NB_ELEMS_SEMI_ARC 42
+#endif
+
 
 /**
  * Prend une ei_color_t et renvoie sa représentation 32 bits
@@ -496,6 +506,7 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 	hw_surface_update_rects(surface, NULL);
 }
 
+
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
 	hw_surface_lock(destination);
 	// @ du pixel courant de la surface source/destination
@@ -631,20 +642,31 @@ ei_linked_point_t* arc(const ei_point_t centre, float rayon, int angle_debut, in
 	int nbElems = abs(angle_debut-angle_fin);
 	ei_linked_point_t* pts = malloc(sizeof(ei_linked_point_t)*nbElems+1);
 	int i = 0;
+	// calcule l'orientation de l'arc
+	int incrementi = angle_debut < angle_fin ? 1 : -1;
+	int index_current = 0;
 	// on dessine un point pour chaque angle
-	while(i < (nbElems-2)){
-			x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
-			y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
-			pts[i].point.x = x; pts[i].point.y = y; pts[i].next = &pts[i+1];
-			i++;
+	while(index_current < (nbElems-2)){
+		//printf("index current %i \n", index_current);
+		x = rayon * cos((angle_debut+i)*(PI/180)) + centre.x;
+		y = rayon * sin((angle_debut+i)*(PI/180)) + centre.y;
+		//printf("i %i \n", i);
+		//printf("angle %i \n", angle);
+		//printf("angle %i \n", angle+i);
+		pts[index_current].point.x = x; pts[index_current].point.y = y; pts[index_current].next = &pts[index_current+1];
+		i += incrementi;
+		index_current++;
 	}
+
 	// avant dernier point pointe vers dernier
-	pts[i-2].next = &pts[i-1];
+	pts[index_current-2].next = &pts[index_current-1];
 	// dernier point
 	x = rayon * cos((i+angle_debut)*(PI/180)) + centre.x;
 	y = rayon * sin((i+angle_debut)*(PI/180)) + centre.y;
-	pts[i-1].point.x = x; pts[i-1].point.y = y; pts[i-1].next = NULL;
+	pts[index_current-1].point.x = x; pts[index_current-1].point.y = y; pts[index_current-1].next = NULL;
+
 	return pts;
+
 }
 
 
@@ -658,9 +680,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 	ei_linked_point_t* bord2 = NULL;
 	ei_linked_point_t* bord3 = NULL;
 	ei_linked_point_t* bord4 = NULL;
-
-	// nombre d'de points dans un arc
-	int nbElemsArc = 87;
 
 	// si bords est nul, on arrondit tout les bords
 	if(bords == NULL){
@@ -678,8 +697,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		centre.x = rectangle.top_left.x + rayon;
 		centre.y = rectangle.top_left.y + rayon;
 		bord1 = arc(centre, rayon, angle_debut, angle_fin);
-		// printf("%i %i \n", bord1[0].point.x, bord1[0].point.y);
-		// printf("%i %i \n", bord1[nbElemsArc].point.x, bord1[nbElemsArc].point.y);
 
 	}
 	if(bords[1] == 1){
@@ -688,8 +705,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		centre.x = rectangle.top_left.x + rectangle.size.width - rayon;
 		centre.y = rectangle.top_left.y + rayon;
 		bord2 = arc(centre, rayon, angle_debut, angle_fin);
-		// printf("%i %i \n", bord2[0].point.x, bord2[0].point.y);
-		// printf("%i %i \n", bord2[nbElemsArc].point.x, bord2[nbElemsArc].point.y);
 	}
 	if(bords[2] == 1){
 		angle_debut = 0;
@@ -697,8 +712,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		centre.x = rectangle.top_left.x + rectangle.size.width - rayon;
 		centre.y = rectangle.top_left.y + rectangle.size.height - rayon;
 		bord3 = arc(centre, rayon, angle_debut, angle_fin);
-		// printf("%i %i \n", bord3[0].point.x, bord3[0].point.y);
-		// printf("%i %i \n", bord3[nbElemsArc].point.x, bord3[nbElemsArc].point.y);
 	}
 	if(bords[3] == 1){
 		angle_debut = 90;
@@ -706,8 +719,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		centre.x = rectangle.top_left.x + rayon;
 		centre.y = rectangle.top_left.y + rectangle.size.height - rayon;
 		bord4 = arc(centre, rayon, angle_debut, angle_fin);
-		// printf("%i %i \n", bord4[0].point.x, bord4[0].point.y);
-		// printf("%i %i \n", bord4[nbElemsArc].point.x, bord4[nbElemsArc].point.y);
 	}
 
 	// rectangle de base sous forme de linked_point
@@ -722,62 +733,25 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 	ei_linked_point_t* last_point = malloc(sizeof(ei_linked_point_t));
 	last_point[0].point.x = rectangle_rounded[0].point.x; last_point[0].point.y = rectangle_rounded[0].point.y; last_point[0].next = NULL;
 
-	// on relie les points pour créer le rectangle avec les bords arrondis
-	// si on a souhaité arrondir les deux bords qui se suivent
-	// if (bord1 != NULL && bord2 != NULL){
-	// 	// alors on relie les listes de points
-	// 	rectangle_rounded[0].point.x = bord1[0].point.x;
-	// 	rectangle_rounded[0].point.y = bord1[0].point.y;
-	// 	rectangle_rounded[0].next = &bord1[0];
-	// 	bord1[nbElemsArc].next = &bord2[0];
-	// 	printf("%i %i \n", bord1[nbElemsArc].next->point.x, bord1[nbElemsArc].next->point.y);
-	// }
-	// // sinon, on va relier avec le bord non arrondi
-	// else{
-	// 	rectangle_rounded[3].next = &rectangle_rounded[0];
-	// }
-	//
-	// if(bord2 != NULL && bord3 != NULL){
-	// 	bord2[nbElemsArc].next = &bord3[0];
-	// 	printf("%i %i \n", bord2[nbElemsArc].next->point.x, bord2[nbElemsArc].next->point.y);
-	// }
-	// else{
-	// 	bord2[nbElemsArc].next = NULL;
-	// }
-	//
-	// if(bord3 != NULL && bord4 != NULL){
-	// 	bord3[nbElemsArc].next = &bord4[0];
-	// 	printf("%i %i \n", bord3[nbElemsArc].next->point.x, bord3[nbElemsArc].next->point.y);
-	// }
-	// else{
-	// 	bord3[nbElemsArc].next = NULL;
-	// }
-	//
-	// if(bord4 != NULL && bord1 != NULL){
-	// 	bord4[nbElemsArc].next = NULL;
-	// }
-	// else{
-	// 	bord4[nbElemsArc].next = NULL;
-	// }
 	if (bord1 != NULL){
 		rectangle_rounded[0].point.x = bord1[0].point.x; rectangle_rounded[0].point.y = bord1[0].point.y;  rectangle_rounded[0].next = &bord1[0];
 		last_point[0].point.x = rectangle_rounded[0].point.x; last_point[0].point.y = rectangle_rounded[0].point.y; last_point[0].next = NULL;
-		bord1[nbElemsArc].next = &rectangle_rounded[1];
+		bord1[NB_ELEMS_ARC].next = &rectangle_rounded[1];
 	}
 
 	if (bord2 != NULL){
 		rectangle_rounded[1].point.x = bord2[0].point.x; rectangle_rounded[1].point.y = bord2[0].point.y; rectangle_rounded[1].next = &bord2[0];
-		bord2[nbElemsArc].next = &rectangle_rounded[2];
+		bord2[NB_ELEMS_ARC].next = &rectangle_rounded[2];
 	}
 
 	if(bord3 != NULL){
 		rectangle_rounded[2].point.x = bord3[0].point.x; rectangle_rounded[2].point.y = bord3[0].point.y; rectangle_rounded[2].next = &bord3[0];
-		bord3[nbElemsArc].next = &rectangle_rounded[3];
+		bord3[NB_ELEMS_ARC].next = &rectangle_rounded[3];
 	}
 
 	if(bord4 != NULL){
 		rectangle_rounded[3].point.x = bord4[0].point.x; rectangle_rounded[3].point.y = bord4[0].point.y; rectangle_rounded[3].next = &bord4[0];
-		bord4[nbElemsArc].next = last_point;
+		bord4[NB_ELEMS_ARC].next = last_point;
 	}
 	else{
 		rectangle_rounded[3].next = last_point;
@@ -787,9 +761,92 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 }
 
 
-void ei_draw_button (ei_surface_t surface, const ei_linked_point_t* first_point, const ei_color_t color, const ei_rect_t* clipper, float rayon){
+void ei_draw_button (ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon){
 	hw_surface_lock(surface);
+	// dessine le rectangle extérieur du bouton
+	ei_linked_point_t* rounded_rect = rounded_frame(rect, rayon, NULL);
+	ei_draw_polygon(surface, rounded_rect, color, clipper);
 
+	// dessine le relief
+	// moitié de la hauteur ou largeur du bouton (le plus petit des deux)
+	int size_middle = rect.size.height > rect.size.width ? (rect.size.width / 2) : (rect.size.height / 2);
+
+	// calcule des coordonnées du point de départ à l'angle arrondi bottomleft pour dessiner la moitié du relief
+	ei_point_t centre_bottomleft = { rect.top_left.x + rayon, (rect.top_left.y + rect.size.height) - rayon };
+	int	x_depart_bottomleft = rayon * cos(135*(PI/180)) + centre_bottomleft.x;
+	int	y_depart_bottomleft = rayon * sin(135*(PI/180)) + centre_bottomleft.y;
+
+	// calcule des coordonnées du point d'arrivée pour l'angle bottomleft
+	int x_arrivee_bottomleft = rect.top_left.x+size_middle;
+	int y_arrivee_bottomleft = (rect.top_left.y+rect.size.height)-size_middle;
+
+	// calcule des coordonnées du point de départ à l'angle arrondi topright
+	ei_point_t centre_topright = { rect.top_left.x + rect.size.width - rayon, rect.top_left.y + rayon };
+	int	x_depart_topright = rayon * cos(315*(PI/180)) + centre_topright.x;
+	int	y_depart_topright = rayon * sin(315*(PI/180)) + centre_topright.y;
+
+	// calcule des coordonnées du point d'arrivée pour l'angle topright
+	int x_arrivee_topright = (rect.top_left.x+rect.size.width)-size_middle;
+	int y_arrivee_topright = rect.top_left.y+size_middle;
+
+	// coordonnées des points pour la moitié du relief
+	ei_linked_point_t relief[4];
+	relief[0].point.x = x_depart_bottomleft; relief[0].point.y = y_depart_bottomleft; relief[0].next = &relief[1];
+	relief[1].point.x = x_arrivee_bottomleft; relief[1].point.y = y_arrivee_bottomleft; relief[1].next = &relief[2];
+	relief[2].point.x = x_arrivee_topright; relief[2].point.y = y_arrivee_topright; relief[2].next = &relief[3];
+	relief[3].point.x = x_depart_topright; relief[3].point.y = y_depart_topright; relief[3].next = NULL;
+
+	// dessine la moitié supérieure du relief
+	// calcule des coordonnées du centre du point topleft pour calculer l'arc
+	int x_centre_topleft = rect.top_left.x + rayon;
+	int y_centre_topleft = rect.top_left.y + rayon;
+	ei_point_t centre_topleft = {x_centre_topleft, y_centre_topleft};
+	// arc topleft
+	ei_linked_point_t* arc_topleft = arc(centre_topleft, rayon, 270, 180);
+
+	// semi-arc topright supérieur (pas besoin de calculer les coordonnées car on les a déjà)
+	ei_linked_point_t* semi_arc_topright_sup = arc(centre_topright, rayon, 315, 270);
+
+	// semi-arc bottomleft supérieur (pas besoin de calculer les coordonnées car on les a déjà)
+	ei_linked_point_t* semi_arc_bottomleft_sup = arc(centre_bottomleft, rayon, 180, 135);
+
+	// connecte les differents points pour dessiner le polygone de la moitié supérieure du relief
+	semi_arc_topright_sup[NB_ELEMS_SEMI_ARC].next = &arc_topleft[0];
+	arc_topleft[NB_ELEMS_ARC].next = &semi_arc_bottomleft_sup[0];
+	semi_arc_bottomleft_sup[NB_ELEMS_SEMI_ARC].next = &relief[0];
+
+	ei_color_t		color_topleft		= { color.red*0.5, color.green*0.5, color.blue*0.5, 0xff };
+	ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
+
+	// dessine la moitié inférieure du relief
+	// calcule coords bottomright
+	int x_centre_bottomright = rect.top_left.x + rect.size.width - rayon;
+	int y_centre_bottomright = rect.top_left.y + rect.size.height - rayon;
+	ei_point_t centre_bottomright = {x_centre_bottomright, y_centre_bottomright};
+
+	// arc bottomright
+	ei_linked_point_t* arc_bottomright = arc(centre_bottomright, rayon, 0, 90);
+
+	// semi-arc bottomleft inférieur
+	ei_linked_point_t* semi_arc_bottomleft_inf = arc(centre_bottomleft, rayon, 90, 135);
+
+	// semi-arc topright inférieur
+	ei_linked_point_t* semi_arc_topright_inf = arc(centre_topright, rayon, 315, 360);
+
+	// connecte les points de la partie inférieur du relief
+	semi_arc_topright_inf[NB_ELEMS_SEMI_ARC].next = &arc_bottomright[0];
+	arc_bottomright[NB_ELEMS_ARC].next = &semi_arc_bottomleft_inf[0];
+	semi_arc_bottomleft_inf[NB_ELEMS_SEMI_ARC].next = &relief[0];
+
+	ei_color_t		color_bottomright		= { color.red*1.5, color.green*1.5, color.blue*1.5, 0xff };
+	ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
+
+	// dessine le rectangle intérieur du bouton
+	ei_point_t rect_int_topleft = {rect.top_left.x * 1.1, rect.top_left.y * 1.1};
+	ei_size_t rect_int_size = {rect.size.width - 2*(rect_int_topleft.x-rect.top_left.x), rect.size.height - 2*(rect_int_topleft.y-rect.top_left.y)};
+	ei_rect_t rect_int = {rect_int_topleft, rect_int_size};
+	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);
+	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
 
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
