@@ -1,6 +1,7 @@
 #include "../include/ei_application.h"
 #include "../include/ei_utils.h"
-
+#include "../include/ei_event.h"
+#include "../include/ei_widget.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -37,6 +38,7 @@ void ei_app_free(){
   hw_quit();
 }
 
+<<<<<<< HEAD
 void parcours_profondeur(ei_widget_t* widget){
   printf("PARCOURS ------\n");
   // printf("%i\n", widget->screen_location.top_left.x);
@@ -53,10 +55,23 @@ void parcours_profondeur(ei_widget_t* widget){
   {
     parcours_profondeur(*courant);
     *courant = (*courant)->next_sibling;
+=======
+void parcours_profondeur_draw(ei_widget_t* widget){
+  if (widget != NULL)
+  {
+    widget->wclass->drawfunc(widget, ei_app_root_surface(), picking_surface, &widget->screen_location); //widget->content_rect);
+    ei_widget_t* courant = widget->children_head;
+    while (courant != NULL)
+    {
+      parcours_profondeur_draw(courant);
+      courant = courant->next_sibling;
+    }
+>>>>>>> 73b4b399fe49eb72d3f0a5b8307469b19b42470e
   }
   printf("FIN W DATA %i\n", widget->placer_params->w_data);
 }
 
+<<<<<<< HEAD
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
     printf("PARCROUS PROFONDEUR ------\n");
@@ -67,17 +82,82 @@ void ei_app_run(){
     /*struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
     parcours_profondeur(ei_app_root_widget(), clipper_ptr);
     while (continuer)
-    {
-      parcours_profondeur(ei_app_root_widget(), clipper_ptr);
-      hw_event_wait_next(event);
-      if ()
-      {
+=======
+ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
+{
+  int x = widget->placer_params->x_data;
+  int y = widget->placer_params->y_data;
+  int w = widget->placer_params->w_data;
+  int h = widget->placer_params->h_data;
+  return (x < point.x) && (x + w > point.x) && (y < point.y) && (y + h > point.y);
+}
 
+ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
+  if (dans_frame(point, widget))
+  {
+    if (widget->children_head == NULL){return widget;}
+    else
+>>>>>>> 73b4b399fe49eb72d3f0a5b8307469b19b42470e
+    {
+      ei_widget_t* courant = widget->children_head;
+      ei_widget_t* dernierwidget = NULL;
+      while (courant != NULL)
+      {
+        if (dans_frame(point, courant))
+        {
+          dernierwidget = courant;
+        }
+        courant = courant->next_sibling;
       }
-    }*/
+      if (dernierwidget == NULL){return widget;}
+      else {return parcours_profondeur_pick(widget, point);}
+    }
+  }
+  else{return widget;}
+}
+
+void ei_app_run(){
+  int compteur = 0;
+  ei_widget_t* actif;
+  parcours_profondeur_draw(ei_app_root_widget());
+  struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
+  while (continuer)
+  {
+    hw_event_wait_next(event);
+    actif = ei_event_get_active_widget();
+    if (actif != NULL)
+    {
+      actif->wclass->handlefunc(actif, event);
+    }
+    else
+    {
+      if ((event->type == ei_ev_mouse_buttondown)
+          || (event->type == ei_ev_mouse_buttonup)
+          || (event->type == ei_ev_mouse_move))
+      {
+        actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
+        actif->wclass->handlefunc(actif, event);
+      }
+      else
+      {
+        ei_default_handle_func_t f = ei_event_get_default_handle_func();
+        if (f != NULL)
+        {
+          f(event);
+        }
+      }
+    }
+    if (compteur > 500){
+      ei_app_quit_request();
+    }
+    else {printf("%i\n",compteur++);}
+  }
     //parcours_profondeur(ei_app_root_widget(), clipper_ptr);
+<<<<<<< HEAD
   /* Wait for a character on command line. */
 
+=======
+>>>>>>> 73b4b399fe49eb72d3f0a5b8307469b19b42470e
 }
 
 void ei_app_invalidate_rect(ei_rect_t* rect){
