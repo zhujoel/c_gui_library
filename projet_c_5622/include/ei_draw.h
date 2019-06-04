@@ -165,7 +165,7 @@ ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
 											ei_bool_t* bords);
 
 /**
- * Dessine un bouton en relief
+ * Dessine un bouton enfoncé en relief
  *
  * @param surface Surface sur laquelle dessiner le bouton
  * @param first_point Point par lequel commencer à dessiner le bouton
@@ -173,11 +173,20 @@ ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
  * @param clipper Clipper du dessin
  * @param rayon Rayon des arrondis du bouton
  */
-void ei_draw_button (ei_surface_t surface,
+void ei_draw_button_enfonced (ei_surface_t surface,
 							 const ei_rect_t rect,
 							 const ei_color_t color,
 							 const ei_rect_t* clipper,
 						   float rayon);
+
+void ei_draw_button_releved (ei_surface_t surface,
+							 const ei_rect_t rect,
+							 const ei_color_t color,
+							 const ei_rect_t* clipper,
+							 float rayon);
+
+
+
 
 
 #endif

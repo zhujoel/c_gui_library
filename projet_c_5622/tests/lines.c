@@ -374,19 +374,55 @@ void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
 }
 
 /**
- * test ei_draw_button
+ * test ei_draw_button enfonced et releved
  *
  * vérifie que la fonction dessine bien un bouton avec le relief et tout
  */
 void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
-		ei_color_t		color		= { 127, 127, 127, 255 };
+		ei_color_t		color		= { 0, 0, 255, 255 };
 		ei_point_t top_left = {100, 100};
-		ei_size_t size = {300, 200};
+		ei_size_t size = {100, 500};
 		ei_rect_t	rect = {top_left, size};
 		float rayon = 20;
 
-		ei_draw_button(surface, rect, color, clipper, rayon);
+		ei_draw_button_enfonced(surface, rect, color, clipper, rayon);
+		getchar();
+		ei_draw_button_releved(surface, rect, color, clipper, rayon);
+}
 
+void test_benis(ei_surface_t surface){
+
+		ei_color_t		color		= { 0, 0, 255, 255 };
+		ei_point_t top_left = {200, 100};
+		ei_size_t size = {100, 300};
+		ei_rect_t	rect = {top_left, size};
+		float rayon = 20;
+
+		ei_point_t rond1_point = {125, 50};
+		ei_linked_point_t* rond1 = arc(rond1_point, 30, 0, 360);
+		ei_point_t rond2_point = {325, 50};
+		ei_linked_point_t* rond2 = arc(rond2_point, 30, 0, 360);
+
+
+		ei_color_t		color2		= { 255, 127, 127, 255 };
+		ei_point_t top_left2 = {50, 300};
+		ei_size_t size2 = {50, 200};
+		ei_rect_t	rect2 = {top_left2, size2};
+
+		ei_point_t top_left3 = {50, 450};
+		ei_size_t size3 = {500, 100};
+		ei_rect_t	rect3 = {top_left3, size3};
+
+		ei_point_t top_left4 = {500, 300};
+		ei_size_t size4 = {50, 200};
+		ei_rect_t	rect4 = {top_left4, size4};
+
+		ei_draw_button_enfonced(surface, rect, color, NULL, rayon);
+		ei_draw_polygon(surface, rond1, color, NULL);
+		ei_draw_polygon(surface, rond2, color, NULL);
+		ei_draw_button_enfonced(surface, rect2, color2, NULL, rayon);
+		ei_draw_button_enfonced(surface, rect3, color2, NULL, rayon);
+		ei_draw_button_enfonced(surface, rect4, color2, NULL, rayon);
 }
 
 /*
@@ -427,7 +463,8 @@ int ei_main(int argc, char** argv)
 	//test_fill(main_window, NULL);
 	//test_arc (main_window, clipper_ptr);
 	//test_rounded_frame(main_window, clipper_ptr);
-	test_draw_button(main_window, clipper_ptr);
+	//test_draw_button(main_window, clipper_ptr);
+	test_benis(main_window);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);
