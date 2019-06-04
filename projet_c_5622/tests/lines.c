@@ -377,17 +377,13 @@ void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
  * vérifie que la fonction dessine bien un bouton avec le relief et tout
  */
 void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
-		ei_color_t		color		= { 255, 0, 255, 255 };
-		ei_linked_point_t	pts[4];
+		ei_color_t		color		= { 127, 127, 127, 255 };
+		ei_point_t top_left = {100, 100};
+		ei_size_t size = {300, 200};
+		ei_rect_t	rect = {top_left, size};
 		float rayon = 20;
 
-		pts[0].point.x = 100; pts[0].point.y = 100; pts[0].next = &pts[1];
-		pts[1].point.x = 100; pts[1].point.y = 500; pts[1].next = &pts[2];
-		pts[2].point.x = 300; pts[2].point.y = 500; pts[2].next = &pts[3];
-		pts[3].point.x = 300; pts[3].point.y = 100; pts[3].next = NULL;
-
-
-		ei_draw_button(surface, pts, color, clipper, rayon);
+		ei_draw_button(surface, rect, color, clipper, rayon);
 
 }
 
@@ -401,9 +397,17 @@ int ei_main(int argc, char** argv)
 	ei_size_t		win_size	= ei_size(800, 600);
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
+<<<<<<< HEAD
 	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
 
 	ei_rect_t* clipper_ptr		= &clipper;
+=======
+
+	ei_rect_t*		clipper_ptr	= NULL;
+	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
+
+	clipper_ptr		= &clipper;
+>>>>>>> 0985c599bfa5c98a5f799d5f10d02a5f4d4b1ce2
 
 	hw_init();
 
@@ -426,7 +430,8 @@ int ei_main(int argc, char** argv)
 	//test_pointe(main_window, clipper_ptr);
 	//test_fill(main_window, NULL);
 	//test_arc (main_window, clipper_ptr);
-	test_rounded_frame(main_window, clipper_ptr);
+	//test_rounded_frame(main_window, clipper_ptr);
+	test_draw_button(main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);

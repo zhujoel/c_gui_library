@@ -174,7 +174,7 @@ ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
  * @param rayon Rayon des arrondis du bouton
  */
 void ei_draw_button (ei_surface_t surface,
-							 const ei_linked_point_t* first_point,
+							 const ei_rect_t rect,
 							 const ei_color_t color,
 							 const ei_rect_t* clipper,
 						   float rayon);
