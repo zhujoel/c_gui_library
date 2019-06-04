@@ -345,12 +345,10 @@ void test_arc(ei_surface_t surface, ei_rect_t* clipper){
 	float rayon = 50;
 	int angle_debut = 90;
 	int angle_fin = 180;
-
 	ei_linked_point_t* points = arc(centre, rayon, angle_debut, angle_fin);
 	ei_color_t color = {0xff, 0x65, 0x44, 0xff};
 	ei_draw_polyline(surface, points, color, clipper);
 }
-
 /* test rounded_frame
  *
  * vérifie que rounded_frame génère bien les points qui permettent de rounder les frames
@@ -403,15 +401,9 @@ int ei_main(int argc, char** argv)
 	ei_size_t		win_size	= ei_size(800, 600);
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
-
-<<<<<<< HEAD
-	ei_rect_t*		clipper_ptr	= NULL;
-	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
-=======
 	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
 
->>>>>>> 8d9d8d22c99a941a60d88b523ac4f2028e01ccce
-	clipper_ptr		= &clipper;
+	ei_rect_t* clipper_ptr		= &clipper;
 
 	hw_init();
 

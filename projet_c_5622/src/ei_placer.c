@@ -40,8 +40,8 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
     screen_x = widget->parent->screen_location.top_left.x;
     screen_y = widget->parent->screen_location.top_left.y;
 
-    printf("screen_y : %i\n", ei_app_root_widget()->screen_location.size.width);
-    printf("screen_y : %i\n", ei_app_root_widget()->screen_location.size.height);
+    // printf("screen_y : %i\n", ei_app_root_widget()->screen_location.size.width);
+    // printf("screen_y : %i\n", ei_app_root_widget()->screen_location.size.height);
 
     screen_x += placer_params->x_data + (placer_params->rx_data * widget->parent->screen_location.size.width);
     screen_y += placer_params->y_data + (placer_params->ry_data * widget->parent->screen_location.size.height);
@@ -57,17 +57,17 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
     widget->content_rect = &screen_loc;
   }
 
-  printf("%i\n", widget->screen_location.top_left.x);
-  printf("%i\n", widget->screen_location.top_left.y);
-  printf("%i\n", widget->screen_location.size.width);
-  printf("%i\n", widget->screen_location.size.height);
+  // printf("%i\n", widget->screen_location.top_left.x);
+  // printf("%i\n", widget->screen_location.top_left.y);
+  // printf("%i\n", widget->screen_location.size.width);
+  // printf("%i\n", widget->screen_location.size.height);
 
-  printf("Content rect ---------\n");
+  // printf("Content rect ---------\n");
 
-  printf("%i\n", widget->content_rect->top_left.x);
-  printf("%i\n", widget->content_rect->top_left.y);
-  printf("%i\n", widget->content_rect->size.width);
-  printf("%i\n", widget->content_rect->size.height);
+  // printf("%i\n", widget->content_rect->top_left.x);
+  // printf("%i\n", widget->content_rect->top_left.y);
+  // printf("%i\n", widget->content_rect->size.width);
+  // printf("%i\n", widget->content_rect->size.height);
 
   ei_placer_run(widget);
 }
@@ -75,7 +75,7 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
 void ei_placer_run(struct ei_widget_t* widget){
   int w;
   int h;
-  printf("dezf\n");
+  // printf("dezf\n");
   if(strcmp(widget->wclass->name, "button")==0){
     struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
     if(widgetbutton->text != NULL){
@@ -84,7 +84,7 @@ void ei_placer_run(struct ei_widget_t* widget){
   }else if(strcmp(widget->wclass->name, "frame")==0){
     struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
     if(widgetframe->text != NULL){
-      printf("Text found  in placer run\n");
+      // printf("Text found  in placer run\n");
       hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w, &h);
     }
   }
@@ -94,7 +94,7 @@ void ei_placer_run(struct ei_widget_t* widget){
   int diff = w - (widget->placer_params->w_data + (widget->placer_params->w_data * root->screen_location.size.width));
 
   if(diff > 0){
-    printf("wow\n");
+    // printf("wow\n");
     widget->placer_params->w_data += diff;
   }
 

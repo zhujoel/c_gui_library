@@ -114,11 +114,14 @@ ${OBJDIR}/event.o : ${SOURCE}/ei_event.c
 
 # hello_world
 
-hello_world : ${OBJDIR}/hello_world.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o hello_world ${LDFLAGS} ${OBJDIR}/hello_world.o ${LIBEI} ${LIBS}
+hello_world : ${OBJDIR}/hello_world.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o hello_world ${LDFLAGS} ${OBJDIR}/hello_world.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/hello_world.o : ${TESTS}/hello_world.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/hello_world.c -o ${OBJDIR}/hello_world.o
+
+${OBJDIR}/event.o : ${SOURCE}/ei_event.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_event.c -o ${OBJDIR}/event.o
 
 # puzzle
 

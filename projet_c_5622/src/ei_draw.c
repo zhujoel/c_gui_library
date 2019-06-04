@@ -347,12 +347,15 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 	courant->point = first_point->point;
 	courant->next = first_point->next;
 	// Déclaration de TC et de TCA
-	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * hw_surface_get_size(surface).height);
+	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * surface_height);
+	for (int i=0; i<surface_height; i++)
+	{
+		TC[i] = NULL;
+	}
 	ei_cellule_t* TCA = malloc(sizeof(struct ei_cellule_t));
 	TCA = NULL;
 	// Pour savoir où commencer le remplissage
 	int ydepart = clipping_y2;
-
 	while (courant->next != NULL)				// Remplissage de TC
 	{
 			float x1 = courant->point.x;
@@ -376,7 +379,9 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 				}
 				else
 				{
-					derniere_cellule(TC[ymin])->suivant = nouveau;
+					ei_cellule_t *last = derniere_cellule(TC[ymin]);
+					last->suivant = nouveau;
+					// derniere_cellule(TC[ymin])->suivant = nouveau;
 				}
 			}
 			courant = courant->next;
@@ -419,6 +424,11 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 			ydepart++;
 			maj_TCA(&TCA);																									// maj de TCA
 	}
+	for (int i=0; i<surface_height; i++)
+	{
+		free(TC[i]);
+	}
+	free(TC);
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
 }

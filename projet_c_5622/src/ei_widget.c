@@ -8,9 +8,18 @@
 
 static uint32_t picks_id = 0;
 
-ei_color_t convertIdToColor(uint32_t id){
-  ei_color_t pick_color = {id & 0x000000FF, (id & 0x0000FF00) >> 8, (id & 0x00FF0000) >> 16, (id & 0xFF000000) >> 24};
+ei_color_t* convertIdToColor(uint32_t id){
+  ei_color_t* pick_color = malloc(sizeof(ei_color_t));
+  pick_color->red = id & 0x000000FF;
+  pick_color->green = (id & 0x0000FF00) >> 8;
+  pick_color->blue = (id & 0x00FF0000) >> 16;
+  pick_color->alpha = (id & 0xFF000000) >> 24;
   return pick_color;
+}
+
+uint32_t convertColorToId(ei_color_t*	pick_color){
+  uint32_t pick_id = (pick_color->red) + (pick_color->green << 8) + (pick_color->blue << 16) + (pick_color->alpha << 24);
+  return pick_id;
 }
 
 //create a widget regardless of the parent, can be NULL (to create the root widget)
@@ -21,14 +30,14 @@ ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t
       fprintf(stderr, "THIS CLASS NAME DOES NOT EXIST DUDE");
       return NULL;
     }
-    printf("Widget : %s\n", class_name);
+    // printf("Widget : %s\n", class_name);
 
     struct ei_widget_t* new_widget = widgetclass->allocfunc();
 
     new_widget->wclass = widgetclass;
     new_widget->pick_id = picks_id++;
-    ei_color_t pick_color = convertIdToColor(new_widget->pick_id);
-    new_widget->pick_color = &pick_color;
+    ei_color_t* pick_color = convertIdToColor(new_widget->pick_id);
+    new_widget->pick_color = pick_color;
     //Hierarchy
     new_widget->parent = parent;
     new_widget->children_head = NULL;
@@ -90,7 +99,7 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
   if(text != NULL){
     widgetframe->text = text;
     if(widget->placer_params != NULL){
-      printf("placer run\n");
+      // printf("placer run\n");
       ei_placer_run(widget);
     }
   }
@@ -127,7 +136,7 @@ void ei_button_configure (ei_widget_t* widget, ei_size_t* requested_size, const 
   }
   if(text != NULL){
     widgetbutton->text = text;
-    printf("%s\n", *text);
+    // printf("%s\n", *text);
     if(widget->placer_params != NULL){
       ei_placer_run(widget);
     }
