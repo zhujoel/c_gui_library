@@ -47,8 +47,8 @@ int ei_main(int argc, char** argv)
 	ei_widget_t*	button;
 	ei_size_t	button_size		= {300,200};
 	int		button_corner_radius	= 40;
-	int		button_x		= 150;
-	int		button_y		= 200;
+	int		button_x		= 600;
+	int		button_y		= 600;
 	ei_color_t	button_color		= {0x88, 0x88, 0x88, 0xff};
 	char*		button_title		= "Mon premier Bouton !";
 	ei_color_t	button_text_color	= {0x00, 0x00, 0x00, 0xff};
@@ -68,7 +68,7 @@ int ei_main(int argc, char** argv)
 	 			 NULL, NULL, NULL, &button_callback, NULL);
 	ei_place(button, NULL, &button_x, &button_y, NULL, NULL, NULL, NULL, NULL, NULL );
 
-	char*		button_title2		= "FROMAGE DE CHEVRE";
+	char*		button_title2		= "FROMAGE DE CHEVRE INCROYABLE Woooo";
 	ei_button_configure	(button, NULL, NULL, NULL, NULL, NULL, &button_title2, NULL, NULL, NULL,
 	 			 NULL, NULL, NULL, NULL, NULL);
 
@@ -77,6 +77,20 @@ int ei_main(int argc, char** argv)
 
 	/* Run the application's main loop. */
 	ei_app_run();
+
+	getchar();
+
+
+	printf("W DATA %i\n", button->placer_params->w_data);
+	button_x -= 300;
+	button_y -= 50;
+	ei_place(button, NULL, &button_x, &button_y, NULL, NULL, NULL, NULL, NULL, NULL );
+
+	ei_app_run();
+
+	getchar();
+
+
 
 	/* We just exited from the main loop. Terminate the application (cleanup). */
 	ei_app_free();
