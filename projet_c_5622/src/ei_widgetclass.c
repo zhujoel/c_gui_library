@@ -165,7 +165,11 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
 
-    ei_draw_polygon (surface, pts, *widgetframe->color, clipper);
+    printf("MICHEL !\n");
+
+    ei_draw_polygon (surface, pts, *widgetframe->color, NULL); //clipper);
+
+    printf("BOB !\n");
 
     if (widgetframe->img != NULL){
       printf("Draw frame IMAGE\n");
@@ -265,6 +269,12 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 
     apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
+    printf("PRINT LE BOUTON\n");
+    printf("%i\n", x);
+    printf("%i\n", y);
+    printf("%i\n", w);
+    printf("%i\n", h);
+
     ei_linked_point_t	pts[5];
     pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
     pts[1].point.x = x + w; pts[1].point.y = y; pts[1].next = &pts[2];
@@ -272,13 +282,9 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
 
-    printf("1\n");
-
     //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
-    ei_draw_polygon (surface, pts, *widgetbutton->color, clipper);
-    ei_draw_polygon (pick_surface, pts, *widget->pick_color, clipper);
-
-    printf("1\n");
+    ei_draw_polygon (surface, pts, *widgetbutton->color, NULL); //TODO Clipper du parent
+    ei_draw_polygon (pick_surface, pts, *widget->pick_color, NULL); //TODO Clipper du parent
 
     if (widgetbutton->img != NULL){
       printf("Draw Button IMAGE\n");
@@ -303,7 +309,20 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 
       ei_point_t text_point = ei_point(x_text, y_text);
 
-    	ei_draw_text(surface, &text_point, *widgetbutton->text, widgetbutton->text_font, widgetbutton->text_color, &clipper);
+    	ei_draw_text(surface, &text_point, *widgetbutton->text, widgetbutton->text_font, widgetbutton->text_color, &widget->screen_location);
+      printf("TEXT POS\n");
+      printf("%i\n", x_text);
+      printf("%i\n", y_text);
+      printf("%i\n", w_text);
+      printf("%i\n", h_text);
+
+      printf("SCREEN LOC PARENT\n");
+      printf("%i\n", widget->screen_location.top_left.x);
+      printf("%i\n", widget->screen_location.top_left.y);
+      printf("%i\n", widget->screen_location.size.width);
+      printf("%i\n", widget->screen_location.size.height);
+
+
     }
 
   }else{

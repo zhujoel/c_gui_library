@@ -38,23 +38,32 @@ void ei_app_free(){
 }
 
 void parcours_profondeur(ei_widget_t* widget){
-  printf("PARCROUS PROFONDEUR ------\n");
-  printf("%i\n", widget->screen_location.top_left.x);
-  printf("%i\n", widget->screen_location.top_left.y);
-  printf("%i\n", widget->screen_location.size.width);
-  printf("%i\n", widget->screen_location.size.height);
+  printf("PARCOURS ------\n");
+  // printf("%i\n", widget->screen_location.top_left.x);
+  // printf("%i\n", widget->screen_location.top_left.y);
+  // printf("%i\n", widget->screen_location.size.width);
+  // printf("%i\n", widget->screen_location.size.height);
+  printf("W DATA %i\n", widget->placer_params->w_data);
   widget->wclass->drawfunc(widget, ei_app_root_surface(), picking_surface, &widget->screen_location);//widget->content_rect);
-  ei_widget_t* courant = widget->children_head;
-  while (courant != NULL)
+
+  ei_widget_t** courant = malloc(sizeof(ei_widget_t));
+  *courant = widget->children_head;
+
+  while (*courant != NULL)
   {
-    parcours_profondeur(courant);
-    courant = courant->next_sibling;
+    parcours_profondeur(*courant);
+    *courant = (*courant)->next_sibling;
   }
+  printf("FIN W DATA %i\n", widget->placer_params->w_data);
 }
 
 void ei_app_run(){
     //TODO : Parcours de la hiérarchie de widget
+    printf("PARCROUS PROFONDEUR ------\n");
     parcours_profondeur(ei_app_root_widget());
+    hw_surface_update_rects(ei_app_root_surface(), NULL);
+
+    //parcours_profondeur(ei_app_root_widget());
     /*struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
     parcours_profondeur(ei_app_root_widget(), clipper_ptr);
     while (continuer)
@@ -68,7 +77,7 @@ void ei_app_run(){
     }*/
     //parcours_profondeur(ei_app_root_widget(), clipper_ptr);
   /* Wait for a character on command line. */
-	getchar();
+
 }
 
 void ei_app_invalidate_rect(ei_rect_t* rect){

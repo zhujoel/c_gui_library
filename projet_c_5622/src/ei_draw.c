@@ -209,7 +209,6 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 	}
 
 	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
 }
 
 typedef struct ei_cellule_t			// Définition du type cellule pour la fonction draw_polygon
@@ -341,18 +340,19 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 	int clipping_y1 = (clipper == NULL)?0:(clipper->top_left.y);
 	int clipping_x2 = (clipper == NULL)?surface_width:(clipping_x1+clipper->size.width);
 	int clipping_y2 = (clipper == NULL)?surface_height:(clipping_y1+clipper->size.height);
-
 	// Un point courant pour parcourir la liste de points
 	ei_linked_point_t *courant = malloc(sizeof(ei_linked_point_t));
 	courant->point = first_point->point;
 	courant->next = first_point->next;
 	// Déclaration de TC et de TCA
-	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * hw_surface_get_size(surface).height);
+	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * surface_height);
+	for (size_t i = 0; i < surface_height; i++) {
+		TC[i] = NULL;
+	}
 	ei_cellule_t* TCA = malloc(sizeof(struct ei_cellule_t));
 	TCA = NULL;
 	// Pour savoir où commencer le remplissage
 	int ydepart = clipping_y2;
-
 	while (courant->next != NULL)				// Remplissage de TC
 	{
 			float x1 = courant->point.x;
@@ -376,14 +376,14 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 				}
 				else
 				{
-					derniere_cellule(TC[ymin])->suivant = nouveau;
+					ei_cellule_t *last = derniere_cellule(TC[ymin]);
+					last->suivant = nouveau;
 				}
 			}
 			courant = courant->next;
 	}
 	while (((TC_non_vide(TC, hw_surface_get_size(surface).height) == 1) || (nbr_TCA(&TCA) != 0)) && (ydepart < clipping_y2)) // Algorithme de remplissage
 	{
-
 			if (derniere_cellule(TCA) == NULL)
 			{
 				TCA = TC[ydepart];
@@ -419,8 +419,11 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 			ydepart++;
 			maj_TCA(&TCA);																									// maj de TCA
 	}
+	for (size_t i = 0; i < surface_height; i++) {
+		free(TC[i]);
+	}
+	free(TC);
 	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
 }
 
 void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* text, const ei_font_t font, const ei_color_t*	color, const ei_rect_t*	clipper){
@@ -493,7 +496,6 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 	}
 
 	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
 }
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
@@ -617,8 +619,6 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 	}
 
 	hw_surface_unlock(destination);
-	hw_surface_update_rects(destination, NULL);
-
 	return 1;
 
 }
@@ -792,5 +792,4 @@ void ei_draw_button (ei_surface_t surface, const ei_linked_point_t* first_point,
 
 
 	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
 }
