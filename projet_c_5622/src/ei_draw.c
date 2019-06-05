@@ -468,18 +468,18 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 		free(TC[i]);
 	}
 	free(TC);
-	if (TCA != NULL)
-		{
-			courant2 = TCA;
-			while (courant2->suivant != NULL)
-			{
-				next = courant2->suivant;
-				free(courant2);
-				courant2 = next;
-			}
-			free(courant2);
-		}
-		free(TCA);
+	// if (TCA != NULL)
+	// 	{
+	// 		courant2 = TCA;
+	// 		while (courant2->suivant != NULL)
+	// 		{
+	// 			next = courant2->suivant;
+	// 			//free(courant2);
+	// 			courant2 = next;
+	// 		}
+	// 		//free(courant2);
+	// 	}
+	// 	//free(TCA);
 	hw_surface_unlock(surface);
 }
 
