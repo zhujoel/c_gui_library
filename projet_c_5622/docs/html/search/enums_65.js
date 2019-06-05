@@ -5,6 +5,7 @@ var searchData=
   ['ei_5fbool_5ft',['ei_bool_t',['../ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28',1,'ei_types.h']]],
   ['ei_5feventtype_5ft',['ei_eventtype_t',['../ei__event_8h.html#a132dde064150d861ad24e9d839cbe007',1,'ei_event.h']]],
   ['ei_5ffontstyle_5ft',['ei_fontstyle_t',['../ei__types_8h.html#a2438d9879374e1d4805231e9e407bbae',1,'ei_types.h']]],
+  ['ei_5finteraction_5ft',['ei_interaction_t',['../ei__widgetclass_8c.html#a0a8c78bdff8165f440932e659a4a7335',1,'ei_widgetclass.c']]],
   ['ei_5fmodifier_5fkey_5ft',['ei_modifier_key_t',['../ei__event_8h.html#a727655addb1c37c210f583964a1ac2b6',1,'ei_event.h']]],
   ['ei_5frelief_5ft',['ei_relief_t',['../ei__types_8h.html#aa79a32b1d8ece0e44cfa394e870b270b',1,'ei_types.h']]]
 ];

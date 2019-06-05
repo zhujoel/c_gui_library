@@ -4,7 +4,10 @@
 #include "../include/ei_widgets.h"
 #include "../include/ei_event.h"
 #include "../include/ei_utils.h"
+<<<<<<< HEAD
 #include "../include/ei_draw.h"
+=======
+>>>>>>> 9e6bcfcda1116a4c198c41718f4faae9a5bef08e
 #include "../include/GROSSEBIBLIOTHEQUE.h"
 //#include "../include/ei_placer.h"
 
@@ -161,22 +164,16 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
 
     apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
-    ei_linked_point_t	pts[5];
-    pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
-    pts[1].point.x = x + w; pts[1].point.y = y; pts[1].next = &pts[2];
-    pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
-    pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
-    pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
+    ei_rect_t rect = ei_rect(ei_point(x, y), ei_size(w, h));
 
-    printf("MICHEL !\n");
-
-    ei_draw_polygon (surface, pts, *widgetframe->color, NULL); //clipper);
-
+    printf("Michel !\n");
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, *widgetframe->color, NULL, 0, *widgetframe->relief, *widgetframe->border_width);
     printf("BOB !\n");
+
 
     if (widgetframe->img != NULL){
       // printf("Draw frame IMAGE\n");
-      //Draw the image frame
+      //Draw the image frame//ei_draw_polygon (surface, pts, *widgetframe->color, NULL); //clipper);
       //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
     }else if (widgetframe->text != NULL){
       // Draw the frame text
@@ -202,7 +199,29 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     }
 
 
-    // printf("TEST\n");
+
+    printf("OUI\n");
+    ei_widget_t* child = widget->children_head;
+    if (child != NULL)
+    {
+      printf("child != null\n");
+      if(widget->children_tail == child){
+          printf("TAIL = HEAD\n");
+      }
+
+      while(child != widget->children_tail)
+      {
+        printf("Widget while\n");
+        //child->wclass->drawfunc(widget, ei_app_root_surface(), pick_surface, NULL);//&widget->screen_location); //widget->content_rect);
+        if(child->next_sibling != NULL){
+          //child = child->next_sibling;
+        }
+      }
+      printf("FIN WHILE\n");
+      child->wclass->drawfunc(child, ei_app_root_surface(), pick_surface, NULL); //&widget->screen_location); //widget->content_rect);
+    //   printf("OUI\n");
+    }
+
   }else{
     // printf("Avoid printing frame widget\n");
   }
@@ -214,7 +233,8 @@ void frame_setdefaultsfunc(struct ei_widget_t* widget){
   ei_color_t default_color = ei_default_background_color;
   widgetframe->widget.requested_size = screen_size;
   widgetframe->color = &default_color;
-  widgetframe->border_width = 0;
+  int border_width = 0;
+  widgetframe->border_width = &border_width;
   ei_relief_t default_relief = ei_relief_none;
   widgetframe->relief = &default_relief;
   widgetframe->text = NULL;
@@ -277,23 +297,15 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     printf("%i\n", y);
     printf("%i\n", w);
     printf("%i\n", h);
+    printf("Border : %i\n", widgetbutton->border_width);
+    printf("Corner : %i\n", widgetbutton->corner_radius);
 
-    ei_linked_point_t	pts[5];
-    pts[0].point.x = x; pts[0].point.y = y; pts[0].next = &pts[1];
-    pts[1].point.x = x + w; pts[1].point.y = y; pts[1].next = &pts[2];
-    pts[2].point.x = x + w; pts[2].point.y = y + h; pts[2].next = &pts[3];
-    pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
-    pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
+    ei_rect_t rect = ei_rect(ei_point(x, y), ei_size(w, h));
 
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetbutton->color, NULL, widgetbutton->corner_radius, widgetbutton->relief, widgetbutton->border_width);
     //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
-    ei_draw_polygon (surface, pts, *widgetbutton->color, NULL); //TODO Clipper du parent
-    ei_draw_polygon (pick_surface, pts, *widget->pick_color, NULL); //TODO Clipper du parent
-    // printf("1\n");
-
-    //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
-    ei_draw_polygon (surface, pts, *widgetbutton->color, clipper);
-    ei_draw_polygon (pick_surface, pts, *widget->pick_color, clipper);
-
+    // ei_draw_polygon (surface, pts, *widgetbutton->color, NULL); //TODO Clipper du parent
+    // ei_draw_polygon (pick_surface, pts, *widget->pick_color, NULL); //TODO Clipper du parent
     // printf("1\n");
 
     if (widgetbutton->img != NULL){
@@ -309,17 +321,17 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
       ei_rect_t clipper = ei_rect(point, size);
 
       //Point
-      int x_text = x;
-      int y_text = y;
+      int x_text = x;// + *widgetbutton->border_width + (*widgetbutton->corner_radius /2);
+      int y_text = y;// + *widgetbutton->border_width + (*widgetbutton->corner_radius /2);
       int w_text;
       int h_text;
-      hw_text_compute_size (*widgetbutton->text, widgetbutton->text_font, &w_text, &h_text);
+      hw_text_compute_size (widgetbutton->text, widgetbutton->text_font, &w_text, &h_text);
 
-      apply_anchor_text(*widgetbutton->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
+      apply_anchor_text(widgetbutton->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
 
       ei_point_t text_point = ei_point(x_text, y_text);
 
-    	ei_draw_text(surface, &text_point, *widgetbutton->text, widgetbutton->text_font, widgetbutton->text_color, &widget->screen_location);
+    	ei_draw_text(surface, &text_point, widgetbutton->text, widgetbutton->text_font, &widgetbutton->text_color, &widget->screen_location);
       printf("TEXT POS\n");
       printf("%i\n", x_text);
       printf("%i\n", y_text);
@@ -336,31 +348,31 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     }
 
   }else{
-    // printf("Avoid printing Button widget\n");
+    printf("Avoid printing Button widget\n");
   }
 }
 
 void button_setdefaultsfunc(struct ei_widget_t*	widget){
   struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
   ei_size_t	screen_size = {0, 0};
-  ei_color_t default_color = ei_default_background_color;
   widgetbutton->widget.requested_size = screen_size;
-  widgetbutton->color = &default_color;
-  ei_relief_t default_relief = ei_relief_none;
-  widgetbutton->relief = &default_relief;
+  widgetbutton->color = ei_default_background_color;
+  widgetbutton->relief = ei_relief_none;
   widgetbutton->text = NULL;
   widgetbutton->text_font = ei_default_font;
-  widgetbutton->text_color = &default_color;
-  ei_anchor_t anchor_center = ei_anc_center;
-  widgetbutton->text_anchor = &anchor_center;
+  widgetbutton->text_color = ei_default_background_color;
+  widgetbutton->text_anchor = ei_anc_center;
   widgetbutton->img = NULL;
   widgetbutton->img_rect = NULL;
-  widgetbutton->img_anchor = &anchor_center;
+  widgetbutton->img_anchor = ei_anc_center;
 
-  int corner_radius = k_default_button_corner_radius;
-  int border_width = k_default_button_border_width;
-  widgetbutton->corner_radius = &corner_radius;
-  widgetbutton->border_width = &border_width;
+  // int corner_radius = 0;//k_default_button_corner_radius;
+  // int border_width = 0; //k_default_button_border_width;
+  widgetbutton->corner_radius = k_default_button_corner_radius;
+  widgetbutton->border_width = k_default_button_border_width;
+
+  printf("Border : %i\n", widgetbutton->border_width);
+  printf("Corner : %i\n", widgetbutton->corner_radius);
 }
 
 void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -368,15 +380,16 @@ void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 }
 
 ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
+  printf("button handle\n");
   struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
   if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
   {
-    *(widgetbutton->relief) = ei_relief_sunken;
+    widgetbutton->relief = ei_relief_sunken;
     return  EI_TRUE;
   }
   else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
   {
-    *(widgetbutton->relief) = ei_relief_raised;
+    widgetbutton->relief = ei_relief_raised;
     return  EI_TRUE;
   }
   else {return EI_FALSE;}

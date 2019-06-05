@@ -1,6 +1,7 @@
 var searchData=
 [
   ['ei_5fcallback_5ft',['ei_callback_t',['../ei__widget_8h.html#a52cc2158a16cbba536b8e25d2a5da712',1,'ei_widget.h']]],
+  ['ei_5fcellule_5ft',['ei_cellule_t',['../ei__draw_8c.html#a77bb5dec055b2ad902612a5a08ad5ce0',1,'ei_draw.c']]],
   ['ei_5fdefault_5fhandle_5ffunc_5ft',['ei_default_handle_func_t',['../ei__event_8h.html#a9712d2363bbee2d7c7db39ec4196f58c',1,'ei_event.h']]],
   ['ei_5fevent_5ft',['ei_event_t',['../ei__event_8h.html#a5fdf73bd9def856b6ea9edca6aa0423a',1,'ei_event.h']]],
   ['ei_5ffont_5ft',['ei_font_t',['../ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7',1,'ei_types.h']]],
@@ -9,7 +10,10 @@ var searchData=
   ['ei_5fmodifier_5fmask_5ft',['ei_modifier_mask_t',['../ei__event_8h.html#abcdd2ef0f39179463f17a06be9bdf949',1,'ei_event.h']]],
   ['ei_5fplacer_5fparams_5ft',['ei_placer_params_t',['../ei__placer_8h.html#a4ef387fc47e6241933297b44d1ffd3d2',1,'ei_placer.h']]],
   ['ei_5fsurface_5ft',['ei_surface_t',['../hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796',1,'hw_interface.h']]],
+  ['ei_5fwidget_5fbutton_5ft',['ei_widget_button_t',['../ei__widgets_8h.html#ad6cf87b4fc918516ff0a12449495325c',1,'ei_widgets.h']]],
+  ['ei_5fwidget_5fframe_5ft',['ei_widget_frame_t',['../ei__widgets_8h.html#aea2ec95d5085d863608506fbc450cf66',1,'ei_widgets.h']]],
   ['ei_5fwidget_5ft',['ei_widget_t',['../ei__widget_8h.html#acb2925384f7284afafe9de978a788ebb',1,'ei_widget.h']]],
+  ['ei_5fwidget_5ftoplevel_5ft',['ei_widget_toplevel_t',['../ei__widgets_8h.html#a53ca6f548ac950f5104969c72e4ce6b5',1,'ei_widgets.h']]],
   ['ei_5fwidgetclass_5fallocfunc_5ft',['ei_widgetclass_allocfunc_t',['../ei__widgetclass_8h.html#a4c7f455367004f9a620df19123cdaab8',1,'ei_widgetclass.h']]],
   ['ei_5fwidgetclass_5fdrawfunc_5ft',['ei_widgetclass_drawfunc_t',['../ei__widgetclass_8h.html#a72107c7b4e8a6d3f91d4a02e51cb3bd3',1,'ei_widgetclass.h']]],
   ['ei_5fwidgetclass_5fgeomnotifyfunc_5ft',['ei_widgetclass_geomnotifyfunc_t',['../ei__widgetclass_8h.html#a751dc2e4c264c3597fcc2d59878f6265',1,'ei_widgetclass.h']]],

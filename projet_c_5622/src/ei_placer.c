@@ -40,29 +40,32 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
 void ei_placer_run(struct ei_widget_t* widget){
   printf("PLACER RUN WIDGET ID : %i\n", widget->pick_id);
 
-  int w = 0;
-  int h = 0;
-  if(strcmp(widget->wclass->name, "button")==0){
-    struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
-    if(widgetbutton->text != NULL){
-      hw_text_compute_size (*widgetbutton->text, widgetbutton->text_font, &w, &h);
+  if(widget->pick_id != 0){
+    int w = 0;
+    int h = 0;
+    if(strcmp(widget->wclass->name, "button")==0){
+      struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+      if(widgetbutton->text != NULL){
+        hw_text_compute_size (widgetbutton->text, widgetbutton->text_font, &w, &h);
+      }
+    }else if(strcmp(widget->wclass->name, "frame")==0){
+      struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
+      if(widgetframe->text != NULL){
+        printf("Text found in placer run\n");
+        hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w, &h);
+      }
     }
-  }else if(strcmp(widget->wclass->name, "frame")==0){
-    struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
-    if(widgetframe->text != NULL){
-      printf("Text found in placer run\n");
-      hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w, &h);
+
+    ei_widget_t* root = ei_app_root_widget();
+
+    int diff = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
+
+    if(diff > 0){
+      printf("AUGMENTATION SYMBIOTE : %i\n", diff);
+      widget->placer_params->w_data += diff;
+      widget->screen_location.size.width += diff;
     }
-  }
 
-  ei_widget_t* root = ei_app_root_widget();
-
-  int diff = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
-
-  if(diff > 0){
-    printf("AUGMENTATION SYMBIOTE : %i\n", diff);
-    widget->placer_params->w_data += diff;
-    widget->screen_location.size.width += diff;
   }
 
   //Recalc the screen location of the widget

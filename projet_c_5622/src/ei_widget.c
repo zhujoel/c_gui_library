@@ -122,42 +122,49 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
 
 void ei_button_configure (ei_widget_t* widget, ei_size_t* requested_size, const ei_color_t*	color, int* border_width, int* corner_radius, ei_relief_t* relief, char** text, ei_font_t* text_font, ei_color_t* text_color, ei_anchor_t* text_anchor, ei_surface_t* img, ei_rect_t** img_rect, ei_anchor_t* img_anchor, ei_callback_t* callback, void** user_param){
   struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
-  if(requested_size != NULL){
-    widgetbutton->widget.requested_size = *requested_size;
+  // if(requested_size != NULL){
+  //   widgetbutton->widget.requested_size = *requested_size;
+  // }
+  // if(color != NULL){
+  //   widgetbutton->color = color;
+
+  // }
+  if(border_width != NULL){
+    widgetbutton->border_width = *border_width;
   }
-  if(color != NULL){
-    widgetbutton->color = color;
+  if(corner_radius != NULL){
+    widgetbutton->corner_radius = *corner_radius;
   }
   if(relief != NULL){
-    widgetbutton->relief = relief;
+    widgetbutton->relief = *relief;
   }
   if(text_font != NULL){
     widgetbutton->text_font = text_font;
   }
   if(text != NULL){
-    widgetbutton->text = text;
+    widgetbutton->text = *text;
     // printf("%s\n", *text);
     if(widget->placer_params != NULL){
       ei_placer_run(widget);
     }
   }
   if(text_color != NULL){
-    widgetbutton->text_color = text_color;
+    widgetbutton->text_color = *text_color;
   }
   if(text_anchor != NULL){
-    widgetbutton->text_anchor = text_anchor;
+    widgetbutton->text_anchor = *text_anchor;
   }
   if(img != NULL){
     widgetbutton->img = img;
   }
   if(img_rect != NULL){
-    widgetbutton->img_rect = img_rect;
+    widgetbutton->img_rect = *img_rect;
   }
   if(img_anchor != NULL){
-    widgetbutton->img_anchor = img_anchor;
+    widgetbutton->img_anchor = *img_anchor;
   }
   if(callback != NULL){
-    widgetbutton->callback = callback;
+    widgetbutton->callback = *callback;
   }
   if(user_param != NULL){
     widgetbutton->user_param = user_param;
