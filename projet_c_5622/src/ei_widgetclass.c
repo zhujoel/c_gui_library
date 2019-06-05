@@ -282,11 +282,9 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     pts[3].point.x = x; pts[3].point.y = y + h; pts[3].next = &pts[4];
     pts[4].point.x = x; pts[4].point.y = y; pts[4].next = NULL;
 
-<<<<<<< HEAD
     //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
     ei_draw_polygon (surface, pts, *widgetbutton->color, NULL); //TODO Clipper du parent
     ei_draw_polygon (pick_surface, pts, *widget->pick_color, NULL); //TODO Clipper du parent
-=======
     // printf("1\n");
 
     //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
@@ -294,7 +292,6 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     ei_draw_polygon (pick_surface, pts, *widget->pick_color, clipper);
 
     // printf("1\n");
->>>>>>> 73b4b399fe49eb72d3f0a5b8307469b19b42470e
 
     if (widgetbutton->img != NULL){
       // printf("Draw Button IMAGE\n");

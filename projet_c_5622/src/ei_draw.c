@@ -803,6 +803,7 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		rectangle_rounded[3].next = last_point;
 	}
 
+	free(bords);
 	return rectangle_rounded;
 }
 

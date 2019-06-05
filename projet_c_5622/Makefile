@@ -109,8 +109,6 @@ button : ${OBJDIR}/button.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widge
 ${OBJDIR}/button.o : ${TESTS}/button.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/button.c -o ${OBJDIR}/button.o
 
-${OBJDIR}/event.o : ${SOURCE}/ei_event.c
-	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_event.c -o ${OBJDIR}/event.o
 
 # hello_world
 
