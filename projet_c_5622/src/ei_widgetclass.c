@@ -4,6 +4,8 @@
 #include "../include/ei_widgets.h"
 #include "../include/ei_event.h"
 #include "../include/ei_utils.h"
+#include "../include/ei_draw.h"
+#include "../include/GROSSEBIBLIOTHEQUE.h"
 //#include "../include/ei_placer.h"
 
 #include <stdlib.h>
@@ -394,7 +396,64 @@ void toplevel_releasefunc(struct ei_widget_t* widget){
 void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
   /* implémentation du dessin d’un widget de la classe "toplevel" */
-
+  struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+  //Point
+  int x =  widget->placer_params->x_data;
+  int y =  widget->placer_params->y_data;
+  int w = widget->placer_params->w_data;
+  int h = widget->placer_params->h_data;
+  int x_text = 10;
+  int y_text = 0;
+  ei_point_t text_point = {x_text, y_text};
+  int* w_text = NULL;
+  int* h_text = NULL;
+  ei_fontstyle_t fontstyle = ei_style_normal;
+  ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 30);
+  hw_text_compute_size (*widgettoplevel->title, font, w_text, h_text);
+  //Dessin de l'entête
+  ei_rect_t rectangle = ei_rect(ei_point(x,y), ei_size(w, *h_text));
+  float rayon = 5;
+  ei_bool_t* bords = malloc(sizeof(ei_bool_t)*4);
+	bords[0] = 1;
+	bords[1] = 1;
+	bords[2] = 0;
+	bords[3] = 0;
+  ei_linked_point_t* entete = rounded_frame(rectangle, rayon, bords);
+  ei_color_t grey = {0x80, 0x80, 0x80, 0xff};
+  ei_draw_polygon(surface, entete, grey, clipper);
+  ei_draw_polygon(pick_surface, entete, *widget->pick_color, clipper);
+  //Dessin du bouton rouge
+  ei_color_t red = {0xed, 0x24, 0x09, 0xff};
+  ei_linked_point_t* bouton_rouge = arc(ei_point(x+5,y+5), rayon - 1, 0, 360);
+  ei_draw_polygon(surface, bouton_rouge, red, clipper);
+  //On écrit le titre dans la meilleur police possible
+  ei_color_t yellow = {0xf3, 0xf3, 0x0C, 0xff};
+  ei_draw_text(surface, &text_point, *widgettoplevel->title, font, &yellow, clipper);
+  //Dessin du reste
+  rectangle = ei_rect(ei_point(x,y + *h_text), ei_size(w, h - *h_text));
+  bords[0] = 0;
+	bords[1] = 0;
+	bords[2] = 1;
+	bords[3] = 1;
+  ei_linked_point_t* corps = rounded_frame(rectangle, rayon, bords);
+  ei_draw_polygon(surface, corps, *widgettoplevel->color, clipper);
+  //On dessine les enfants
+  ei_widget_t* courant = widget->children_head;
+  while (courant!=NULL)
+  {
+    courant->wclass->drawfunc(courant, surface, pick_surface, clipper);
+    courant = courant->next_sibling;
+  }
+  //Le petit carré pour resize
+  ei_linked_point_t	carre[5];
+  ei_color_t black = {0xff, 0xff, 0xff, 0xff};
+	carre[0].point.x = x+w-10; carre[0].point.y = y+h; carre[0].next = &carre[1];
+	carre[1].point.x = x+w-10; carre[1].point.y = y+h-10; carre[1].next = &carre[2];
+	carre[2].point.x = x+w; carre[2].point.y = y+h-10; carre[2].next = &carre[3];
+  carre[3].point.x = x+w; carre[3].point.y = y+h; carre[3].next = &carre[4];
+  carre[4].point.x = x+w-10; carre[4].point.y = y+h; carre[4].next = NULL;
+  ei_draw_polygon(surface, carre, *widgettoplevel->color, clipper);
+  ei_draw_polyline(surface, carre, black, clipper);
 }
 
 void toplevel_setdefaultsfunc(struct ei_widget_t*	widget){
@@ -455,7 +514,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         return EI_TRUE;
       }
       else if (*widgettoplevel->closable == EI_TRUE
-              && dedans(event->param.mouse.where,x2-10,y1,x2,y1+10))      // Pour fermer la fenetre
+              && dedans(event->param.mouse.where,x1,y1,x2,y2))      // Pour fermer la fenetre
       {
         ei_app_quit_request();
         return EI_TRUE;
