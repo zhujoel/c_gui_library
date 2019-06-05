@@ -63,7 +63,7 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional (ei_surface_t
 							 const ei_color_t color,
 							 const ei_rect_t* clipper,
 						   float rayon,
-						 	 int reliefType,
+						 	 ei_relief_t reliefType,
 						 	 int distanceRectangle);
 
 

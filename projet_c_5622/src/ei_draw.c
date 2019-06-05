@@ -805,7 +805,7 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 }
 
 
-void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon, int reliefType, int distanceRectangle){
+void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon, ei_relief_t reliefType, int distanceRectangle){
 	hw_surface_lock(surface);
 
 	// dessine le rectangle extérieur du bouton
@@ -884,10 +884,10 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	arc_bottomright[NB_ELEMS_ARC].next = &semi_arc_bottomleft_inf[0];
 	semi_arc_bottomleft_inf[NB_ELEMS_SEMI_ARC].next = &relief[0];
 
-	if(reliefType == 2){
+	if(reliefType == 0){
 
 	}
-	else if(reliefType == 0){
+	else if(reliefType == 1){
 		rect_red = color.red*LIGHTER_SHADE;
 		rect_blue = color.blue*LIGHTER_SHADE;
 		rect_green = color.green*LIGHTER_SHADE;
@@ -910,7 +910,7 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 		ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
 		ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 	}
-	else if(reliefType == 1){
+	else if(reliefType == 2){
 		rect_red = color.red*DARKER_SHADE;
 		rect_blue = color.blue*DARKER_SHADE;
 		rect_green = color.green*DARKER_SHADE;
