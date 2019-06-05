@@ -39,18 +39,18 @@ void ei_app_free(){
 }
 
 
-void parcours_profondeur_draw(ei_widget_t* widget){
-  if (widget != NULL)
-  {
-    widget->wclass->drawfunc(widget, ei_app_root_surface(), picking_surface, &widget->screen_location); //widget->content_rect);
-    ei_widget_t* courant = widget->children_head;
-    while (courant != NULL)
-    {
-      parcours_profondeur_draw(courant);
-      courant = courant->next_sibling;
-    }
-  }
-}
+// void parcours_profondeur_draw(ei_widget_t* widget){
+//   if (widget != NULL)
+//   {
+//     widget->wclass->drawfunc(widget, ei_app_root_surface(), picking_surface, &widget->screen_location); //widget->content_rect);
+//     ei_widget_t* courant = widget->children_head;
+//     while (courant != NULL)
+//     {
+//       parcours_profondeur_draw(courant);
+//       courant = courant->next_sibling;
+//     }
+//   }
+// }
 
 
 ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
@@ -80,7 +80,7 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
         courant = courant->next_sibling;
       }
       if (dernierwidget == NULL){return widget;}
-      else {return parcours_profondeur_pick(widget, point);}
+      else {return parcours_profondeur_pick(dernierwidget, point);}
     }
   }
   else{return widget;}
@@ -89,7 +89,8 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
 void ei_app_run(){
   int compteur = 0;
   ei_widget_t* actif;
-  parcours_profondeur_draw(ei_app_root_widget());
+  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
+  //ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
   hw_surface_update_rects(ei_app_root_surface(), NULL);
   struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
   while (continuer)
@@ -119,10 +120,7 @@ void ei_app_run(){
       }
     }
     hw_surface_update_rects(ei_app_root_surface(), NULL);
-    if (compteur > 500){
-      ei_app_quit_request();
-    }
-    else {printf("%i\n",compteur++);}
+    printf("%i\n",compteur++);
   }
   free(event);
 }

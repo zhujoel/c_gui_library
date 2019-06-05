@@ -277,7 +277,6 @@ int TC_non_vide(ei_cellule_t** TC, int taille)	// Renvoie 1 si TC n'est pas vide
 
 void supr_TCA(ei_cellule_t** TCA, int y)		// Supprime les cellules de TCA dont ymax est égal à y
 {
-	ei_cellule_t *temp;
 	ei_cellule_t *courant = *TCA;
 	if (courant != NULL)
 	{
@@ -285,9 +284,7 @@ void supr_TCA(ei_cellule_t** TCA, int y)		// Supprime les cellules de TCA dont y
 		{
 			if (courant->suivant->ymax == y)
 			{
-				temp = courant->suivant->suivant;
-				free(courant->suivant);
-				courant->suivant = temp;
+				courant->suivant = courant->suivant->suivant;
 			}
 			else
 			{
@@ -360,127 +357,135 @@ int nbr_TCA(ei_cellule_t** TCA)
 
 void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point, const ei_color_t color, const ei_rect_t* clipper)
 {
-	hw_surface_lock(surface);
-	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
-	// dimensions de la surface pour réaliser le clipping
-	int surface_width = hw_surface_get_size(surface).width;
-	int surface_height =  hw_surface_get_size(surface).height;
-	// coordonnes bottom_right et top_left du clipper
-	int clipping_x1 = (clipper == NULL)?0:(clipper->top_left.x);
-	int clipping_y1 = (clipper == NULL)?0:(clipper->top_left.y);
-	int clipping_x2 = (clipper == NULL)?surface_width:(clipping_x1+clipper->size.width);
-	int clipping_y2 = (clipper == NULL)?surface_height:(clipping_y1+clipper->size.height);
-	// Un point courant pour parcourir la liste de points
-	ei_linked_point_t *courant = malloc(sizeof(ei_linked_point_t));
-	courant->point = first_point->point;
-	courant->next = first_point->next;
-	// Déclaration de TC et de TCA
-	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * surface_height);
-	for (size_t i = 0; i < surface_height; i++) {
-		TC[i] = NULL;
-	}
-	ei_cellule_t* TCA = malloc(sizeof(struct ei_cellule_t));
-	TCA = NULL;
-	// Pour savoir où commencer le remplissage
-	int ydepart = clipping_y2;
-	while (courant->next != NULL)				// Remplissage de TC
-	{
-			float x1 = courant->point.x;
-			float y1 = courant->point.y;
-			float x2 = courant->next->point.x;
-			float y2 = courant->next->point.y;
-			if ((y2-y1)!=0)
-			{
-				float pente = (x2-x1)/(y2-y1);
-
-				uint32_t ymin = y1<y2?y1:y2;
-				ydepart = ymin<ydepart?ymin:ydepart;
-				ei_cellule_t* nouveau = malloc(sizeof(struct ei_cellule_t));
-				nouveau->ymax =  y1>y2?y1:y2;
-				nouveau->xymin = y1<y2?x1:x2;
-				nouveau->pente = pente;
-				nouveau->suivant = NULL;
-				if (TC[ymin] == NULL)
-				{
-					TC[ymin] = nouveau;
-				}
-				else
-				{
-					ei_cellule_t *last = derniere_cellule(TC[ymin]);
-					last->suivant = nouveau;
-					// derniere_cellule(TC[ymin])->suivant = nouveau;
-				}
-			}
-			courant = courant->next;
-	}
-	while (((TC_non_vide(TC, hw_surface_get_size(surface).height) == 1) || (nbr_TCA(&TCA) != 0)) && (ydepart < clipping_y2)) // Algorithme de remplissage
-	{
-			if (derniere_cellule(TCA) == NULL)
-			{
-				TCA = TC[ydepart];
-			}
-			else { derniere_cellule(TCA)->suivant = TC[ydepart];}
-			TC[ydepart] = NULL;
-			supr_TCA(&TCA, ydepart);																			// supression
-			tri_TCA(&TCA);																								// tri
-			if ((ydepart < clipping_y2) && (ydepart > clipping_y1) )			// Si y est dans le rectangle de clipping
-			{
-				ei_cellule_t *borne1 = TCA;																		// coloration
-				ei_cellule_t *borne2;
-				int currentx;
-				while (borne1 != NULL)
-				{
-					if (borne1->suivant != NULL)
-					{
-						borne2 = borne1->suivant;
-						currentx = (int) borne1->xymin;
-						currentx = currentx>clipping_x1?currentx:clipping_x1;
-						while ((currentx < (int) borne2->xymin) && currentx < clipping_x2)
-						{
-							pixel_ptr += currentx + ydepart*hw_surface_get_size(surface).width;
-							*pixel_ptr = ei_map_rgba(surface,&color);
-							pixel_ptr -= currentx + ydepart*hw_surface_get_size(surface).width;
-							currentx++;
-						}
-						borne1 = borne2->suivant;
-					}
-					else{borne1 = NULL;}
-				}
-			}
-			ydepart++;
-			maj_TCA(&TCA);																									// maj de TCA
-	}
-	// free(courant);
-	ei_cellule_t* courant2;
-	ei_cellule_t* next;
-	for (size_t i = 0; i < surface_height; i++) {
-		if (TC[i] != NULL)
-		{
-			courant2 = TC[i];
-			while (courant2->suivant != NULL)
-			{
-				next = courant2->suivant;
-				free(courant2);
-				courant2 = next;
-			}
-			free(courant2);
+	if(first_point != NULL && first_point->next != NULL){
+		hw_surface_lock(surface);
+		uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
+		// dimensions de la surface pour réaliser le clipping
+		int surface_width = hw_surface_get_size(surface).width;
+		int surface_height =  hw_surface_get_size(surface).height;
+		// coordonnes bottom_right et top_left du clipper
+		int clipping_x1 = (clipper == NULL)?0:(clipper->top_left.x);
+		int clipping_y1 = (clipper == NULL)?0:(clipper->top_left.y);
+		int clipping_x2 = (clipper == NULL)?surface_width:(clipping_x1+clipper->size.width);
+		int clipping_y2 = (clipper == NULL)?surface_height:(clipping_y1+clipper->size.height);
+		// Un point courant pour parcourir la liste de points
+		ei_linked_point_t *courant = malloc(sizeof(ei_linked_point_t));
+		courant->point = first_point->point;
+		courant->next = first_point->next;
+		// Déclaration de TC et de TCA
+		ei_cellule_t* TC[surface_height];
+		for (size_t i = 0; i < surface_height; i++) {
+			TC[i] = NULL;
 		}
-		free(TC[i]);
+		ei_cellule_t* TCA;
+		TCA = NULL;
+		// Pour savoir où commencer le remplissage
+		int ydepart = clipping_y2;
+		while (courant->next != NULL)				// Remplissage de TC
+		{
+				float x1 = courant->point.x;
+				float y1 = courant->point.y;
+				float x2 = courant->next->point.x;
+				float y2 = courant->next->point.y;
+
+				// printf("%f\n", y1);
+				// printf("%f\n", y2);
+
+				if ((y2-y1)!=0)
+				{
+					float pente = (x2-x1)/(y2-y1);
+
+					uint32_t ymin = y1<y2?y1:y2;
+					ydepart = ymin<ydepart?ymin:ydepart;
+					ei_cellule_t* nouveau = malloc(sizeof(ei_cellule_t));
+					nouveau->ymax = y1>y2?y1:y2;
+					nouveau->xymin = y1<y2?x1:x2;
+					nouveau->pente = pente;
+					nouveau->suivant = NULL;
+					if (TC[ymin] == NULL)
+					{
+						TC[ymin] = nouveau;
+					}
+					else
+					{
+						ei_cellule_t *last = derniere_cellule(TC[ymin]);
+						//printf("%p\n", last);
+						last->suivant = nouveau;
+						//printf("%p\n", nouveau);
+						// derniere_cellule(TC[ymin])->suivant = nouveau;
+					}
+				}
+				courant = courant->next;
+		}
+		while (((TC_non_vide(TC, hw_surface_get_size(surface).height) == 1) || (nbr_TCA(&TCA) != 0)) && (ydepart < clipping_y2)) // Algorithme de remplissage
+		{
+				if (derniere_cellule(TCA) == NULL)
+				{
+					TCA = TC[ydepart];
+				}
+				else { derniere_cellule(TCA)->suivant = TC[ydepart];}
+				TC[ydepart] = NULL;
+				supr_TCA(&TCA, ydepart);																			// supression
+				tri_TCA(&TCA);																								// tri
+				if ((ydepart < clipping_y2) && (ydepart > clipping_y1) )			// Si y est dans le rectangle de clipping
+				{
+					ei_cellule_t *borne1 = TCA;																		// coloration
+					ei_cellule_t *borne2;
+					int currentx;
+					while (borne1 != NULL)
+					{
+						if (borne1->suivant != NULL)
+						{
+							borne2 = borne1->suivant;
+							currentx = (int) borne1->xymin;
+							currentx = currentx>clipping_x1?currentx:clipping_x1;
+							while ((currentx < (int) borne2->xymin) && currentx < clipping_x2)
+							{
+								pixel_ptr += currentx + ydepart*hw_surface_get_size(surface).width;
+								*pixel_ptr = ei_map_rgba(surface,&color);
+								pixel_ptr -= currentx + ydepart*hw_surface_get_size(surface).width;
+								currentx++;
+							}
+							borne1 = borne2->suivant;
+						}
+						else{borne1 = NULL;}
+					}
+				}
+				ydepart++;
+				maj_TCA(&TCA);																									// maj de TCA
+		}
+		// free(courant);
+		// ei_cellule_t* courant2;
+		// ei_cellule_t* next;
+		// for (size_t i = 0; i < surface_height; i++) {
+		// 	if (TC[i] != NULL)
+		// 	{
+		// 		courant2 = TC[i];
+		// 		while (courant2->suivant != NULL)
+		// 		{
+		// 			next = courant2->suivant;
+		// 			free(courant2);
+		// 			courant2 = next;
+		// 		}
+		// 		free(courant2);
+		// 	}
+		// 	free(TC[i]);
+		// }
+		// free(TC);
+		// if (TCA != NULL)
+		// 	{
+		// 		courant2 = TCA;
+		// 		while (courant2->suivant != NULL)
+		// 		{
+		// 			next = courant2->suivant;
+		// 			//free(courant2);
+		// 			courant2 = next;
+		// 		}
+		// 		//free(courant2);
+		// 	}
+		// 	//free(TCA);
+		hw_surface_unlock(surface);
 	}
-	free(TC);
-	// if (TCA != NULL)
-	// 	{
-	// 		courant2 = TCA;
-	// 		while (courant2->suivant != NULL)
-	// 		{
-	// 			next = courant2->suivant;
-	// 			//free(courant2);
-	// 			courant2 = next;
-	// 		}
-	// 		//free(courant2);
-	// 	}
-	// 	//free(TCA);
-	hw_surface_unlock(surface);
 }
 
 void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* text, const ei_font_t font, const ei_color_t*	color, const ei_rect_t*	clipper){

@@ -2,7 +2,7 @@
  *  @file	widgetclass.h
  *  @brief	Definition and registration of widget classes.
  *
- *  \author 
+ *  \author
  *  Created by François Bérard on 02.12.11.
  *  Copyright 2011 Ensimag. All rights reserved.
  *
@@ -71,14 +71,14 @@ typedef void	(*ei_widgetclass_setdefaultsfunc_t)	(struct ei_widget_t*	widget);
  * @param	widget		The widget instance to notify of a geometry change.
  * @param	rect		The new rectangular screen location of the widget
  *				(i.e. = widget->screen_location).
- */
+ */ei_color_t default_color = ei_default_background_color;
 typedef void	(*ei_widgetclass_geomnotifyfunc_t)	(struct ei_widget_t*	widget,
 							 ei_rect_t		rect);
 
 struct ei_widget_t;
 
 /**
- * @brief	A function that is called in response to an event. This function 
+ * @brief	A function that is called in response to an event. This function
  *		is internal to the library. It implements the generic behavior of
  *		a widget (for example a button looks sunken when clicked)
  *
