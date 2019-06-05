@@ -1,3 +1,12 @@
+/**
+ *  @file	GROSSEBIBLIOTHEQUE.h
+ *  @brief	Fonctions implémentées à nous
+ *
+ *  \author
+ *  Created by JOEL ZHU, PAUL CHALAS, THOMAS ZHANG
+ *  Copyright 2040 Ensimag. All rights reserved.
+ *
+ */
 
 #ifndef GROSSEBIBLIOTHEQUE_H
 #define GROSSEBIBLIOTHEQUE_H
@@ -8,7 +17,7 @@
 
 
 /**
- * Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs
+ * \brief	Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs
  * d'une surface.
  *
  * @param surface Surface où récupérer l'ordre des couleurs
@@ -19,7 +28,7 @@
 ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color);
 
 /**
- * Génère une liste de points définissant un arc
+ * \brief	Génère une liste de points définissant un arc
  *
  * @param centre Centre de l'arc
  * @param rayon Rayon de l'arc
@@ -34,7 +43,7 @@ ei_linked_point_t* arc (const ei_point_t centre,
 							int angle_fin);
 
 /**
- * Génère une liste de points définissant un cadre aux bords arrondis
+ * \brief	Génère une liste de points définissant un cadre aux bords arrondis
  *
  * @param rectangle  Rectangle de départ
  * @param rayon Rayon des arrondis
@@ -48,7 +57,7 @@ ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
 											ei_bool_t* bords);
 
 /**
- * Dessine un bouton enfoncé en relief
+ * \brief	Dessine un bouton enfoncé en relief
  *
  * @param surface Surface sur laquelle dessiner le bouton
  * @param first_point Point par lequel commencer à dessiner le bouton
@@ -67,7 +76,7 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional (ei_surface_t
 						 	 int distanceRectangle);
 
 /**
- * Dessine une image
+ * \brief	Dessine une image
  *
  * @param filename Nom du fichier de l'image
  * @param surface Surface sur laquelle dessiner l'image

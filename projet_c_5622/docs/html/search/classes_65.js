@@ -1,6 +1,7 @@
 var searchData=
 [
   ['ei_5fapp_5fevent_5ft',['ei_app_event_t',['../structei__app__event__t.html',1,'']]],
+  ['ei_5fcellule_5ft',['ei_cellule_t',['../structei__cellule__t.html',1,'']]],
   ['ei_5fcolor_5ft',['ei_color_t',['../structei__color__t.html',1,'']]],
   ['ei_5fevent_5ft',['ei_event_t',['../structei__event__t.html',1,'']]],
   ['ei_5fkey_5fevent_5ft',['ei_key_event_t',['../structei__key__event__t.html',1,'']]],
@@ -11,6 +12,9 @@ var searchData=
   ['ei_5fpoint_5ft',['ei_point_t',['../structei__point__t.html',1,'']]],
   ['ei_5frect_5ft',['ei_rect_t',['../structei__rect__t.html',1,'']]],
   ['ei_5fsize_5ft',['ei_size_t',['../structei__size__t.html',1,'']]],
+  ['ei_5fwidget_5fbutton_5ft',['ei_widget_button_t',['../structei__widget__button__t.html',1,'']]],
+  ['ei_5fwidget_5fframe_5ft',['ei_widget_frame_t',['../structei__widget__frame__t.html',1,'']]],
   ['ei_5fwidget_5ft',['ei_widget_t',['../structei__widget__t.html',1,'']]],
+  ['ei_5fwidget_5ftoplevel_5ft',['ei_widget_toplevel_t',['../structei__widget__toplevel__t.html',1,'']]],
   ['ei_5fwidgetclass_5ft',['ei_widgetclass_t',['../structei__widgetclass__t.html',1,'']]]
 ];

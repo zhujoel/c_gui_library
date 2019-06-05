@@ -1,0 +1,113 @@
+\hypertarget{ei__event_8c}{\section{ei\-\_\-event.\-c File Reference}
+\label{ei__event_8c}\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}}
+}
+{\ttfamily \#include \char`\"{}../include/ei\-\_\-event.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ei__event_8c_ad088e15c54750f2f6e64439d8e40062f}{ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget} (\hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget)
+\item 
+\hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$ \hyperlink{ei__event_8c_ab6d3cea96f42ba1867d976c54fa9801f}{ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget} ()
+\item 
+void \hyperlink{ei__event_8c_ab6fbe051400528f4a8201550f2817403}{ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func} (\hyperlink{ei__event_8h_a9712d2363bbee2d7c7db39ec4196f58c}{ei\-\_\-default\-\_\-handle\-\_\-func\-\_\-t} func)
+\item 
+\hyperlink{ei__event_8h_a9712d2363bbee2d7c7db39ec4196f58c}{ei\-\_\-default\-\_\-handle\-\_\-func\-\_\-t} \hyperlink{ei__event_8c_a3e71d300e63dcbc36efe343c4e13fb10}{ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$ \hyperlink{ei__event_8c_a283f55c6500337a8997933017e7920ab}{actif} = N\-U\-L\-L
+\item 
+static \hyperlink{ei__event_8h_a9712d2363bbee2d7c7db39ec4196f58c}{ei\-\_\-default\-\_\-handle\-\_\-func\-\_\-t} $\ast$ \hyperlink{ei__event_8c_a6b7f31f4099598f287d9f07e8f15673f}{defaultfun} = N\-U\-L\-L
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{ei__event_8c_ab6d3cea96f42ba1867d976c54fa9801f}{\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}!ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget@{ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget}}
+\index{ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget@{ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget}!ei_event.c@{ei\-\_\-event.\-c}}
+\subsubsection[{ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-widget\-\_\-t}$\ast$ ei\-\_\-event\-\_\-get\-\_\-active\-\_\-widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ei__event_8c_ab6d3cea96f42ba1867d976c54fa9801f}
+Returns the widget currently being manipulated by the user.
+
+\begin{DoxyReturn}{Returns}
+The widget currenlty being manipulated, or N\-U\-L\-L. 
+\end{DoxyReturn}
+
+
+Definition at line 28 of file ei\-\_\-event.\-c.
+
+\hypertarget{ei__event_8c_a3e71d300e63dcbc36efe343c4e13fb10}{\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}!ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func@{ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func}}
+\index{ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func@{ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func}!ei_event.c@{ei\-\_\-event.\-c}}
+\subsubsection[{ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-default\-\_\-handle\-\_\-func\-\_\-t} ei\-\_\-event\-\_\-get\-\_\-default\-\_\-handle\-\_\-func (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ei__event_8c_a3e71d300e63dcbc36efe343c4e13fb10}
+Returns the function that must be called when an event has been received but no processed by any widget.
+
+\begin{DoxyReturn}{Returns}
+The address of the event handling function. 
+\end{DoxyReturn}
+
+
+Definition at line 51 of file ei\-\_\-event.\-c.
+
+\hypertarget{ei__event_8c_ad088e15c54750f2f6e64439d8e40062f}{\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}!ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget@{ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget}}
+\index{ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget@{ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget}!ei_event.c@{ei\-\_\-event.\-c}}
+\subsubsection[{ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}void ei\-\_\-event\-\_\-set\-\_\-active\-\_\-widget (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-widget\-\_\-t} $\ast$}]{widget}
+\end{DoxyParamCaption}
+)}}\label{ei__event_8c_ad088e15c54750f2f6e64439d8e40062f}
+Sets the widget which is currently being manipulated by the user.
+
+
+\begin{DoxyParams}{Parameters}
+{\em widget} & The widget to declare as active, or N\-U\-L\-L to declare that a widget is no more being manipulated. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 17 of file ei\-\_\-event.\-c.
+
+\hypertarget{ei__event_8c_ab6fbe051400528f4a8201550f2817403}{\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}!ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func@{ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func}}
+\index{ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func@{ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func}!ei_event.c@{ei\-\_\-event.\-c}}
+\subsubsection[{ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func}]{\setlength{\rightskip}{0pt plus 5cm}void ei\-\_\-event\-\_\-set\-\_\-default\-\_\-handle\-\_\-func (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-default\-\_\-handle\-\_\-func\-\_\-t}}]{func}
+\end{DoxyParamCaption}
+)}}\label{ei__event_8c_ab6fbe051400528f4a8201550f2817403}
+Sets the function that must be called when an event has been received but no processed by any widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em func} & The event handling function. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 39 of file ei\-\_\-event.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{ei__event_8c_a283f55c6500337a8997933017e7920ab}{\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}!actif@{actif}}
+\index{actif@{actif}!ei_event.c@{ei\-\_\-event.\-c}}
+\subsubsection[{actif}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-widget\-\_\-t}$\ast$ actif = N\-U\-L\-L\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__event_8c_a283f55c6500337a8997933017e7920ab}
+
+
+Definition at line 7 of file ei\-\_\-event.\-c.
+
+\hypertarget{ei__event_8c_a6b7f31f4099598f287d9f07e8f15673f}{\index{ei\-\_\-event.\-c@{ei\-\_\-event.\-c}!defaultfun@{defaultfun}}
+\index{defaultfun@{defaultfun}!ei_event.c@{ei\-\_\-event.\-c}}
+\subsubsection[{defaultfun}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-default\-\_\-handle\-\_\-func\-\_\-t}$\ast$ defaultfun = N\-U\-L\-L\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__event_8c_a6b7f31f4099598f287d9f07e8f15673f}
+
+
+Definition at line 8 of file ei\-\_\-event.\-c.
+

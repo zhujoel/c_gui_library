@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -83,16 +83,924 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ei_draw.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &quot;<a class="el" href="ei__draw_8h_source.html">../include/ei_draw.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">../include/GROSSEBIBLIOTHEQUE.h</a>&quot;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;math.h&gt;</code><br/>
+</div>
 <p><a href="ei__draw_8c_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:affe776513b24d84b39af8ab0930fef7f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#affe776513b24d84b39af8ab0930fef7f">max</a>(a, b)&#160;&#160;&#160;( ((a) &gt; (b)) ? (a) : (b) )</td></tr>
+<tr class="separator:affe776513b24d84b39af8ab0930fef7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6afabdc09a49a433ee19d8a9486056d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#ac6afabdc09a49a433ee19d8a9486056d">min</a>(a, b)&#160;&#160;&#160;( ((a) &lt; (b)) ? (a) : (b) )</td></tr>
+<tr class="separator:ac6afabdc09a49a433ee19d8a9486056d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a598a3330b3c21701223ee0ca14316eca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a598a3330b3c21701223ee0ca14316eca">PI</a>&#160;&#160;&#160;3.14159265</td></tr>
+<tr class="separator:a598a3330b3c21701223ee0ca14316eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3621555dfd1cf1619f9ce11990e5cb1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#ab3621555dfd1cf1619f9ce11990e5cb1">NB_ELEMS_ARC</a>&#160;&#160;&#160;87</td></tr>
+<tr class="separator:ab3621555dfd1cf1619f9ce11990e5cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a392c6b3f215f55ee982c612983851061"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a392c6b3f215f55ee982c612983851061">NB_ELEMS_SEMI_ARC</a>&#160;&#160;&#160;42</td></tr>
+<tr class="separator:a392c6b3f215f55ee982c612983851061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac2b85ccade577973a1e2f089fe5f3ca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#aac2b85ccade577973a1e2f089fe5f3ca">LIGHTER_SHADE</a>&#160;&#160;&#160;0.75</td></tr>
+<tr class="separator:aac2b85ccade577973a1e2f089fe5f3ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59edf6adb65a4fd4507c9022f34cb9da"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a59edf6adb65a4fd4507c9022f34cb9da">DARKER_SHADE</a>&#160;&#160;&#160;1.25</td></tr>
+<tr class="separator:a59edf6adb65a4fd4507c9022f34cb9da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a77bb5dec055b2ad902612a5a08ad5ce0"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structei__cellule__t.html">ei_cellule_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a77bb5dec055b2ad902612a5a08ad5ce0">ei_cellule_t</a></td></tr>
+<tr class="separator:a77bb5dec055b2ad902612a5a08ad5ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a045556ef7934c8fc9dc9eb5d8836f8f5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a045556ef7934c8fc9dc9eb5d8836f8f5">ei_map_rgba</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const <a class="el" href="structei__color__t.html">ei_color_t</a> *color)</td></tr>
+<tr class="memdesc:a045556ef7934c8fc9dc9eb5d8836f8f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the three red, green and blue component of a color in a 32 bits integer using the order of the channels of the surface. This integer can be stored directly in the pixels memory of the surface (ie. <a class="el" href="hw__interface_8h.html#a8942e332c58a06edd0e639e6743532d1">hw_surface_get_buffer</a>).  <a href="#a045556ef7934c8fc9dc9eb5d8836f8f5">More...</a><br/></td></tr>
+<tr class="separator:a045556ef7934c8fc9dc9eb5d8836f8f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf0d400d71f1e217ccb484d2a49617c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__color__t.html">ei_color_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#acf0d400d71f1e217ccb484d2a49617c3">ei_map_color</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const uint32_t *color)</td></tr>
+<tr class="memdesc:acf0d400d71f1e217ccb484d2a49617c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs d'une surface.  <a href="#acf0d400d71f1e217ccb484d2a49617c3">More...</a><br/></td></tr>
+<tr class="separator:acf0d400d71f1e217ccb484d2a49617c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae638a8e54c62dc95a11f8bde77dbb322"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#ae638a8e54c62dc95a11f8bde77dbb322">ei_draw_polyline</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const <a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a> *first_point, const <a class="el" href="structei__color__t.html">ei_color_t</a> color, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper)</td></tr>
+<tr class="memdesc:ae638a8e54c62dc95a11f8bde77dbb322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws a line made of many line segments.  <a href="#ae638a8e54c62dc95a11f8bde77dbb322">More...</a><br/></td></tr>
+<tr class="separator:ae638a8e54c62dc95a11f8bde77dbb322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a654cafcc0c9d357c5131ea573a682663"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a654cafcc0c9d357c5131ea573a682663">derniere_cellule</a> (<a class="el" href="structei__cellule__t.html">ei_cellule_t</a> *cellule)</td></tr>
+<tr class="separator:a654cafcc0c9d357c5131ea573a682663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b459d5227754fef44f48cb3797845ef"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a7b459d5227754fef44f48cb3797845ef">TC_non_vide</a> (<a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **TC, int taille)</td></tr>
+<tr class="separator:a7b459d5227754fef44f48cb3797845ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2db65e002bcbedca07ad12720cd83ea1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a2db65e002bcbedca07ad12720cd83ea1">supr_TCA</a> (<a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **TCA, int y)</td></tr>
+<tr class="separator:a2db65e002bcbedca07ad12720cd83ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeccb823d631c6fce498a006337611b84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#aeccb823d631c6fce498a006337611b84">tri_TCA</a> (<a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **TCA)</td></tr>
+<tr class="separator:aeccb823d631c6fce498a006337611b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d8390c28fecf32851e24919045e694"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a32d8390c28fecf32851e24919045e694">maj_TCA</a> (<a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **TCA)</td></tr>
+<tr class="separator:a32d8390c28fecf32851e24919045e694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4b00b0fc8ec45ec8154f8ff7f22c84a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#ac4b00b0fc8ec45ec8154f8ff7f22c84a">nbr_TCA</a> (<a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **TCA)</td></tr>
+<tr class="separator:ac4b00b0fc8ec45ec8154f8ff7f22c84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf316386776baf03f3cdd53719db3d3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#aaf316386776baf03f3cdd53719db3d3b">ei_draw_polygon</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const <a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a> *first_point, const <a class="el" href="structei__color__t.html">ei_color_t</a> color, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper)</td></tr>
+<tr class="memdesc:aaf316386776baf03f3cdd53719db3d3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws a filled polygon.  <a href="#aaf316386776baf03f3cdd53719db3d3b">More...</a><br/></td></tr>
+<tr class="separator:aaf316386776baf03f3cdd53719db3d3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeaa7e444fa2795fcdcc08bdc9c77f86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#abeaa7e444fa2795fcdcc08bdc9c77f86">ei_draw_text</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const <a class="el" href="structei__point__t.html">ei_point_t</a> *where, const char *text, const <a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a> font, const <a class="el" href="structei__color__t.html">ei_color_t</a> *color, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper)</td></tr>
+<tr class="memdesc:abeaa7e444fa2795fcdcc08bdc9c77f86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws text by calling <a class="el" href="hw__interface_8h.html#a806521541c5a5a80fbf43105270919e4">hw_text_create_surface</a>.  <a href="#abeaa7e444fa2795fcdcc08bdc9c77f86">More...</a><br/></td></tr>
+<tr class="separator:abeaa7e444fa2795fcdcc08bdc9c77f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8df4b1a25d4b7c46851a4e7a12a45b2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a8df4b1a25d4b7c46851a4e7a12a45b2e">ei_fill</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const <a class="el" href="structei__color__t.html">ei_color_t</a> *color, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper)</td></tr>
+<tr class="memdesc:a8df4b1a25d4b7c46851a4e7a12a45b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the surface with the specified color.  <a href="#a8df4b1a25d4b7c46851a4e7a12a45b2e">More...</a><br/></td></tr>
+<tr class="separator:a8df4b1a25d4b7c46851a4e7a12a45b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed79866305779883d82b5d9aab9a63db"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#aed79866305779883d82b5d9aab9a63db">ei_copy_surface</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> destination, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *dst_rect, const <a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> source, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *src_rect, const <a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a> alpha)</td></tr>
+<tr class="memdesc:aed79866305779883d82b5d9aab9a63db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a surface, or a subpart, to another one. The source and destination area of the copy (either the entire surfaces, or subparts) must have the same size (before clipping). Both the source and destination surfaces must be <em>locked</em> by <a class="el" href="hw__interface_8h.html#a1b9b22f29bb9de0b39ea904fd66251be">hw_surface_lock</a>.  <a href="#aed79866305779883d82b5d9aab9a63db">More...</a><br/></td></tr>
+<tr class="separator:aed79866305779883d82b5d9aab9a63db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76b1a8803bd5a2ce4dc8ef85950f7242"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a76b1a8803bd5a2ce4dc8ef85950f7242">arc</a> (const <a class="el" href="structei__point__t.html">ei_point_t</a> centre, float rayon, int angle_debut, int angle_fin)</td></tr>
+<tr class="memdesc:a76b1a8803bd5a2ce4dc8ef85950f7242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Génère une liste de points définissant un arc.  <a href="#a76b1a8803bd5a2ce4dc8ef85950f7242">More...</a><br/></td></tr>
+<tr class="separator:a76b1a8803bd5a2ce4dc8ef85950f7242"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25cdd5b73097114d6efbf660b5158818"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a25cdd5b73097114d6efbf660b5158818">rounded_frame</a> (const <a class="el" href="structei__rect__t.html">ei_rect_t</a> rectangle, float rayon, <a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a> *bords)</td></tr>
+<tr class="memdesc:a25cdd5b73097114d6efbf660b5158818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Génère une liste de points définissant un cadre aux bords arrondis.  <a href="#a25cdd5b73097114d6efbf660b5158818">More...</a><br/></td></tr>
+<tr class="separator:a25cdd5b73097114d6efbf660b5158818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d926277069452048dc6ff691abe2077"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a1d926277069452048dc6ff691abe2077">ei_draw_widget_with_relief_and_corner_radius_that_is_optional</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> rect, const <a class="el" href="structei__color__t.html">ei_color_t</a> color, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper, float rayon, <a class="el" href="ei__types_8h.html#aa79a32b1d8ece0e44cfa394e870b270b">ei_relief_t</a> reliefType, int distanceRectangle)</td></tr>
+<tr class="memdesc:a1d926277069452048dc6ff691abe2077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine un bouton enfoncé en relief.  <a href="#a1d926277069452048dc6ff691abe2077">More...</a><br/></td></tr>
+<tr class="separator:a1d926277069452048dc6ff691abe2077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6299220ab2b772500f439eef0ef8126f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__draw_8c.html#a6299220ab2b772500f439eef0ef8126f">ei_draw_image</a> (const char *filename, <a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, <a class="el" href="structei__point__t.html">ei_point_t</a> *where, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper)</td></tr>
+<tr class="memdesc:a6299220ab2b772500f439eef0ef8126f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine une image.  <a href="#a6299220ab2b772500f439eef0ef8126f">More...</a><br/></td></tr>
+<tr class="separator:a6299220ab2b772500f439eef0ef8126f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a59edf6adb65a4fd4507c9022f34cb9da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DARKER_SHADE&#160;&#160;&#160;1.25</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00036">36</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aac2b85ccade577973a1e2f089fe5f3ca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LIGHTER_SHADE&#160;&#160;&#160;0.75</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00032">32</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="affe776513b24d84b39af8ab0930fef7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define max</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">a, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;( ((a) &gt; (b)) ? (a) : (b) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00010">10</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac6afabdc09a49a433ee19d8a9486056d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define min</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">a, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;( ((a) &lt; (b)) ? (a) : (b) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00014">14</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab3621555dfd1cf1619f9ce11990e5cb1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NB_ELEMS_ARC&#160;&#160;&#160;87</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00023">23</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a392c6b3f215f55ee982c612983851061"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NB_ELEMS_SEMI_ARC&#160;&#160;&#160;42</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00028">28</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a598a3330b3c21701223ee0ca14316eca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PI&#160;&#160;&#160;3.14159265</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00018">18</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="a77bb5dec055b2ad902612a5a08ad5ce0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structei__cellule__t.html">ei_cellule_t</a>  <a class="el" href="structei__cellule__t.html">ei_cellule_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a76b1a8803bd5a2ce4dc8ef85950f7242"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a>* arc </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structei__point__t.html">ei_point_t</a>&#160;</td>
+          <td class="paramname"><em>centre</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rayon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>angle_debut</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>angle_fin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Génère une liste de points définissant un arc. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">centre</td><td>Centre de l'arc </td></tr>
+    <tr><td class="paramname">rayon</td><td>Rayon de l'arc </td></tr>
+    <tr><td class="paramname">angle_debut</td><td>Angle de début de l'arc </td></tr>
+    <tr><td class="paramname">angle_fin</td><td>Angle de fin de l'arc</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Retourne la liste de points définissant l'arc </dd></dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00702">702</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a654cafcc0c9d357c5131ea573a682663"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a>* derniere_cellule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> *&#160;</td>
+          <td class="paramname"><em>cellule</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00276">276</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aed79866305779883d82b5d9aab9a63db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ei_copy_surface </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>destination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>dst_rect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>src_rect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td>
+          <td class="paramname"><em>alpha</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies a surface, or a subpart, to another one. The source and destination area of the copy (either the entire surfaces, or subparts) must have the same size (before clipping). Both the source and destination surfaces must be <em>locked</em> by <a class="el" href="hw__interface_8h.html#a1b9b22f29bb9de0b39ea904fd66251be">hw_surface_lock</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">destination</td><td>The surface on which to copy pixels from the source surface. </td></tr>
+    <tr><td class="paramname">dst_rect</td><td>If NULL, the entire destination surface is used. If not NULL, defines the rectangle on the destination surface where to copy the pixels. </td></tr>
+    <tr><td class="paramname">source</td><td>The surface from which to copy pixels. </td></tr>
+    <tr><td class="paramname">src_rect</td><td>If NULL, the entire source surface is used. If not NULL, defines the rectangle on the source surface from which to copy the pixels. </td></tr>
+    <tr><td class="paramname">alpha</td><td>If true, the final pixels are a combination of source and destination pixels weighted by the source alpha channel. The transparency of the final pixels is set to opaque. If false, the final pixels are an exact copy of the source pixels, including the alpha channel.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns 0 on success, 1 on failure (different ROI size). </dd></dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00576">576</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6299220ab2b772500f439eef0ef8126f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ei_draw_image </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structei__point__t.html">ei_point_t</a> *&#160;</td>
+          <td class="paramname"><em>where</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>clipper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dessine une image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>Nom du fichier de l'image </td></tr>
+    <tr><td class="paramname">surface</td><td>Surface sur laquelle dessiner l'image </td></tr>
+    <tr><td class="paramname">where</td><td>Point top_left où dessiner l'image </td></tr>
+    <tr><td class="paramname">clipper</td><td>Clipper pour l'image </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00965">965</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaf316386776baf03f3cdd53719db3d3b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ei_draw_polygon </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a> *&#160;</td>
+          <td class="paramname"><em>first_point</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__color__t.html">ei_color_t</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>clipper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draws a filled polygon. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">surface</td><td>Where to draw the polygon. The surface must be <em>locked</em> by <a class="el" href="hw__interface_8h.html#a1b9b22f29bb9de0b39ea904fd66251be">hw_surface_lock</a>. </td></tr>
+    <tr><td class="paramname">first_point</td><td>The head of a linked list of the points of the line. It is either NULL (i.e. draws nothing), or has more than 2 points. </td></tr>
+    <tr><td class="paramname">color</td><td>The color used to draw the polygon, alpha channel is managed. </td></tr>
+    <tr><td class="paramname">clipper</td><td>If not NULL, the drawing is restricted within this rectangle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00385">385</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae638a8e54c62dc95a11f8bde77dbb322"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ei_draw_polyline </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a> *&#160;</td>
+          <td class="paramname"><em>first_point</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__color__t.html">ei_color_t</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>clipper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draws a line made of many line segments. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">surface</td><td>Where to draw the line. The surface must be <em>locked</em> by <a class="el" href="hw__interface_8h.html#a1b9b22f29bb9de0b39ea904fd66251be">hw_surface_lock</a>. </td></tr>
+    <tr><td class="paramname">first_point</td><td>The head of a linked list of the points of the line. It can be NULL (i.e. draws nothing), can have a single point, or more. If the last point is the same as the first point, then this pixel is drawn only once. </td></tr>
+    <tr><td class="paramname">color</td><td>The color used to draw the line, alpha channel is managed. </td></tr>
+    <tr><td class="paramname">clipper</td><td>If not NULL, the drawing is restricted within this rectangle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00084">84</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abeaa7e444fa2795fcdcc08bdc9c77f86"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ei_draw_text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__point__t.html">ei_point_t</a> *&#160;</td>
+          <td class="paramname"><em>where</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a>&#160;</td>
+          <td class="paramname"><em>font</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__color__t.html">ei_color_t</a> *&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>clipper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draws text by calling <a class="el" href="hw__interface_8h.html#a806521541c5a5a80fbf43105270919e4">hw_text_create_surface</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">surface</td><td>Where to draw the text. The surface must be <em>locked</em> by <a class="el" href="hw__interface_8h.html#a1b9b22f29bb9de0b39ea904fd66251be">hw_surface_lock</a>. </td></tr>
+    <tr><td class="paramname">where</td><td>Coordinates, in the surface, where to anchor the top-left corner of the rendered text. </td></tr>
+    <tr><td class="paramname">text</td><td>The string of the text. Can't be NULL. </td></tr>
+    <tr><td class="paramname">font</td><td>The font used to render the text. If NULL, the <a class="el" href="ei__types_8h.html#a722bfa1a8a9a4202fb2d4abce2f06a8c">ei_default_font</a> is used. </td></tr>
+    <tr><td class="paramname">color</td><td>The text color. Can't be NULL. The alpha parameter is not used. </td></tr>
+    <tr><td class="paramname">clipper</td><td>If not NULL, the drawing is restricted within this rectangle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00512">512</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1d926277069452048dc6ff691abe2077"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ei_draw_widget_with_relief_and_corner_radius_that_is_optional </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a>&#160;</td>
+          <td class="paramname"><em>rect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__color__t.html">ei_color_t</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>clipper</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rayon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ei__types_8h.html#aa79a32b1d8ece0e44cfa394e870b270b">ei_relief_t</a>&#160;</td>
+          <td class="paramname"><em>reliefType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>distanceRectangle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dessine un bouton enfoncé en relief. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">surface</td><td>Surface sur laquelle dessiner le bouton </td></tr>
+    <tr><td class="paramname">first_point</td><td>Point par lequel commencer à dessiner le bouton </td></tr>
+    <tr><td class="paramname">coloor</td><td>Couleur du bouton </td></tr>
+    <tr><td class="paramname">clipper</td><td>Clipper du dessin </td></tr>
+    <tr><td class="paramname">rayon</td><td>Rayon des arrondis du bouton </td></tr>
+    <tr><td class="paramname">reliefType</td><td>Type de relief, 0 enfonced, 1 releved, 2 aucun </td></tr>
+    <tr><td class="paramname">distanceRectangle</td><td>Distance entre les 2 rectangles (inner et outer) pour le relief </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00825">825</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8df4b1a25d4b7c46851a4e7a12a45b2e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ei_fill </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__color__t.html">ei_color_t</a> *&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *&#160;</td>
+          <td class="paramname"><em>clipper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fills the surface with the specified color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">surface</td><td>The surface to be filled. The surface must be <em>locked</em> by <a class="el" href="hw__interface_8h.html#a1b9b22f29bb9de0b39ea904fd66251be">hw_surface_lock</a>. </td></tr>
+    <tr><td class="paramname">color</td><td>The color used to fill the surface. If NULL, it means that the caller want it painted black (opaque). </td></tr>
+    <tr><td class="paramname">clipper</td><td>If not NULL, the drawing is restricted within this rectangle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00551">551</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acf0d400d71f1e217ccb484d2a49617c3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structei__color__t.html">ei_color_t</a> ei_map_color </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t *&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs d'une surface. </p>
+<p>Prend une couleur en représentation 32 bits et renvoie une <a class="el" href="structei__color__t.html" title="A color with transparency. ">ei_color_t</a> </p>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00066">66</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a045556ef7934c8fc9dc9eb5d8836f8f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t ei_map_rgba </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td>
+          <td class="paramname"><em>surface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structei__color__t.html">ei_color_t</a> *&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts the three red, green and blue component of a color in a 32 bits integer using the order of the channels of the surface. This integer can be stored directly in the pixels memory of the surface (ie. <a class="el" href="hw__interface_8h.html#a8942e332c58a06edd0e639e6743532d1">hw_surface_get_buffer</a>). </p>
+<p>Prend une <a class="el" href="structei__color__t.html" title="A color with transparency. ">ei_color_t</a> et renvoie sa représentation 32 bits </p>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00043">43</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a32d8390c28fecf32851e24919045e694"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void maj_TCA </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **&#160;</td>
+          <td class="paramname"><em>TCA</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00359">359</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac4b00b0fc8ec45ec8154f8ff7f22c84a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int nbr_TCA </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **&#160;</td>
+          <td class="paramname"><em>TCA</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00373">373</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a25cdd5b73097114d6efbf660b5158818"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structei__linked__point__t.html">ei_linked_point_t</a>* rounded_frame </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structei__rect__t.html">ei_rect_t</a>&#160;</td>
+          <td class="paramname"><em>rectangle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rayon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a> *&#160;</td>
+          <td class="paramname"><em>bords</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Génère une liste de points définissant un cadre aux bords arrondis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rectangle</td><td>Rectangle de départ </td></tr>
+    <tr><td class="paramname">rayon</td><td>Rayon des arrondis </td></tr>
+    <tr><td class="paramname">parties</td><td>Bords du rectangle à arrondir, dans l'ordre : top-left, top-right, bottom-right, bottom-left. Si NULL, arrondit tous les bords</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Retourne liste de points définissant un cadre aux bords arrondis </dd></dl>
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00733">733</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2db65e002bcbedca07ad12720cd83ea1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void supr_TCA </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **&#160;</td>
+          <td class="paramname"><em>TCA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00302">302</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b459d5227754fef44f48cb3797845ef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int TC_non_vide </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **&#160;</td>
+          <td class="paramname"><em>TC</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>taille</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00288">288</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeccb823d631c6fce498a006337611b84"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tri_TCA </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__cellule__t.html">ei_cellule_t</a> **&#160;</td>
+          <td class="paramname"><em>TCA</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00328">328</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 21 2019 14:32:20 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 5 2019 16:53:19 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
