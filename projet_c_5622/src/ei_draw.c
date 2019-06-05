@@ -1,4 +1,5 @@
 #include "../include/ei_draw.h"
+#include "../include/GROSSEBIBLIOTHEQUE.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -808,7 +809,7 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 }
 
 
-void ei_draw_button_enfonced (ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon){
+void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon, ei_bool_t isEnfonced){
 	hw_surface_lock(surface);
 	// dessine le rectangle extérieur du bouton
 	ei_linked_point_t* rounded_rect = rounded_frame(rect, rayon, NULL);
@@ -862,12 +863,9 @@ void ei_draw_button_enfonced (ei_surface_t surface, const ei_rect_t rect, const 
 	arc_topleft[NB_ELEMS_ARC].next = &semi_arc_bottomleft_sup[0];
 	semi_arc_bottomleft_sup[NB_ELEMS_SEMI_ARC].next = &relief[0];
 
-
-	int rect_red = color.red*LIGHTER_SHADE;
-	int rect_blue = color.blue*LIGHTER_SHADE;
-	int rect_green = color.green*LIGHTER_SHADE;
-	ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
-	ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
+	int rect_red;
+	int rect_blue;
+	int rect_green;
 
 	// dessine la moitié inférieure du relief
 	// calcule coords bottomright
@@ -889,21 +887,57 @@ void ei_draw_button_enfonced (ei_surface_t surface, const ei_rect_t rect, const 
 	arc_bottomright[NB_ELEMS_ARC].next = &semi_arc_bottomleft_inf[0];
 	semi_arc_bottomleft_inf[NB_ELEMS_SEMI_ARC].next = &relief[0];
 
-	rect_red = color.red*DARKER_SHADE;
-	rect_blue = color.blue*DARKER_SHADE;
-	rect_green = color.green*DARKER_SHADE;
+	if(isEnfonced == 1){
+		rect_red = color.red*LIGHTER_SHADE;
+		rect_blue = color.blue*LIGHTER_SHADE;
+		rect_green = color.green*LIGHTER_SHADE;
+		ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
+		ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
 
-	if(rect_red >= 255){
-		rect_red = 255;
+			rect_red = color.red*DARKER_SHADE;
+			rect_blue = color.blue*DARKER_SHADE;
+			rect_green = color.green*DARKER_SHADE;
+
+			if(rect_red >= 255){
+				rect_red = 255;
+			}
+			if(rect_green >= 255){
+				rect_green = 255;
+			}
+			if(rect_blue >= 255){
+				rect_blue = 255;
+			}
+			ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
+			ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 	}
-	if(rect_green >= 255){
-		rect_green = 255;
+	else{
+			rect_red = color.red*DARKER_SHADE;
+			rect_blue = color.blue*DARKER_SHADE;
+			rect_green = color.green*DARKER_SHADE;
+
+			if(rect_red >= 255){
+				rect_red = 255;
+			}
+			if(rect_green >= 255){
+				rect_green = 255;
+			}
+			if(rect_blue >= 255){
+				rect_blue = 255;
+			}
+
+			ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
+			ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
+
+
+				rect_red = color.red*LIGHTER_SHADE;
+				rect_blue = color.blue*LIGHTER_SHADE;
+				rect_green = color.green*LIGHTER_SHADE;
+
+				ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
+				ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
+
+
 	}
-	if(rect_blue >= 255){
-		rect_blue = 255;
-	}
-	ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
-	ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 
 	// dessine le rectangle intérieur du bouton
 	ei_point_t rect_int_topleft = {rect.top_left.x * 1.1, rect.top_left.y * 1.1};
@@ -914,113 +948,4 @@ void ei_draw_button_enfonced (ei_surface_t surface, const ei_rect_t rect, const 
 
 	hw_surface_unlock(surface);
 	hw_surface_update_rects(surface, NULL);
-}
-
-void ei_draw_button_releved (ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon){
-	hw_surface_lock(surface);
-	// dessine le rectangle extérieur du bouton
-	ei_linked_point_t* rounded_rect = rounded_frame(rect, rayon, NULL);
-	ei_draw_polygon(surface, rounded_rect, color, clipper);
-
-	// dessine le relief
-	// moitié de la hauteur ou largeur du bouton (le plus petit des deux)
-	int size_middle = rect.size.height > rect.size.width ? (rect.size.width / 2) : (rect.size.height / 2);
-
-	// calcule des coordonnées du point de départ à l'angle arrondi bottomleft pour dessiner la moitié du relief
-	ei_point_t centre_bottomleft = { rect.top_left.x + rayon, (rect.top_left.y + rect.size.height) - rayon };
-	int	x_depart_bottomleft = rayon * cos(135*(PI/180)) + centre_bottomleft.x;
-	int	y_depart_bottomleft = rayon * sin(135*(PI/180)) + centre_bottomleft.y;
-
-	// calcule des coordonnées du point d'arrivée pour l'angle bottomleft
-	int x_arrivee_bottomleft = rect.top_left.x+size_middle;
-	int y_arrivee_bottomleft = (rect.top_left.y+rect.size.height)-size_middle;
-
-	// calcule des coordonnées du point de départ à l'angle arrondi topright
-	ei_point_t centre_topright = { rect.top_left.x + rect.size.width - rayon, rect.top_left.y + rayon };
-	int	x_depart_topright = rayon * cos(315*(PI/180)) + centre_topright.x;
-	int	y_depart_topright = rayon * sin(315*(PI/180)) + centre_topright.y;
-
-	// calcule des coordonnées du point d'arrivée pour l'angle topright
-	int x_arrivee_topright = (rect.top_left.x+rect.size.width)-size_middle;
-	int y_arrivee_topright = rect.top_left.y+size_middle;
-
-	// coordonnées des points pour la moitié du relief
-	ei_linked_point_t relief[4];
-	relief[0].point.x = x_depart_bottomleft; relief[0].point.y = y_depart_bottomleft; relief[0].next = &relief[1];
-	relief[1].point.x = x_arrivee_bottomleft; relief[1].point.y = y_arrivee_bottomleft; relief[1].next = &relief[2];
-	relief[2].point.x = x_arrivee_topright; relief[2].point.y = y_arrivee_topright; relief[2].next = &relief[3];
-	relief[3].point.x = x_depart_topright; relief[3].point.y = y_depart_topright; relief[3].next = NULL;
-
-	// dessine la moitié supérieure du relief
-	// calcule des coordonnées du centre du point topleft pour calculer l'arc
-	int x_centre_topleft = rect.top_left.x + rayon;
-	int y_centre_topleft = rect.top_left.y + rayon;
-	ei_point_t centre_topleft = {x_centre_topleft, y_centre_topleft};
-	// arc topleft
-	ei_linked_point_t* arc_topleft = arc(centre_topleft, rayon, 270, 180);
-
-	// semi-arc topright supérieur (pas besoin de calculer les coordonnées car on les a déjà)
-	ei_linked_point_t* semi_arc_topright_sup = arc(centre_topright, rayon, 315, 270);
-
-	// semi-arc bottomleft supérieur (pas besoin de calculer les coordonnées car on les a déjà)
-	ei_linked_point_t* semi_arc_bottomleft_sup = arc(centre_bottomleft, rayon, 180, 135);
-
-	// connecte les differents points pour dessiner le polygone de la moitié supérieure du relief
-	semi_arc_topright_sup[NB_ELEMS_SEMI_ARC].next = &arc_topleft[0];
-	arc_topleft[NB_ELEMS_ARC].next = &semi_arc_bottomleft_sup[0];
-	semi_arc_bottomleft_sup[NB_ELEMS_SEMI_ARC].next = &relief[0];
-
-
-	int rect_red = color.red*DARKER_SHADE;
-	int rect_blue = color.blue*DARKER_SHADE;
-	int rect_green = color.green*DARKER_SHADE;
-
-	if(rect_red >= 255){
-		rect_red = 255;
-	}
-	if(rect_green >= 255){
-		rect_green = 255;
-	}
-	if(rect_blue >= 255){
-		rect_blue = 255;
-	}
-
-	ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
-	ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
-
-	// dessine la moitié inférieure du relief
-	// calcule coords bottomright
-	int x_centre_bottomright = rect.top_left.x + rect.size.width - rayon;
-	int y_centre_bottomright = rect.top_left.y + rect.size.height - rayon;
-	ei_point_t centre_bottomright = {x_centre_bottomright, y_centre_bottomright};
-
-	// arc bottomright
-	ei_linked_point_t* arc_bottomright = arc(centre_bottomright, rayon, 0, 90);
-
-	// semi-arc bottomleft inférieur
-	ei_linked_point_t* semi_arc_bottomleft_inf = arc(centre_bottomleft, rayon, 90, 135);
-
-	// semi-arc topright inférieur
-	ei_linked_point_t* semi_arc_topright_inf = arc(centre_topright, rayon, 315, 360);
-
-	// connecte les points de la partie inférieur du relief
-	semi_arc_topright_inf[NB_ELEMS_SEMI_ARC].next = &arc_bottomright[0];
-	arc_bottomright[NB_ELEMS_ARC].next = &semi_arc_bottomleft_inf[0];
-	semi_arc_bottomleft_inf[NB_ELEMS_SEMI_ARC].next = &relief[0];
-
-	rect_red = color.red*LIGHTER_SHADE;
-	rect_blue = color.blue*LIGHTER_SHADE;
-	rect_green = color.green*LIGHTER_SHADE;
-
-	ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
-	ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
-
-	// dessine le rectangle intérieur du bouton
-	ei_point_t rect_int_topleft = {rect.top_left.x * 1.1, rect.top_left.y * 1.1};
-	ei_size_t rect_int_size = {rect.size.width - 2*(rect_int_topleft.x-rect.top_left.x), rect.size.height - 2*(rect_int_topleft.y-rect.top_left.y)};
-	ei_rect_t rect_int = {rect_int_topleft, rect_int_size};
-	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);
-	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
-
-	hw_surface_unlock(surface);
 }

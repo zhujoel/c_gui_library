@@ -56,19 +56,12 @@ ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
  * @param clipper Clipper du dessin
  * @param rayon Rayon des arrondis du bouton
  */
-void ei_draw_button_enfonced (ei_surface_t surface,
+void ei_draw_widget_with_relief_and_corner_radius_that_is_optional (ei_surface_t surface,
 							 const ei_rect_t rect,
 							 const ei_color_t color,
 							 const ei_rect_t* clipper,
-						   float rayon);
-
-void ei_draw_button_releved (ei_surface_t surface,
-							 const ei_rect_t rect,
-							 const ei_color_t color,
-							 const ei_rect_t* clipper,
-							 float rayon);
-
-
+						   float rayon,
+						 	 ei_bool_t isEnfonced);
 
 
 

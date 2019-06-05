@@ -383,9 +383,9 @@ void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
 		ei_rect_t	rect = {top_left, size};
 		float rayon = 20;
 
-		ei_draw_button_enfonced(surface, rect, color, clipper, rayon);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, clipper, rayon, EI_TRUE);
 		getchar();
-		ei_draw_button_releved(surface, rect, color, clipper, rayon);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, clipper, rayon, EI_FALSE);
 }
 
 void test_benis(ei_surface_t surface){
@@ -415,12 +415,12 @@ void test_benis(ei_surface_t surface){
 		ei_size_t size4 = {50, 200};
 		ei_rect_t	rect4 = {top_left4, size4};
 
-		ei_draw_button_enfonced(surface, rect, color, NULL, rayon);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, NULL, rayon, EI_TRUE);
 		ei_draw_polygon(surface, rond1, color, NULL);
 		ei_draw_polygon(surface, rond2, color, NULL);
-		ei_draw_button_enfonced(surface, rect2, color2, NULL, rayon);
-		ei_draw_button_enfonced(surface, rect3, color2, NULL, rayon);
-		ei_draw_button_enfonced(surface, rect4, color2, NULL, rayon);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect2, color2, NULL, rayon, EI_TRUE);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect3, color2, NULL, rayon, EI_TRUE);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect4, color2, NULL, rayon, EI_TRUE);
 }
 
 /*
