@@ -124,7 +124,7 @@ void ei_app_run(){
     }
     else {printf("%i\n",compteur++);}
   }
-
+  free(event);
 }
 
 void ei_app_invalidate_rect(ei_rect_t* rect){

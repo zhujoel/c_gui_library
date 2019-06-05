@@ -54,6 +54,10 @@ uint32_t ei_map_rgba (ei_surface_t surface, const ei_color_t* color){
 	{
 		ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + (color->alpha << (*ia)*8);
 	}
+	free(ir);
+	free(ig);
+	free(ib);
+	free(ia);
 	return ret;
 }
 
@@ -67,6 +71,10 @@ ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color){
 		int* ia = malloc(sizeof(int));
 		hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
 		ei_color_t ret = {(*color >> (8*(*ir))) & 0xff, (*color >> (8*(*ig))) & 0xff, (*color >> (8*(*ib))) & 0xff, (*color >> (8*(*ia))) & 0xff};
+		free(ir);
+		free(ig);
+		free(ib);
+		free(ia);
 		return ret;
 }
 
@@ -268,6 +276,7 @@ int TC_non_vide(ei_cellule_t** TC, int taille)	// Renvoie 1 si TC n'est pas vide
 
 void supr_TCA(ei_cellule_t** TCA, int y)		// Supprime les cellules de TCA dont ymax est égal à y
 {
+	ei_cellule_t *temp;
 	ei_cellule_t *courant = *TCA;
 	if (courant != NULL)
 	{
@@ -275,7 +284,9 @@ void supr_TCA(ei_cellule_t** TCA, int y)		// Supprime les cellules de TCA dont y
 		{
 			if (courant->suivant->ymax == y)
 			{
-				courant->suivant = courant->suivant->suivant;
+				temp = courant->suivant->suivant;
+				free(courant->suivant);
+				courant->suivant = temp;
 			}
 			else
 			{
@@ -289,7 +300,7 @@ void supr_TCA(ei_cellule_t** TCA, int y)		// Supprime les cellules de TCA dont y
 	}
 }
 
-void tri_TCA(ei_cellule_t** TCA)			// Tri le tableau TCA pas xymin croissant
+void tri_TCA(ei_cellule_t** TCA)			// Tri le tableau TCA par xymin croissant
 {
 	if (*TCA != NULL)
 	{
@@ -438,10 +449,36 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 			ydepart++;
 			maj_TCA(&TCA);																									// maj de TCA
 	}
+	// free(courant);
+	ei_cellule_t* courant2;
+	ei_cellule_t* next;
 	for (size_t i = 0; i < surface_height; i++) {
+		if (TC[i] != NULL)
+		{
+			courant2 = TC[i];
+			while (courant2->suivant != NULL)
+			{
+				next = courant2->suivant;
+				free(courant2);
+				courant2 = next;
+			}
+			free(courant2);
+		}
 		free(TC[i]);
 	}
 	free(TC);
+	if (TCA != NULL)
+		{
+			courant2 = TCA;
+			while (courant2->suivant != NULL)
+			{
+				next = courant2->suivant;
+				free(courant2);
+				courant2 = next;
+			}
+			free(courant2);
+		}
+		free(TCA);
 	hw_surface_unlock(surface);
 }
 
