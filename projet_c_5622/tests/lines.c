@@ -377,7 +377,6 @@ void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
  * vérifie que la fonction dessine bien un bouton avec le relief et tout
  */
 void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
-	printf("test");
 		ei_color_t		color		= { 0, 255, 255, 50 };
 		ei_point_t top_left = {50, 50};
 		ei_size_t size = {200, 400};
@@ -424,6 +423,18 @@ void test_benis(ei_surface_t surface){
 		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect4, color2, NULL, rayon, 1, 10);
 }
 
+/**
+ * test draw_image
+ *
+ * dessine une image
+ */
+void test_draw_image(ei_surface_t surface, ei_rect_t* clipper){
+	char* image_filename	= "misc/klimt.jpg";
+
+	ei_point_t point = {50, 50};
+	ei_draw_image(image_filename, surface, &point, clipper);
+}
+
 /*
  * ei_main --
  *
@@ -431,11 +442,10 @@ void test_benis(ei_surface_t surface){
  */
 int ei_main(int argc, char** argv)
 {
-	printf("test");
 	ei_size_t		win_size	= ei_size(800, 600);
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
-	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(800, 600));
+	ei_rect_t		clipper		= ei_rect(ei_point(0, 0), ei_size(600, 200));
 	ei_rect_t* clipper_ptr		= &clipper;
 
 
@@ -461,8 +471,9 @@ int ei_main(int argc, char** argv)
 	//test_fill(main_window, NULL);
 	//test_arc (main_window, clipper_ptr);
 	//test_rounded_frame(main_window, clipper_ptr);
-	test_draw_button(main_window, clipper_ptr);
+	//test_draw_button(main_window, clipper_ptr);
 	//test_benis(main_window);
+	test_draw_image(main_window, clipper_ptr);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);

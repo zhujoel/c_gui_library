@@ -66,6 +66,18 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional (ei_surface_t
 						 	 ei_relief_t reliefType,
 						 	 int distanceRectangle);
 
+/**
+ * Dessine une image
+ *
+ * @param filename Nom du fichier de l'image
+ * @param surface Surface sur laquelle dessiner l'image
+ * @param where Point top_left où dessiner l'image
+ * @param clipper Clipper pour l'image
+ */
+void ei_draw_image(const char* filename,
+							ei_surface_t surface,
+							ei_point_t* where,
+							const ei_rect_t* clipper);
 
 
 #endif

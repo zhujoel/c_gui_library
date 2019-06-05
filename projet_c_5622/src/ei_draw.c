@@ -943,5 +943,45 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
 
 	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
+}
+
+void ei_draw_image(const char* filename, ei_surface_t surface, ei_point_t* where, const ei_rect_t* clipper){
+	hw_surface_lock(surface);
+
+	ei_surface_t image = hw_image_load(filename, surface);
+
+		// rectangle destination où afficher l'image
+	ei_rect_t image_rect = hw_surface_get_rect(image);
+	ei_point_t dst_point = {where->x, where->y};
+	ei_size_t dst_size = image_rect.size;
+	ei_rect_t dst_rect = {dst_point, dst_size};
+
+	// rectangle source où copier l'image
+	if (clipper != NULL){
+		// si il y a un clipper, on va copier qu'une partie de l'image :
+		// l'intersection entre le rectangle de destination et le clipper
+		int inter_topleftx = max(dst_rect.top_left.x, clipper->top_left.x);
+		int inter_toplefty = max(dst_rect.top_left.y, clipper->top_left.y);
+		int inter_bottomrightx = min(dst_rect.top_left.x + dst_rect.size.width, clipper->top_left.x + clipper->size.width );
+		int inter_bottomrighty = min(dst_rect.top_left.y + dst_rect.size.height, clipper->top_left.y + clipper->size.height );
+		int inter_width = inter_bottomrightx - inter_topleftx;
+		int inter_height = inter_bottomrighty - inter_toplefty;
+		ei_size_t intersection_size = {inter_width, inter_height};
+		ei_point_t intersection_point = {inter_topleftx, inter_toplefty};
+		ei_rect_t intersection = {intersection_point, intersection_size};
+
+		ei_point_t src_point = {intersection.top_left.x - dst_rect.top_left.x, intersection.top_left.y - dst_rect.top_left.y};
+		ei_size_t src_size = intersection_size;
+		ei_rect_t src_rect = {src_point, src_size};
+
+		dst_rect.top_left.x = inter_topleftx;
+		dst_rect.top_left.y = inter_toplefty;
+		ei_copy_surface(surface, &dst_rect, image, &src_rect, 1);
+	}
+	else{
+		ei_copy_surface(surface, &dst_rect, image, NULL, 1);
+	}
+
+	hw_surface_unlock(surface);
+	hw_surface_free(image);
 }
