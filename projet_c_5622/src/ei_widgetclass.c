@@ -456,6 +456,12 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         action = ei_redim;
         return EI_TRUE;
       }
+      else if (*widgettoplevel->closable == EI_TRUE
+              && dedans(event->param.mouse.where,x2-10,y1,x2,y1+10))      // Pour fermer la fenetre
+      {
+        ei_app_quit_request();
+        return EI_TRUE;
+      }
     }
   }
 
