@@ -728,7 +728,6 @@ ei_linked_point_t* arc(const ei_point_t centre, float rayon, int angle_debut, in
 	pts[index_current-1].point.x = x; pts[index_current-1].point.y = y; pts[index_current-1].next = NULL;
 
 	return pts;
-
 }
 
 
@@ -759,8 +758,8 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		centre.x = rectangle.top_left.x + rayon;
 		centre.y = rectangle.top_left.y + rayon;
 		bord1 = arc(centre, rayon, angle_debut, angle_fin);
-
 	}
+
 	if(bords[1] == 1){
 		angle_debut = 270;
 		angle_fin = 360;
@@ -819,7 +818,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		rectangle_rounded[3].next = last_point;
 	}
 
-	free(bords);
 	return rectangle_rounded;
 }
 
@@ -960,8 +958,15 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	ei_rect_t rect_int = {rect_int_topleft, rect_int_size};
 	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);
 	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
-
 	hw_surface_unlock(surface);
+	free(arc_topleft);
+	free(semi_arc_topright_sup);
+	free(semi_arc_bottomleft_sup);
+	free(arc_bottomright);
+	free(semi_arc_bottomleft_inf);
+	free(semi_arc_topright_inf);
+	free(rounded_rect_int);
+	free(rounded_rect);
 }
 
 void ei_draw_image(const char* filename, ei_surface_t surface, ei_point_t* where, const ei_rect_t* clipper){

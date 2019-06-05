@@ -22,13 +22,18 @@ void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
 	float rayon = 30;
 	ei_bool_t* bords = malloc(sizeof(ei_bool_t)*4);
 	bords[0] = 1;
-	bords[1] = 0;
-	bords[2] = 0;
+	bords[1] = 1;
+	bords[2] = 1;
 	bords[3] = 1;
 
 	ei_linked_point_t* rectangle_arrondis = rounded_frame(rectangle, rayon, bords);
 	ei_color_t color = {0xff, 0x65, 0x44, 0xff};
 	ei_draw_polygon(surface, rectangle_arrondis, color, clipper);
+	free(rectangle_arrondis[0].next);
+	free(rectangle_arrondis[1].next);
+	free(rectangle_arrondis[2].next);
+	free(rectangle_arrondis[3].next);
+	free(rectangle_arrondis);
 }
 
 /*
