@@ -9,7 +9,7 @@ INCLUDES	= ./include
 INCFLAGS	:= -I${INCLUDES} -I${TESTS}
 #OPTFLAGS	:= -Os -DNDEBUG
 OPTFLAGS	:= -g
-CCFLAGS		:= -c ${OPTFLAGS} -Wall -std=c99
+CCFLAGS		:= -pg -c ${OPTFLAGS} -Wall -std=c99
 
 # The list of objects to include in the library
 
@@ -73,7 +73,7 @@ ${OBJDIR}/minimal.o : ${TESTS}/minimal.c
 # lines
 
 lines : ${OBJDIR}/lines.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o lines ${OBJDIR}/lines.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o lines ${OBJDIR}/lines.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/lines.o : ${TESTS}/lines.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/lines.c -o ${OBJDIR}/lines.o
@@ -140,7 +140,7 @@ ${OBJDIR}/two048.o : ${TESTS}/two048.c
 # text
 
 text : ${OBJDIR}/text.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o text ${OBJDIR}/text.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o text ${OBJDIR}/text.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/text.o : ${TESTS}/text.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/text.c -o ${OBJDIR}/text.o
@@ -149,7 +149,7 @@ ${OBJDIR}/text.o : ${TESTS}/text.c
 # copy
 
 copy : ${OBJDIR}/copy.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o copy ${OBJDIR}/copy.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o copy ${OBJDIR}/copy.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/copy.o : ${TESTS}/copy.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/copy.c -o ${OBJDIR}/copy.o
@@ -157,7 +157,7 @@ ${OBJDIR}/copy.o : ${TESTS}/copy.c
 # pointe
 
 pointe : ${OBJDIR}/pointe.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o pointe ${OBJDIR}/pointe.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o pointe ${OBJDIR}/pointe.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/pointe.o : ${TESTS}/pointe.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/pointe.c -o ${OBJDIR}/pointe.o
@@ -165,7 +165,7 @@ ${OBJDIR}/pointe.o : ${TESTS}/pointe.c
 # fill
 
 fill : ${OBJDIR}/fill.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o fill ${OBJDIR}/fill.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o fill ${OBJDIR}/fill.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/fill.o : ${TESTS}/fill.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/fill.c -o ${OBJDIR}/fill.o
@@ -173,35 +173,35 @@ ${OBJDIR}/fill.o : ${TESTS}/fill.c
 # arc
 
 arc : ${OBJDIR}/arc.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o arc ${OBJDIR}/arc.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o arc ${OBJDIR}/arc.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/arc.o : ${TESTS}/arc.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/arc.c -o ${OBJDIR}/arc.o
 
 # rounded_frame
 rounded_frame : ${OBJDIR}/rounded_frame.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o rounded_frame ${OBJDIR}/rounded_frame.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o rounded_frame ${OBJDIR}/rounded_frame.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/rounded_frame.o : ${TESTS}/rounded_frame.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/rounded_frame.c -o ${OBJDIR}/rounded_frame.o
 
 # draw_button
 draw_button : ${OBJDIR}/draw_button.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o draw_button ${OBJDIR}/draw_button.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o draw_button ${OBJDIR}/draw_button.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/draw_button.o : ${TESTS}/draw_button.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/draw_button.c -o ${OBJDIR}/draw_button.o
 
 # draw_image
 draw_image : ${OBJDIR}/draw_image.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o draw_image ${OBJDIR}/draw_image.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o draw_image ${OBJDIR}/draw_image.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/draw_image.o : ${TESTS}/draw_image.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/draw_image.c -o ${OBJDIR}/draw_image.o
 
 # polygon
 polygon : ${OBJDIR}/polygon.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o polygon ${OBJDIR}/polygon.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
+	${LINK} -pg -o polygon ${OBJDIR}/polygon.o ${OBJDIR}/draw.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/polygon.o : ${TESTS}/polygon.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/polygon.c -o ${OBJDIR}/polygon.o
@@ -229,4 +229,4 @@ clean:
 	rm -f *.exe
 	rm -f ${OBJDIR}/*
 	rm -f gmon.out
-	rm -f analysis.txt
+	rm -f a.txt
