@@ -78,6 +78,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
+      <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_k"><span>k</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
@@ -97,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -132,6 +133,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>blue
 : <a class="el" href="structei__color__t.html#af8d67b7a72cbb586519b55033350fb8c">ei_color_t</a>
 </li>
+<li>border_width
+: <a class="el" href="structei__widget__frame__t.html#a0b242994ad47f437b25e53106bc4726b">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__toplevel__t.html#a0bbd2bde24c317c088f9e9bce9cc951b">ei_widget_toplevel_t</a>
+, <a class="el" href="structei__widget__button__t.html#a8aa5dab16784f5eb60027d58be6789d1">ei_widget_button_t</a>
+</li>
 <li>button_number
 : <a class="el" href="structei__mouse__event__t.html#a3165d2e07c861aa9ccb114a10a6b0afb">ei_mouse_event_t</a>
 </li>
@@ -139,14 +145,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>callback
+: <a class="el" href="structei__widget__button__t.html#a83fe0591c229814b812d9d260522584b">ei_widget_button_t</a>
+</li>
 <li>children_head
 : <a class="el" href="structei__widget__t.html#a190316f0ec41d2d98b919414c860f828">ei_widget_t</a>
 </li>
 <li>children_tail
 : <a class="el" href="structei__widget__t.html#aece2f3059f252538ae787857e7eea2a2">ei_widget_t</a>
 </li>
+<li>closable
+: <a class="el" href="structei__widget__toplevel__t.html#a809cc88810f816b22028ab993f7b7590">ei_widget_toplevel_t</a>
+</li>
+<li>color
+: <a class="el" href="structei__widget__toplevel__t.html#a5b1efd84c3b1e6598c0fc43ecbf20309">ei_widget_toplevel_t</a>
+, <a class="el" href="structei__widget__frame__t.html#a0e34c2b62115ecf31f7f8bb6219005ce">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__button__t.html#aef37181d119084c4689f3925378f4be8">ei_widget_button_t</a>
+</li>
 <li>content_rect
 : <a class="el" href="structei__widget__t.html#a75c29d388a5f5b32cdd8a9c855bc2a75">ei_widget_t</a>
+</li>
+<li>corner_radius
+: <a class="el" href="structei__widget__button__t.html#ae15fd0035fd44f9a3341e15708b4649e">ei_widget_button_t</a>
 </li>
 </ul>
 
@@ -184,6 +204,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>img
+: <a class="el" href="structei__widget__frame__t.html#a9780a39c2cd0e785af1905932082c71c">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__button__t.html#a0f160c882c948d59242d7db945ec51c2">ei_widget_button_t</a>
+</li>
+<li>img_anchor
+: <a class="el" href="structei__widget__button__t.html#a885ab83105275752d79227abab3cde17">ei_widget_button_t</a>
+, <a class="el" href="structei__widget__frame__t.html#a72c13290dd6e955f3dbc94d753c40bdd">ei_widget_frame_t</a>
+</li>
+<li>img_rect
+: <a class="el" href="structei__widget__button__t.html#aca8622d6afae914d19abd7c8196b261d">ei_widget_button_t</a>
+, <a class="el" href="structei__widget__frame__t.html#aacfdf74bb9814b393106ff891c951487">ei_widget_frame_t</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_k"></a>- k -</h3><ul>
 <li>key
 : <a class="el" href="structei__event__t.html#a0f146bb41b78f27e18ecccc71f50026d">ei_event_t</a>
@@ -195,6 +231,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>min_size
+: <a class="el" href="structei__widget__toplevel__t.html#a26f1e055e7f494e5609b76d71fc19b3f">ei_widget_toplevel_t</a>
+</li>
 <li>modifier_mask
 : <a class="el" href="structei__key__event__t.html#a35e4dc6d788b9fdd4eeedf716662afab">ei_key_event_t</a>
 </li>
@@ -226,6 +265,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>parent
 : <a class="el" href="structei__widget__t.html#adb1b43eda89c8e86d6337c939f1a4473">ei_widget_t</a>
 </li>
+<li>pente
+: <a class="el" href="structei__cellule__t.html#acba2e9c7b765f2326a839d0d349149bb">ei_cellule_t</a>
+</li>
 <li>pick_color
 : <a class="el" href="structei__widget__t.html#ad1477adf8e6b5cb6a5f11f657fe4781b">ei_widget_t</a>
 </li>
@@ -251,8 +293,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>releasefunc
 : <a class="el" href="structei__widgetclass__t.html#aebe6139b31816495e866c99ec3e83de6">ei_widgetclass_t</a>
 </li>
+<li>relief
+: <a class="el" href="structei__widget__frame__t.html#a8e597038a1f61dae86b5f27bef78bfee">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__button__t.html#a2e9dea6f5b930ee161a30adb1c19f28c">ei_widget_button_t</a>
+</li>
 <li>requested_size
 : <a class="el" href="structei__widget__t.html#ae82b19958b3ec72a855986dffb9b92ea">ei_widget_t</a>
+</li>
+<li>resizable
+: <a class="el" href="structei__widget__toplevel__t.html#aed16de4bb496bbe2e6695303c10fe659">ei_widget_toplevel_t</a>
 </li>
 <li>rh
 : <a class="el" href="structei__placer__params__t.html#a54a438796f9ce98d6abe1b0406db2981">ei_placer_params_t</a>
@@ -291,10 +340,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>size
 : <a class="el" href="structei__rect__t.html#a200c48a352d448a24d4f85673f6bad14">ei_rect_t</a>
 </li>
+<li>suivant
+: <a class="el" href="structei__cellule__t.html#a7ec546f9430221d55dc44ffd340893d1">ei_cellule_t</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>text
+: <a class="el" href="structei__widget__frame__t.html#ac7a94855acf51ebccf61827ed81ed4d0">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__button__t.html#a88bc50591c237866ef1a195ad72a1585">ei_widget_button_t</a>
+</li>
+<li>text_anchor
+: <a class="el" href="structei__widget__button__t.html#a376dc78fad11797c2dbdaa032953e8a5">ei_widget_button_t</a>
+, <a class="el" href="structei__widget__frame__t.html#af56c6236bb9f5451fbfcaf12ae9c10bd">ei_widget_frame_t</a>
+</li>
+<li>text_color
+: <a class="el" href="structei__widget__frame__t.html#afcbf12b8f0763cf402873b246b94296d">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__button__t.html#ae53bef4e2ecd6f4337812125aa5b63a4">ei_widget_button_t</a>
+</li>
+<li>text_font
+: <a class="el" href="structei__widget__button__t.html#a2617635a42c83b0b60bbf911f3d0c0f3">ei_widget_button_t</a>
+, <a class="el" href="structei__widget__frame__t.html#a63f5b7da07b35a391b4e5280a1b2c982">ei_widget_frame_t</a>
+</li>
+<li>title
+: <a class="el" href="structei__widget__toplevel__t.html#af5bec3cdb770dc13da82acef806a8215">ei_widget_toplevel_t</a>
+</li>
 <li>top_left
 : <a class="el" href="structei__rect__t.html#aabe78780aa971b9cb9742ed59a2e9438">ei_rect_t</a>
 </li>
@@ -307,6 +378,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
 <li>user_param
 : <a class="el" href="structei__app__event__t.html#a236a89c3726aa9c770da42ba37ce3d3f">ei_app_event_t</a>
+, <a class="el" href="structei__widget__button__t.html#a4108a67369f3f7ea55512d16b79aa6c3">ei_widget_button_t</a>
 </li>
 </ul>
 
@@ -324,6 +396,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>where
 : <a class="el" href="structei__mouse__event__t.html#ac50f216f7af2a99469bd39cebc309af5">ei_mouse_event_t</a>
 </li>
+<li>widget
+: <a class="el" href="structei__widget__frame__t.html#ad375e0d41821e8f1dcf5e061d140ac0d">ei_widget_frame_t</a>
+, <a class="el" href="structei__widget__button__t.html#acf769e84e4a3cd0201c019998850deef">ei_widget_button_t</a>
+, <a class="el" href="structei__widget__toplevel__t.html#a3babaea121cf413ae2020cea768479b0">ei_widget_toplevel_t</a>
+</li>
 <li>width
 : <a class="el" href="structei__size__t.html#a981037618942814a4318a4c27cdaecc1">ei_size_t</a>
 </li>
@@ -338,6 +415,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>x_data
 : <a class="el" href="structei__placer__params__t.html#ae6078f805f079c2ac6e54ecfbe321c50">ei_placer_params_t</a>
 </li>
+<li>xymin
+: <a class="el" href="structei__cellule__t.html#a761ea1a88e22989260c847ce0a123fb6">ei_cellule_t</a>
+</li>
 </ul>
 
 
@@ -349,11 +429,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>y_data
 : <a class="el" href="structei__placer__params__t.html#afa297c58c25de969e3aaf5c01456b04f">ei_placer_params_t</a>
 </li>
+<li>ymax
+: <a class="el" href="structei__cellule__t.html#ac8f000cde6f76158c7360bcac0345ba3">ei_cellule_t</a>
+</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 21 2019 14:32:21 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 5 2019 16:53:19 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

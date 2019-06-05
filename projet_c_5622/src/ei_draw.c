@@ -28,10 +28,12 @@
 	#define NB_ELEMS_SEMI_ARC 42
 #endif
 
+// le pourcentage pour le relief plus clair
 #ifndef LIGHTER_SHADE
 	#define LIGHTER_SHADE 0.75
 #endif
 
+// le pourcentage pour le relief plus foncé
 #ifndef DARKER_SHADE
 	#define DARKER_SHADE 1.25
 #endif
@@ -47,12 +49,10 @@ uint32_t ei_map_rgba (ei_surface_t surface, const ei_color_t* color){
 	int* ia = malloc(sizeof(int));
 	hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
 	uint32_t ret = 0;
-	if (*ia == -1)
-	{
+	if (*ia == -1){
 		ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + 0xff000000;
 	}
-	else
-	{
+	else{
 		ret = (color->red << (*ir)*8) + (color->green << (*ig)*8) + (color->blue << (*ib)*8) + (color->alpha << (*ia)*8);
 	}
 	free(ir);
@@ -71,7 +71,11 @@ ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color){
 		int* ib = malloc(sizeof(int));
 		int* ia = malloc(sizeof(int));
 		hw_surface_get_channel_indices(surface, ir, ig, ib, ia);
-		ei_color_t ret = {(*color >> (8*(*ir))) & 0xff, (*color >> (8*(*ig))) & 0xff, (*color >> (8*(*ib))) & 0xff, (*color >> (8*(*ia))) & 0xff};
+		ei_color_t ret = {(*color >> (8*(*ir))) & 0xff,
+											(*color >> (8*(*ig))) & 0xff,
+											(*color >> (8*(*ib))) & 0xff,
+											(*color >> (8*(*ia))) & 0xff
+										};
 		free(ir);
 		free(ig);
 		free(ib);
@@ -82,70 +86,80 @@ ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color){
 void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_point, const ei_color_t color, const ei_rect_t* clipper){
 	hw_surface_lock(surface);
 
+	// indice 1er pixel de la surface
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
-	// dimensions de la surface pour réaliser le clipping
-	int surface_width = hw_surface_get_size(surface).width;
-	int surface_height =  hw_surface_get_size(surface).height;
-	// coordonnes bottom_right et top_left du clipper
-	int clipping_x2 = surface_width;
-	int clipping_y2 = surface_height;
-	int clipping_x1 = 0;
-	int clipping_y1 = 0;
-	// si on a un clipper, on prend ses coordonnées
-	if(clipper != NULL){
-		clipping_x1 = clipper->top_left.x;
-		clipping_y1 = clipper->top_left.y;
-		clipping_x2 = clipping_x1+clipper->size.width;
-		clipping_y2 = clipping_y1+clipper->size.height;
-	}
-	// si il n'y a qu'un seul point
-	if(first_point->next == NULL){
-		int coord_x = first_point->point.x;
-		int coord_y = first_point->point.y;
-		//on dessine seulement si le point est à l'intérieur du clipper
-		if (coord_x < clipping_x2 && coord_x >= clipping_x1
-		&& coord_y < clipping_y2 && coord_y >= clipping_y1){
-				pixel_ptr +=  coord_x + coord_y*hw_surface_get_size(surface).width;
-				*pixel_ptr = ei_map_rgba(surface, &color);
-		}
 
+	// couleur en 32 bits
+	uint32_t color32 = ei_map_rgba(surface, &color);
+
+	// coordonnées du clipper, si on en a un ou pas
+	int clipping_x1 = clipper == NULL ? 0 : clipper->top_left.x;
+	int clipping_y1 = clipper == NULL ? 0 : clipper->top_left.y;
+	int clipping_x2 = clipper == NULL ? hw_surface_get_size(surface).width : clipping_x1 + clipper->size.width;
+	int clipping_y2 = clipper == NULL ? hw_surface_get_size(surface).height : clipping_x1 + clipper->size.height;
+
+	// si il n'y a qu'un seul point à dessiner
+	if(first_point->next == NULL){
+		//on dessine seulement si le point est à l'intérieur du clipper
+		if (first_point->point.x < clipping_x2
+			&& first_point->point.x >= clipping_x1
+			&& first_point->point.y < clipping_y2
+			&& first_point->point.y >= clipping_y1){
+				pixel_ptr +=  first_point->point.x + first_point->point.y*hw_surface_get_size(surface).width;
+				*pixel_ptr = color32;
+		}
 	}
+
 	// si on a plusieurs points
 	else{
-		// point de départ
+		// point du point de départ
 		ei_point_t current = first_point->point;
-		// suiveur d'arrivée
+		// suiveur du point d'arrivee
 		ei_linked_point_t *suiveur_arrivee = first_point->next;
+
+		// dimensions de la surface
+		int surface_height = hw_surface_get_size(surface).height;
+		int surface_width = hw_surface_get_size(surface).width;
 
 		// on dessine les segments pour tous les points
 		while(suiveur_arrivee != NULL){
+
 			int8_t incrementx = 1;
 			int8_t incrementy = 1;
+
 			// point d'arrivée
 			ei_point_t arrivee = suiveur_arrivee->point;
 
-			// si le point 1 est "avant" le point 2 en x
+			// vérifie si le point de départ est "avant" le point d'arrivée en x et y
 			if(current.x > arrivee.x){
 				incrementx = -1;
 			}
 			if(current.y > arrivee.y){
 				incrementy = -1;
 			}
+
+			// delta des x et y
 			int deltax = abs(arrivee.x - current.x);
 			int deltay = abs(arrivee.y - current.y);
+
+			// l'erreur de troncature
 			float erreur = 0;
 
 			// si on a une ligne verticale
 			if(deltax == 0){
 				// si les deux points ne sont pas connectés et on vérifie le clipping  par rapport à la surface
-				while(current.y != arrivee.y && current.y != 0 && current.y != surface_height-1){
-					// on incrémente y de 1
+				while(current.y != arrivee.y
+						&& current.y != 0
+						&& current.y != surface_height-1){
+					// on incrémente la position en y
 					current.y += incrementy;
 					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
 					//on dessine seulement si le point est à l'intérieur du clipper
-					if (current.x < clipping_x2 && current.x >= clipping_x1
-					&& current.y < clipping_y2 && current.y >= clipping_y1){
-						*pixel_ptr = ei_map_rgba(surface, &color);
+					if (current.x < clipping_x2
+							&& current.x >= clipping_x1
+							&& current.y < clipping_y2
+							&& current.y >= clipping_y1){
+						*pixel_ptr = color32;
 					}
 					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
 				}
@@ -154,14 +168,18 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 			// si on a une ligne horizontale
 			else if(deltay == 0){
 				// si les deux points ne sont pas connectés et on vérifie le clipping par rapport à la surface
-				while(current.x != arrivee.x && current.x != 0 && current.x != surface_width-1){
-					// on incrémente x de 1
+				while(current.x != arrivee.x
+						&& current.x != 0
+						&& current.x != surface_width-1){
+					// on incrémente la poistion de x
 					current.x += incrementx;
 					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
 					//on dessine seulement si le point est à l'intérieur du clipper
-					if (current.x < clipping_x2 && current.x >= clipping_x1
-					&& current.y < clipping_y2 && current.y >= clipping_y1){
-						*pixel_ptr = ei_map_rgba(surface, &color);
+					if (current.x < clipping_x2
+							&& current.x >= clipping_x1
+							&& current.y < clipping_y2
+							&& current.y >= clipping_y1){
+						*pixel_ptr = color32;
 					}
 					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
 				}
@@ -169,13 +187,15 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 
 			// si le segment est dirigé par x
 			else if (deltax > deltay){
-				// on incrémente x de 1
-				while((current.x != arrivee.x) && (current.y != arrivee.y)){
-					// on vérifie le clipping par rapport à la surface
+				// tant qu'on a pas visité tous les points
+				while((current.x != arrivee.x)
+							&& (current.y != arrivee.y)){
+					// si on veut dessiner un point en dehors du rectangle de clipping
 					if ((current.x + incrementx) <= 0
 					|| (current.y + incrementy) <= 0
 					|| (current.x + incrementx) >= surface_width
 					|| (current.y + incrementy) >= surface_height) {
+						// on passe au suivant
 						arrivee.x = current.x;
 						arrivee.y = current.y;
 						break;
@@ -189,19 +209,23 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 						current.y += incrementy;
 						erreur--;
 					}
-					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
+
+					pixel_ptr += current.x + current.y*surface_width;
 					//on dessine seulement si le point est à l'intérieur du clipper
-					if (current.x < clipping_x2 && current.x >= clipping_x1
-					&& current.y < clipping_y2 && current.y >= clipping_y1){
-						*pixel_ptr = ei_map_rgba(surface, &color);
+					if (current.x < clipping_x2
+							&& current.x >= clipping_x1
+							&& current.y < clipping_y2
+							&& current.y >= clipping_y1){
+						*pixel_ptr = color32;
 					}
-					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
+					pixel_ptr -= current.x + current.y*surface_width;
 				}
 			}
-			// sinon, le segment est dirigé par y
+			// sinon, le segment est dirigé par y, on fait la même en y
 			else{
 				// on incrémente y de 1
-				while((current.x != arrivee.x) && (current.y != arrivee.y)){
+				while((current.x != arrivee.x)
+						&& (current.y != arrivee.y)){
 					// on vérifie le clipping  par rapport à la surface
 					if ((current.x + incrementx) <= 0
 					|| (current.y + incrementy) <= 0
@@ -220,15 +244,20 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 						current.x += incrementx;
 						erreur--;
 					}
-					pixel_ptr += current.x + current.y*hw_surface_get_size(surface).width;
+
+					pixel_ptr += current.x + current.y*surface_width;
 					//on dessine seulement si le point est à l'intérieur du clipper
-					if (current.x < clipping_x2 && current.x >= clipping_x1
-					&& current.y < clipping_y2 && current.y >= clipping_y1){
-						*pixel_ptr = ei_map_rgba(surface, &color);
+					if (current.x < clipping_x2
+							&& current.x >= clipping_x1
+							&& current.y < clipping_y2
+							&& current.y >= clipping_y1){
+						*pixel_ptr = color32;
 					}
-					pixel_ptr -= current.x + current.y*hw_surface_get_size(surface).width;
+					pixel_ptr -= current.x + current.y*surface_width;
 				}
 			}
+
+			// on prend le point suivant
 			current.x = arrivee.x;
 			current.y = arrivee.y;
 			suiveur_arrivee = suiveur_arrivee->next;
@@ -248,24 +277,21 @@ typedef struct ei_cellule_t			// Définition du type cellule pour la fonction dr
 
 ei_cellule_t *derniere_cellule(ei_cellule_t* cellule) // Renvoie la derniere cellule d'une liste chainée de cellules
 {
-	if (cellule != NULL)
-	{
+	if (cellule != NULL){
 		ei_cellule_t* courant = cellule;
-		while (courant->suivant != NULL)
-		{
+		while (courant->suivant != NULL){
 			courant = courant->suivant;
 		}
 		return courant;
 	}
-	else{return NULL;}
+	return NULL;
 }
 
 int TC_non_vide(ei_cellule_t** TC, int taille)	// Renvoie 1 si TC n'est pas vide, 0 sinon
 {
 	int flag = 0;
 	int compteur = 0;
-	while ((compteur < taille) && (flag == 0))
-	{
+	while ((compteur < taille) && (flag == 0)){
 			if (TC[compteur] != NULL)
 			{
 					flag = 1;
@@ -357,6 +383,7 @@ int nbr_TCA(ei_cellule_t** TCA)
 
 void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point, const ei_color_t color, const ei_rect_t* clipper)
 {
+<<<<<<< HEAD
 	if(first_point != NULL && first_point->next != NULL){
 		hw_surface_lock(surface);
 		uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
@@ -392,6 +419,51 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 				// printf("%f\n", y2);
 
 				if ((y2-y1)!=0)
+=======
+	hw_surface_lock(surface);
+	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
+
+	uint32_t color32 =  ei_map_rgba(surface,&color);
+	// dimensions de la surface pour réaliser le clipping
+	int surface_width = hw_surface_get_size(surface).width;
+	int surface_height =  hw_surface_get_size(surface).height;
+	// coordonnes bottom_right et top_left du clipper
+	int clipping_x1 = (clipper == NULL)?0:(clipper->top_left.x);
+	int clipping_y1 = (clipper == NULL)?0:(clipper->top_left.y);
+	int clipping_x2 = (clipper == NULL)?surface_width:(clipping_x1+clipper->size.width);
+	int clipping_y2 = (clipper == NULL)?surface_height:(clipping_y1+clipper->size.height);
+	// Un point courant pour parcourir la liste de points
+	ei_linked_point_t *courant = malloc(sizeof(ei_linked_point_t));
+	courant->point = first_point->point;
+	courant->next = first_point->next;
+	// Déclaration de TC et de TCA
+	ei_cellule_t** TC = malloc(sizeof(struct ei_cellule_t) * surface_height);
+	for (size_t i = 0; i < surface_height; i++) {
+		TC[i] = NULL;
+	}
+	ei_cellule_t* TCA = malloc(sizeof(struct ei_cellule_t));
+	TCA = NULL;
+	// Pour savoir où commencer le remplissage
+	int ydepart = clipping_y2;
+	while (courant->next != NULL)				// Remplissage de TC
+	{
+			float x1 = courant->point.x;
+			float y1 = courant->point.y;
+			float x2 = courant->next->point.x;
+			float y2 = courant->next->point.y;
+			if ((y2-y1)!=0)
+			{
+				float pente = (x2-x1)/(y2-y1);
+
+				uint32_t ymin = y1<y2?y1:y2;
+				ydepart = ymin<ydepart?ymin:ydepart;
+				ei_cellule_t* nouveau = malloc(sizeof(struct ei_cellule_t));
+				nouveau->ymax =  y1>y2?y1:y2;
+				nouveau->xymin = y1<y2?x1:x2;
+				nouveau->pente = pente;
+				nouveau->suivant = NULL;
+				if (TC[ymin] == NULL)
+>>>>>>> a35f8c425c08a0b9ab472e72fef4382a5e8685aa
 				{
 					float pente = (x2-x1)/(y2-y1);
 
@@ -436,6 +508,7 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 					{
 						if (borne1->suivant != NULL)
 						{
+<<<<<<< HEAD
 							borne2 = borne1->suivant;
 							currentx = (int) borne1->xymin;
 							currentx = currentx>clipping_x1?currentx:clipping_x1;
@@ -447,6 +520,12 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 								currentx++;
 							}
 							borne1 = borne2->suivant;
+=======
+							pixel_ptr += currentx + ydepart*surface_width;
+							*pixel_ptr = color32;
+							pixel_ptr -= currentx + ydepart*surface_width;
+							currentx++;
+>>>>>>> a35f8c425c08a0b9ab472e72fef4382a5e8685aa
 						}
 						else{borne1 = NULL;}
 					}
@@ -492,6 +571,7 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 	// crée une surface pour écrire le texte
 	ei_surface_t text_surface = hw_text_create_surface(text, font, color);
 	ei_rect_t text_surface_rect = hw_surface_get_rect(text_surface);
+
 	// rectangle destination où afficher ledit texte
 	ei_point_t dst_point = {where->x, where->y};
 	ei_size_t dst_size = text_surface_rect.size;
@@ -531,23 +611,13 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 
 	uint32_t color32 = ei_map_rgba(surface, color);
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
-	int i_min;
-	int i_max;
-	int j_min;
-	int j_max;
-	if (clipper == NULL){
-		ei_size_t surface_size = hw_surface_get_size(surface);
-		i_min = 0;
-		i_max = surface_size.width;
-		j_min = 0;
-		j_max = surface_size.height;
-	}
-	else{
-		i_min = clipper->top_left.x;
-		i_max = clipper->size.width;
-		j_min = clipper->top_left.y;
-		j_max = clipper->size.height;
-	}
+	ei_size_t surface_size = hw_surface_get_size(surface);
+
+	// surface de dessin en fonction de si on a un clipper ou non
+	int i_min = clipper == NULL ? 0 : clipper->top_left.x;
+	int i_max = clipper == NULL ? surface_size.width : clipper->size.width;
+	int j_min = clipper == NULL ? 0 : clipper->top_left.y;
+	int j_max = clipper == NULL ? surface_size.height : clipper->size.height;
 
 	for(int i = i_min; i < i_max; i++){
 		for(int j = j_min; j < j_max; j++){
@@ -714,7 +784,6 @@ ei_linked_point_t* arc(const ei_point_t centre, float rayon, int angle_debut, in
 	pts[index_current-1].point.x = x; pts[index_current-1].point.y = y; pts[index_current-1].next = NULL;
 
 	return pts;
-
 }
 
 
@@ -745,8 +814,8 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		centre.x = rectangle.top_left.x + rayon;
 		centre.y = rectangle.top_left.y + rayon;
 		bord1 = arc(centre, rayon, angle_debut, angle_fin);
-
 	}
+
 	if(bords[1] == 1){
 		angle_debut = 270;
 		angle_fin = 360;
@@ -805,7 +874,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 		rectangle_rounded[3].next = last_point;
 	}
 
-	free(bords);
 	return rectangle_rounded;
 }
 
@@ -946,7 +1014,54 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	ei_rect_t rect_int = {rect_int_topleft, rect_int_size};
 	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);
 	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
+	hw_surface_unlock(surface);
+	free(arc_topleft);
+	free(semi_arc_topright_sup);
+	free(semi_arc_bottomleft_sup);
+	free(arc_bottomright);
+	free(semi_arc_bottomleft_inf);
+	free(semi_arc_topright_inf);
+	free(rounded_rect_int);
+	free(rounded_rect);
+}
+
+void ei_draw_image(const char* filename, ei_surface_t surface, ei_point_t* where, const ei_rect_t* clipper){
+	hw_surface_lock(surface);
+
+	ei_surface_t image = hw_image_load(filename, surface);
+
+		// rectangle destination où afficher l'image
+	ei_rect_t image_rect = hw_surface_get_rect(image);
+	ei_point_t dst_point = {where->x, where->y};
+	ei_size_t dst_size = image_rect.size;
+	ei_rect_t dst_rect = {dst_point, dst_size};
+
+	// rectangle source où copier l'image
+	if (clipper != NULL){
+		// si il y a un clipper, on va copier qu'une partie de l'image :
+		// l'intersection entre le rectangle de destination et le clipper
+		int inter_topleftx = max(dst_rect.top_left.x, clipper->top_left.x);
+		int inter_toplefty = max(dst_rect.top_left.y, clipper->top_left.y);
+		int inter_bottomrightx = min(dst_rect.top_left.x + dst_rect.size.width, clipper->top_left.x + clipper->size.width );
+		int inter_bottomrighty = min(dst_rect.top_left.y + dst_rect.size.height, clipper->top_left.y + clipper->size.height );
+		int inter_width = inter_bottomrightx - inter_topleftx;
+		int inter_height = inter_bottomrighty - inter_toplefty;
+		ei_size_t intersection_size = {inter_width, inter_height};
+		ei_point_t intersection_point = {inter_topleftx, inter_toplefty};
+		ei_rect_t intersection = {intersection_point, intersection_size};
+
+		ei_point_t src_point = {intersection.top_left.x - dst_rect.top_left.x, intersection.top_left.y - dst_rect.top_left.y};
+		ei_size_t src_size = intersection_size;
+		ei_rect_t src_rect = {src_point, src_size};
+
+		dst_rect.top_left.x = inter_topleftx;
+		dst_rect.top_left.y = inter_toplefty;
+		ei_copy_surface(surface, &dst_rect, image, &src_rect, 1);
+	}
+	else{
+		ei_copy_surface(surface, &dst_rect, image, NULL, 1);
+	}
 
 	hw_surface_unlock(surface);
-	hw_surface_update_rects(surface, NULL);
+	hw_surface_free(image);
 }

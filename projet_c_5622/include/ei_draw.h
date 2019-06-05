@@ -3,7 +3,7 @@
  *  @brief	Graphical primitives to draw lines, polygons, text, and operation of drawing
  *		surfaces.
  *
- *  \author 
+ *  \author
  *  Created by François Bérard on 30.12.11.
  *  Copyright 2011 Ensimag. All rights reserved.
  *
@@ -126,8 +126,6 @@ int			ei_copy_surface		(ei_surface_t		destination,
 						 const ei_surface_t	source,
 						 const ei_rect_t*	src_rect,
 						 const ei_bool_t	alpha);
-
-
 
 
 #endif
