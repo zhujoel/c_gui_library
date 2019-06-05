@@ -55,13 +55,16 @@ ei_linked_point_t* rounded_frame (const ei_rect_t rectangle,
  * @param coloor Couleur du bouton
  * @param clipper Clipper du dessin
  * @param rayon Rayon des arrondis du bouton
+ * @param reliefType Type de relief, 0 enfonced, 1 releved, 2 aucun
+ * @param distanceRectangle Distance entre les 2 rectangles (inner et outer) pour le relief
  */
 void ei_draw_widget_with_relief_and_corner_radius_that_is_optional (ei_surface_t surface,
 							 const ei_rect_t rect,
 							 const ei_color_t color,
 							 const ei_rect_t* clipper,
 						   float rayon,
-						 	 ei_bool_t isEnfonced);
+						 	 int reliefType,
+						 	 int distanceRectangle);
 
 
 

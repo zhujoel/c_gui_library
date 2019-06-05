@@ -694,12 +694,8 @@ ei_linked_point_t* arc(const ei_point_t centre, float rayon, int angle_debut, in
 	int index_current = 0;
 	// on dessine un point pour chaque angle
 	while(index_current < (nbElems-2)){
-		//printf("index current %i \n", index_current);
 		x = rayon * cos((angle_debut+i)*(PI/180)) + centre.x;
 		y = rayon * sin((angle_debut+i)*(PI/180)) + centre.y;
-		//printf("i %i \n", i);
-		//printf("angle %i \n", angle);
-		//printf("angle %i \n", angle+i);
 		pts[index_current].point.x = x; pts[index_current].point.y = y; pts[index_current].next = &pts[index_current+1];
 		i += incrementi;
 		index_current++;
@@ -809,8 +805,9 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 }
 
 
-void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon, ei_bool_t isEnfonced){
+void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon, int reliefType, int distanceRectangle){
 	hw_surface_lock(surface);
+
 	// dessine le rectangle extérieur du bouton
 	ei_linked_point_t* rounded_rect = rounded_frame(rect, rayon, NULL);
 	ei_draw_polygon(surface, rounded_rect, color, clipper);
@@ -887,60 +884,59 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	arc_bottomright[NB_ELEMS_ARC].next = &semi_arc_bottomleft_inf[0];
 	semi_arc_bottomleft_inf[NB_ELEMS_SEMI_ARC].next = &relief[0];
 
-	if(isEnfonced == 1){
+	if(reliefType == 2){
+
+	}
+	else if(reliefType == 0){
 		rect_red = color.red*LIGHTER_SHADE;
 		rect_blue = color.blue*LIGHTER_SHADE;
 		rect_green = color.green*LIGHTER_SHADE;
 		ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
 		ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
 
-			rect_red = color.red*DARKER_SHADE;
-			rect_blue = color.blue*DARKER_SHADE;
-			rect_green = color.green*DARKER_SHADE;
+		rect_red = color.red*DARKER_SHADE;
+		rect_blue = color.blue*DARKER_SHADE;
+		rect_green = color.green*DARKER_SHADE;
 
-			if(rect_red >= 255){
-				rect_red = 255;
-			}
-			if(rect_green >= 255){
-				rect_green = 255;
-			}
-			if(rect_blue >= 255){
-				rect_blue = 255;
-			}
-			ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
-			ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
+		if(rect_red >= 255){
+			rect_red = 255;
+		}
+		if(rect_green >= 255){
+			rect_green = 255;
+		}
+		if(rect_blue >= 255){
+			rect_blue = 255;
+		}
+		ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
+		ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 	}
-	else{
-			rect_red = color.red*DARKER_SHADE;
-			rect_blue = color.blue*DARKER_SHADE;
-			rect_green = color.green*DARKER_SHADE;
+	else if(reliefType == 1){
+		rect_red = color.red*DARKER_SHADE;
+		rect_blue = color.blue*DARKER_SHADE;
+		rect_green = color.green*DARKER_SHADE;
 
-			if(rect_red >= 255){
-				rect_red = 255;
-			}
-			if(rect_green >= 255){
-				rect_green = 255;
-			}
-			if(rect_blue >= 255){
-				rect_blue = 255;
-			}
+		if(rect_red >= 255){
+			rect_red = 255;
+		}
+		if(rect_green >= 255){
+			rect_green = 255;
+		}
+		if(rect_blue >= 255){
+			rect_blue = 255;
+		}
+		ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
+		ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
 
-			ei_color_t		color_topleft		= { rect_red, rect_green, rect_blue, 0xff };
-			ei_draw_polygon(surface, semi_arc_topright_sup, color_topleft, clipper);
+		rect_red = color.red*LIGHTER_SHADE;
+		rect_blue = color.blue*LIGHTER_SHADE;
+		rect_green = color.green*LIGHTER_SHADE;
 
-
-				rect_red = color.red*LIGHTER_SHADE;
-				rect_blue = color.blue*LIGHTER_SHADE;
-				rect_green = color.green*LIGHTER_SHADE;
-
-				ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
-				ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
-
-
+		ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
+		ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 	}
 
 	// dessine le rectangle intérieur du bouton
-	ei_point_t rect_int_topleft = {rect.top_left.x * 1.1, rect.top_left.y * 1.1};
+	ei_point_t rect_int_topleft = {rect.top_left.x + distanceRectangle, rect.top_left.y + distanceRectangle};
 	ei_size_t rect_int_size = {rect.size.width - 2*(rect_int_topleft.x-rect.top_left.x), rect.size.height - 2*(rect_int_topleft.y-rect.top_left.y)};
 	ei_rect_t rect_int = {rect_int_topleft, rect_int_size};
 	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);

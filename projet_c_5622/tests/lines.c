@@ -372,20 +372,21 @@ void test_rounded_frame(ei_surface_t surface, ei_rect_t* clipper){
 }
 
 /**
- * test ei_draw_button enfonced et releved
+ * test ei_draw_widget_with_relief_and_corner_radius_that_is_optional
  *
  * vérifie que la fonction dessine bien un bouton avec le relief et tout
  */
 void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
-		ei_color_t		color		= { 0, 0, 255, 255 };
-		ei_point_t top_left = {100, 100};
-		ei_size_t size = {100, 500};
+	printf("test");
+		ei_color_t		color		= { 0, 255, 255, 50 };
+		ei_point_t top_left = {50, 50};
+		ei_size_t size = {200, 400};
 		ei_rect_t	rect = {top_left, size};
 		float rayon = 20;
 
-		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, clipper, rayon, EI_TRUE);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, NULL, rayon, 2, 10);
 		getchar();
-		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, clipper, rayon, EI_FALSE);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, NULL, rayon, 1, 50);
 }
 
 void test_benis(ei_surface_t surface){
@@ -415,12 +416,12 @@ void test_benis(ei_surface_t surface){
 		ei_size_t size4 = {50, 200};
 		ei_rect_t	rect4 = {top_left4, size4};
 
-		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, NULL, rayon, EI_TRUE);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, color, NULL, rayon, 0, 10);
 		ei_draw_polygon(surface, rond1, color, NULL);
 		ei_draw_polygon(surface, rond2, color, NULL);
-		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect2, color2, NULL, rayon, EI_TRUE);
-		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect3, color2, NULL, rayon, EI_TRUE);
-		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect4, color2, NULL, rayon, EI_TRUE);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect2, color2, NULL, rayon, 0, 10);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect3, color2, NULL, rayon, 0, 10);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect4, color2, NULL, rayon, 1, 10);
 }
 
 /*
@@ -430,6 +431,7 @@ void test_benis(ei_surface_t surface){
  */
 int ei_main(int argc, char** argv)
 {
+	printf("test");
 	ei_size_t		win_size	= ei_size(800, 600);
 	ei_surface_t		main_window	= NULL;
 	ei_color_t		white		= { 0xff, 0xff, 0xff, 0xff };
@@ -459,8 +461,8 @@ int ei_main(int argc, char** argv)
 	//test_fill(main_window, NULL);
 	//test_arc (main_window, clipper_ptr);
 	//test_rounded_frame(main_window, clipper_ptr);
-	//test_draw_button(main_window, clipper_ptr);
-	test_benis(main_window);
+	test_draw_button(main_window, clipper_ptr);
+	//test_benis(main_window);
 
 	/* Unlock and update the surface. */
 	hw_surface_unlock(main_window);
