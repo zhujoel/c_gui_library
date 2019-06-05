@@ -1,3 +1,4 @@
+#include "../include/ei_application.h"
 #include "../include/ei_widgetclass.h"
 #include "../include/ei_widget.h"
 #include "../include/ei_widgets.h"
