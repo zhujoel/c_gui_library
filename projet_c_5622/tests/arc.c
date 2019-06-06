@@ -18,11 +18,11 @@ void test_arc(ei_surface_t surface, ei_rect_t* clipper){
 
 	ei_point_t centre = {50, 50};
 	float rayon = 50;
-	int angle_debut = 90;
-	int angle_fin = 180;
+	int angle_debut = 0;
+	int angle_fin = 360;
 	ei_linked_point_t* points = arc(centre, rayon, angle_debut, angle_fin);
 	ei_color_t color = {0xff, 0x65, 0x44, 0xff};
-	ei_draw_polyline(surface, points, color, clipper);
+	ei_draw_polygon(surface, points, color, clipper);
 	free(points);
 }
 

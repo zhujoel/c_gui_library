@@ -180,6 +180,7 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
       // printf("Draw frame IMAGE\n");
       //Draw the image frame//ei_draw_polygon (surface, pts, *widgetframe->color, NULL); //clipper);
       //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
+
     }else if (widgetframe->text != NULL){
       // Draw the frame text
       // printf("Draw frame Text : %s\n", *widgetframe->text);
