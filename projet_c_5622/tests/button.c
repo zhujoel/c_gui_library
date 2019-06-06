@@ -14,8 +14,10 @@
  */
 void button_press(ei_widget_t* widget, ei_event_t* event, void* user_param)
 {
-	int* param = (int*)user_param;
-	printf("Click ! %i \n", *param);
+	if(user_param != NULL){
+		int* param = (int*)user_param;
+		printf("Click ! %i \n", *param);
+	}
 }
 
 /*
@@ -60,6 +62,8 @@ int ei_main(int argc, char** argv)
 	ei_anchor_t button_text_anchor = ei_anc_center;
 	int		button_border_width	= 6;
 	ei_callback_t	button_callback 	= button_press;
+	int button_user_param = 1;
+	void* user_param = &button_user_param;
 
 	/* Create the application and change the color of the background. */
 	ei_app_create(&screen_size, EI_FALSE);
@@ -77,16 +81,14 @@ int ei_main(int argc, char** argv)
 	button = ei_widget_create("button", ei_app_root_widget());
 
 	// TODO: (joel) bouton avec une image
-	ei_button_configure	(button, &button_size, &button_color,
-				 &button_border_width, &button_corner_radius, &button_relief, NULL, NULL, NULL, NULL,
-				 &image, &image_rect2, &button_image_anchor, &button_callback, NULL);
+	// ei_button_configure	(button, &button_size, &button_color,
+	// 			 &button_border_width, &button_corner_radius, &button_relief, NULL, NULL, NULL, NULL,
+	// 			 &image, &image_rect2, &button_image_anchor, &button_callback, NULL);
 
 	// TODO: (joel) bouton avec un texte
-	/**
 	ei_button_configure	(button, &button_size, &button_color,
 	 			 &button_border_width, &button_corner_radius, &button_relief, &button_title, NULL, &button_text_color, &button_text_anchor,
-	 			 NULL, NULL, NULL, &button_callback, NULL);
-	*/
+	 			 NULL, NULL, NULL, &button_callback, &user_param);
 	ei_place(button, NULL, &button_x, &button_y, &button_w, &button_h, NULL, NULL, NULL, NULL);
 
 
@@ -99,11 +101,6 @@ int ei_main(int argc, char** argv)
 
 	/* Run the application's main loop. */
 	ei_app_run();
-
-	// printf("W DATA %i\n", button->placer_params->w_data);
-	// button_x -= 300;
-	// button_y -= 50;
-	// ei_place(button, NULL, &button_x, &button_y, NULL, NULL, NULL, NULL, NULL, NULL );
 
 	/* We just exited from the main loop. Terminate the application (cleanup). */
 	ei_app_free();

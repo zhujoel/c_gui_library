@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ei_application.h"
-#include "ei_event.h"
-#include "hw_interface.h"
-#include "ei_widget.h"
+#include "../include/ei_application.h"
+#include "../include/ei_event.h"
+#include "../include/hw_interface.h"
+#include "../include/ei_widget.h"
 
 
 /*
@@ -72,18 +72,18 @@ int ei_main(int argc, char** argv)
 	ei_frame_configure(ei_app_root_widget(), NULL, &root_bgcol, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	ei_event_set_default_handle_func(process_key);
 
-	/* Create, configure and place a toplevel window on screen. */
+	// /* Create, configure and place a toplevel window on screen. */
 	window = ei_widget_create("toplevel", ei_app_root_widget());
-	ei_toplevel_configure(window, &window_size, &window_color, &window_border_width,
-				&window_title, &window_closable, &window_resizable, NULL);
-	ei_place(window, NULL, &(window_position.x), &(window_position.y), NULL, NULL, NULL, NULL, NULL, NULL);
-
-	/* Create, configure and place a button as a descendant of the toplevel window. */
-	button = ei_widget_create("button", window);
-	ei_button_configure	(button, NULL, &button_color,
-				 &button_border_width, NULL, &button_relief, &button_title, NULL, &button_text_color, NULL,
-				NULL, NULL, NULL, &button_callback, NULL);
-	ei_place(button, &button_anchor, &button_x, &button_y, NULL, NULL, &button_rel_x, &button_rel_y, &button_rel_width, NULL);
+	// ei_toplevel_configure(window, &window_size, &window_color, &window_border_width,
+	// 			&window_title, &window_closable, &window_resizable, NULL);
+	// ei_place(window, NULL, &(window_position.x), &(window_position.y), NULL, NULL, NULL, NULL, NULL, NULL);
+	//
+	// /* Create, configure and place a button as a descendant of the toplevel window. */
+	// button = ei_widget_create("button", window);
+	// ei_button_configure	(button, NULL, &button_color,
+	// 			 &button_border_width, NULL, &button_relief, &button_title, NULL, &button_text_color, NULL,
+	// 			NULL, NULL, NULL, &button_callback, NULL);
+	// ei_place(button, &button_anchor, &button_x, &button_y, NULL, NULL, &button_rel_x, &button_rel_y, &button_rel_width, NULL);
 
 	/* Run the application's main loop. */
 	ei_app_run();

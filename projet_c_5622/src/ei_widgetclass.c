@@ -19,8 +19,10 @@ typedef enum {
 } ei_interaction_t;
 
 static ei_widgetclass_t* widgetsclass = NULL;
-static ei_point_t* position_precedente;
+static ei_point_t position_precedente;
 static ei_interaction_t action = ei_none;
+
+extern ei_font_t ei_get_toplevel_font();
 
 void ei_widgetclass_register (ei_widgetclass_t* widgetclass){
   if(widgetsclass == NULL){
@@ -428,7 +430,6 @@ ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event
     printf("bring sally down \n");
     widgetbutton->relief = ei_relief_sunken;
 
-    // TODO: (joel) à modifier ? lol parce que on dessine le bouton a chaque fois qu'on appuie
     button_drawfunc(&widgetbutton->widget, ei_app_root_surface(), NULL, NULL);
 
     return  EI_TRUE;
@@ -439,12 +440,9 @@ ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event
     printf("bring sally up \n");
     widgetbutton->relief = ei_relief_raised;
 
-    // TODO: (joel) à modifier ? lol parce que on dessine le bouton a chaque fois qu'on appuie
     button_drawfunc(&widgetbutton->widget, ei_app_root_surface(), NULL, NULL);
 
-    // TODO: user_param à modifier avec une vraie paramètre éventuellement
-    int user_param = 52;
-    widgetbutton->callback(&(widgetbutton->widget), NULL, &user_param);
+    widgetbutton->callback(&(widgetbutton->widget), event, widgetbutton->user_param);
     return  EI_TRUE;
   }
   return EI_FALSE;
@@ -463,75 +461,60 @@ void toplevel_releasefunc(struct ei_widget_t* widget){
 
 void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surface_t pick_surface, ei_rect_t* clipper)
 {
-  /* implémentation du dessin d’un widget de la classe "toplevel" */
-  struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
-  //Point
-  int x =  widget->placer_params->x_data;
-  int y =  widget->placer_params->y_data;
-  int w = widget->placer_params->w_data;
-  int h = widget->placer_params->h_data;
-  int x_text = 10;
-  int y_text = 0;
-  ei_point_t text_point = {x_text, y_text};
-  int* w_text = malloc(sizeof(int));
-  int* h_text = malloc(sizeof(int));
-  ei_fontstyle_t fontstyle = ei_style_normal;
-  ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 30);
-  hw_text_compute_size (widgettoplevel->title, font, w_text, h_text);
-  //Dessin de l'entête
-  ei_rect_t rectangle = ei_rect(ei_point(x,y), ei_size(w, *h_text));
-  float rayon = 20;
-  ei_bool_t* bords = malloc(sizeof(ei_bool_t)*4);
-	bords[0] = 1;
-	bords[1] = 1;
-	bords[2] = 0;
-	bords[3] = 0;
-  ei_linked_point_t* entete = rounded_frame(rectangle, rayon, bords);
-  ei_color_t grey = {0x80, 0x80, 0x80, 0xff};
-  ei_draw_polygon(surface, entete, grey, clipper);
-  ei_draw_polygon(pick_surface, entete, *widget->pick_color, clipper);
-  //Dessin du bouton rouge
-  ei_color_t red = {0xed, 0x24, 0x09, 0xff};
-  ei_linked_point_t* bouton_rouge = arc(ei_point(x+5,y+5), rayon - 1, 0, 360);
-  ei_draw_polygon(surface, bouton_rouge, red, clipper);
-  //On écrit le titre dans la meilleur police possible
-  ei_color_t yellow = {0xf3, 0xf3, 0x0C, 0xff};
-  ei_draw_text(surface, &text_point, widgettoplevel->title, font, &yellow, clipper);
-  //Dessin du reste
-  rectangle = ei_rect(ei_point(x,y + *h_text), ei_size(w, h - *h_text));
-  bords[0] = 0;
-	bords[1] = 0;
-	bords[2] = 1;
-	bords[3] = 1;
-  // printf("x : %i\n",rectangle.top_left.x);
-  // printf("y : %i\n",rectangle.top_left.y);
-  // printf("w : %i\n",rectangle.size.width);
-  // printf("h : %i\n",rectangle.size.height);
-  ei_linked_point_t* corps = rounded_frame(rectangle, rayon, bords);
-  // ei_linked_point_t* courant2 = corps;
-  // while (courant2 != NULL)
-  // {
-  //   printf("%i\n", courant2->point.y);
-  //   courant2 = courant2->next;
-  // }
-  ei_draw_polygon(surface, corps, widgettoplevel->color, clipper);
-  //On dessine les enfants
-  ei_widget_t* courant = widget->children_head;
-  while (courant!=NULL)
-  {
-    courant->wclass->drawfunc(courant, surface, pick_surface, clipper);
-    courant = courant->next_sibling;
+  if(widget->placer_params != NULL){
+    /* implémentation du dessin d’un widget de la classe "toplevel" */
+    struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+
+    int w_text;
+    int h_text;
+    hw_text_compute_size (widgettoplevel->title, ei_get_toplevel_font(), &w_text, &h_text);
+
+    //Point
+    int x =  widget->placer_params->x_data;
+    int y =  widget->placer_params->y_data;
+    int w = widget->placer_params->w_data;
+    int h = widget->placer_params->h_data;
+
+    //Dessin de l'entête
+    ei_rect_t rectangle = ei_rect(ei_point(x,y), ei_size(w, h_text));
+    float rayon = h_text / 2;
+    ei_bool_t* bords = malloc(sizeof(ei_bool_t)*4);
+  	bords[0] = 1;
+  	bords[1] = 1;
+  	bords[2] = 0;
+  	bords[3] = 0;
+    ei_linked_point_t* entete = rounded_frame(rectangle, rayon, bords);
+    ei_color_t grey = {0x50, 0x50, 0x50, 0xff};
+    ei_draw_polygon(surface, entete, grey, clipper);
+    ei_draw_polygon(pick_surface, entete, *widget->pick_color, clipper);
+    //Dessin du bouton rouge
+    ei_color_t red = {0xed, 0x24, 0x09, 0xff};
+    int button_size = h_text + widgettoplevel->border_width - 10;
+    ei_rect_t rect_button = ei_rect(ei_point(x + 5, y + 5), ei_size(button_size, button_size));
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect_button, red, clipper, button_size/2, ei_relief_raised, 3);
+    //On écrit le titre dans la meilleur police possible
+    ei_color_t yellow = {0xf3, 0xf3, 0x0C, 0xff};
+    int x_text = x + button_size + 10;
+    int y_text = y;
+    ei_point_t text_point = {x_text, y_text};
+    ei_draw_text(surface, &text_point, widgettoplevel->title, ei_get_toplevel_font(), &yellow, clipper);
+    //Dessin du corps
+    rectangle = ei_rect(ei_point(x,y + h_text), ei_size(w - 1, h - h_text));
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, grey, clipper, 0, ei_relief_none, 0);
+    rectangle = ei_rect(ei_point(x + widgettoplevel->border_width,y + h_text + widgettoplevel->border_width), ei_size(w - 1 - (widgettoplevel->border_width * 2), h - h_text - (widgettoplevel->border_width * 2)));
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, widgettoplevel->color, clipper, 0, ei_relief_none, 0);
+    //Le petit carré pour resize
+    rectangle = ei_rect(ei_point(x + w - 16, y + h - 15), ei_size(15, 15));
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, grey, clipper, 0, ei_relief_none, 0);
+
+    //On dessine les enfants
+    ei_widget_t* courant = widget->children_head;
+    while (courant!=NULL)
+    {
+      courant->wclass->drawfunc(courant, surface, pick_surface, clipper);
+      courant = courant->next_sibling;
+    }
   }
-  //Le petit carré pour resize
-  ei_linked_point_t	carre[5];
-  ei_color_t black = {0xff, 0xff, 0xff, 0xff};
-	carre[0].point.x = x+w-10; carre[0].point.y = y+h; carre[0].next = &carre[1];
-	carre[1].point.x = x+w-10; carre[1].point.y = y+h-10; carre[1].next = &carre[2];
-	carre[2].point.x = x+w; carre[2].point.y = y+h-10; carre[2].next = &carre[3];
-  carre[3].point.x = x+w; carre[3].point.y = y+h; carre[3].next = &carre[4];
-  carre[4].point.x = x+w-10; carre[4].point.y = y+h; carre[4].next = NULL;
-  ei_draw_polygon(surface, carre, widgettoplevel->color, clipper);
-  ei_draw_polyline(surface, carre, black, clipper);
 }
 
 void toplevel_setdefaultsfunc(struct ei_widget_t*	widget){
@@ -570,7 +553,10 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
   int y1 = widget->placer_params->y_data;
   int x2 = x1 + widget->placer_params->w_data;
   int y2 = y1 + widget->placer_params->h_data;
-  int y3 = y1 + widgettoplevel->border_width; // border_width = taille de l'entête ??????
+  int w_text;
+  int h_text;
+  hw_text_compute_size (widgettoplevel->title, ei_get_toplevel_font(), &w_text, &h_text);
+  int y3 = y1 + widgettoplevel->border_width + h_text; // border_width = taille de l'entête ??????
   ei_widget_t* actif = ei_event_get_active_widget();
 
   if (actif == NULL)   // On a pas de widget actif
@@ -578,28 +564,29 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     if (event->type == ei_ev_mouse_buttondown
     && event->param.mouse.button_number == 1)
     {
-      printf("appuye\n");
+      printf("Window\n");
       if (dedans(event->param.mouse.where,x1,y1,x2,y3)) // Pour déplacer la fenetre
       {
-        printf("selec\n");
-        *position_precedente = event->param.mouse.where;
+        printf("Move\n");
+        position_precedente = event->param.mouse.where;
         ei_event_set_active_widget(widget);
         action = ei_deplace;
         return EI_TRUE;
       }
       else if (widgettoplevel->resizable != ei_axis_none
-              && dedans(event->param.mouse.where,x2-10,y2-10,x2,y2))       // Pour redimensionner la fenetre
+              && dedans(event->param.mouse.where,x2-15,y2-15,x2,y2))       // Pour redimensionner la fenetre
       {
-        *position_precedente = event->param.mouse.where;
+        printf("Resize\n");
+        position_precedente = event->param.mouse.where;
         ei_event_set_active_widget(widget);
         action = ei_redim;
         return EI_TRUE;
       }
       else if (widgettoplevel->closable == EI_TRUE
-              && dedans(event->param.mouse.where,x1,y1,x1+10,y1+10))      // Pour fermer la fenetre
+              && dedans(event->param.mouse.where,x1 + 5,y1 + 5, x1+20, y1+20))      // Pour fermer la fenetre
       {
-        printf("Quit\n");
-        ei_app_quit_request();
+        printf("Close\n");
+        ei_placer_forget(widget);
         return EI_TRUE;
       }
     }
@@ -615,10 +602,11 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     }
     else if (event->type == ei_ev_mouse_move)
     {
-      int deltax = event->param.mouse.where.x - position_precedente->x;
-      int deltay = event->param.mouse.where.y - position_precedente->y;
+      int deltax = event->param.mouse.where.x - position_precedente.x;
+      int deltay = event->param.mouse.where.y - position_precedente.y;
       if (action == ei_deplace)
       {
+        printf("Deplace\n");
         widget->placer_params->x_data += deltax;
         widget->placer_params->y_data += deltay;
       }
@@ -633,7 +621,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
           widget->placer_params->h_data += deltay;
         }
       }
-      *position_precedente = event->param.mouse.where;
+      position_precedente = event->param.mouse.where;
       return EI_TRUE;
     }
   }

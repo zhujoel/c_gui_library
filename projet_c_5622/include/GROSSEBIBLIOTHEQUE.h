@@ -16,6 +16,14 @@
 #include "hw_interface.h"
 
 
+#ifndef max
+	#define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#endif
+
+#ifndef min
+	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#endif
+
 /**
  * \brief	Converti un integer de 32 bits en type couleur en utilisant l'ordre des couleurs
  * d'une surface.

@@ -26,7 +26,7 @@ ei_bool_t process_key(ei_event_t* event)
 int ei_main(int argc, char** argv)
 {
 	ei_toplevel_register_class();
-	ei_size_t	screen_size		= {1920, 600};
+	ei_size_t	screen_size		= {600, 600};
 	ei_color_t	root_bgcol		= {0x52, 0x7f, 0xb4, 0xff};
 
 	ei_widget_t*	toplevel;
@@ -41,7 +41,7 @@ int ei_main(int argc, char** argv)
 	float		toplevel_hr		= 0;
 	ei_anchor_t toplevel_anchor = ei_anc_center;
 	ei_color_t	toplevel_color		= {0x88, 0x88, 0x88, 0xff};
-	int		toplevel_border_width	= 6;
+	int		toplevel_border_width	= 4;
 
 	char* title = "Fromage de chèvre";
 	//hw_text_font_free(font);

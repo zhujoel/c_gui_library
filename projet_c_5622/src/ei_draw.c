@@ -6,14 +6,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#ifndef max
-	#define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
-#endif
-
-#ifndef min
-	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
-#endif
-
 #ifndef PI
 	#define PI 3.14159265
 #endif
@@ -907,7 +899,7 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	if(reliefType == 0){;
 
 	}
-	else if(reliefType == 1){
+	else if(reliefType == 2){
 		rect_red = color.red*LIGHTER_SHADE;
 		rect_blue = color.blue*LIGHTER_SHADE;
 		rect_green = color.green*LIGHTER_SHADE;
@@ -930,7 +922,7 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 		ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
 		ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 	}
-	else if(reliefType == 2){
+	else if(reliefType == 1){
 		rect_red = color.red*DARKER_SHADE;
 		rect_blue = color.blue*DARKER_SHADE;
 		rect_green = color.green*DARKER_SHADE;

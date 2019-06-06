@@ -11,6 +11,8 @@ static ei_surface_t main_window	= NULL;
 static ei_surface_t picking_surface = NULL;
 static ei_bool_t continuer = EI_TRUE;
 
+static ei_font_t toplevel_font;
+
 extern ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t* parent);
 
 void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
@@ -21,7 +23,9 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
   ei_frame_register_class();
   ei_button_register_class();
   ei_toplevel_register_class();
-  //...
+
+  //Load font
+  toplevel_font = hw_text_font_create("fonts/BigCheese.ttf", ei_style_normal, 30);
 
   //Creates the root window
   main_window =	hw_create_window(main_window_size, fullscreen);
@@ -89,9 +93,6 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
 void ei_app_run(){
   ei_widget_t* actif;
   ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
-  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
-  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
-  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
   hw_surface_update_rects(ei_app_root_surface(), NULL);
   struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
   while (continuer)
@@ -101,6 +102,7 @@ void ei_app_run(){
     if (actif != NULL)
     {
       actif->wclass->handlefunc(actif, event);
+      ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location);
     }
     else
     {
@@ -110,6 +112,7 @@ void ei_app_run(){
       {
         actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
         actif->wclass->handlefunc(actif, event);
+        ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location);
       }
       else
       {
@@ -139,4 +142,8 @@ ei_widget_t* ei_app_root_widget(){
 
 ei_surface_t ei_app_root_surface(){
   return main_window;
+}
+
+ei_font_t ei_get_toplevel_font(){
+  return toplevel_font;
 }

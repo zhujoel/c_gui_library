@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 
+extern ei_font_t ei_get_toplevel_font();
 
 void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, int* width, int* height, float* rel_x, float* rel_y, float* rel_width, float* rel_height){
   ei_placer_params_t* placer_params = malloc(sizeof(ei_placer_params_t));
@@ -48,28 +49,36 @@ void ei_placer_run(struct ei_widget_t* widget){
       if(widgetbutton->text != NULL){
         hw_text_compute_size (widgetbutton->text, widgetbutton->text_font, &w, &h);
       }
-    }else if(strcmp(widget->wclass->name, "frame")==0){
+    }
+    else if(strcmp(widget->wclass->name, "frame")==0){
       struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
       if(widgetframe->text != NULL){
         // printf("Text found in placer run\n");
         // printf("%p\n", &widgetframe->text_font);
         hw_text_compute_size (widgetframe->text, widgetframe->text_font, &w, &h);
       }
+    }else if(strcmp(widget->wclass->name, "toplevel")==0){
+      struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
+      //The same font used in the toplevel drawfunc
+      if(widgettoplevel->title != NULL){
+        hw_text_compute_size (widgettoplevel->title, ei_get_toplevel_font(), &w, &h);
+        //Add the red button size
+        w += h - 10;
+      }
     }
 
-    printf("WiDtH PlAcER waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %i \n", widget->placer_params->w_data);
-    printf("HeIgHt PlAcER waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %i \n", widget->placer_params->h_data);
-    /** TODO: (joel) jai commenté pck wtf ça modifie width alors qu'on veut pas ?
+    printf("WiDtH PlAcER %i \n", widget->placer_params->w_data);
+    printf("HeIgHt PlAcER %i \n", widget->placer_params->h_data);
     ei_widget_t* root = ei_app_root_widget();
     int diff = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
 
     if(diff > 0){
-      // printf("AUGMENTATION SYMBIOTE : %i\n", diff);
       widget->placer_params->w_data += diff;
       widget->screen_location.size.width += diff;
     }
-    */
 
+    printf("WiDtH PlAcER %i \n", widget->placer_params->w_data);
+    printf("HeIgHt PlAcER %i \n", widget->placer_params->h_data);
   }
 
 
@@ -104,7 +113,6 @@ void ei_placer_run(struct ei_widget_t* widget){
     widget->screen_location = screen_loc;
     widget->content_rect = &screen_loc;
   }
-<<<<<<< HEAD
   printf("NEW Screeeeen Location ---------\n");
 
   printf("%i\n", widget->screen_location.top_left.x);
@@ -117,21 +125,6 @@ void ei_placer_run(struct ei_widget_t* widget){
   printf("%i\n", widget->content_rect->top_left.y);
   printf("%i\n", widget->content_rect->size.width);
   printf("%i\n", widget->content_rect->size.height);
-=======
-  // printf("NEW Screeeeen Location ---------\n");
-
-  // printf("%i\n", widget->screen_location.top_left.x);
-  // printf("%i\n", widget->screen_location.top_left.y);
-  // printf("%i\n", widget->screen_location.size.width);
-  // printf("%i\n", widget->screen_location.size.height);
-
-  // printf("Content rect ---------\n");
-  // printf("%i\n", widget->content_rect->top_left.x);
-  // printf("%i\n", widget->content_rect->top_left.y);
-  // printf("%i\n", widget->content_rect->size.width);
-  // printf("%i\n", widget->content_rect->size.height);
-
->>>>>>> 2c0612a0a5ee50be42b8e493cd89406b2571c9ea
 }
 
 void ei_placer_forget(struct ei_widget_t* widget){
