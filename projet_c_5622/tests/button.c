@@ -76,6 +76,7 @@ int ei_main(int argc, char** argv)
 	ei_anchor_t button_image_anchor = ei_anc_center;
 	ei_rect_t image_rect = hw_surface_get_rect(image);
 	ei_rect_t *image_rect2 = &image_rect;
+	printf("NOT TODAY %i %i \n", image_rect2->size.width, image_rect2->size.height);
 
 	/* Create, configure and place the button on screen. */
 	button = ei_widget_create("button", ei_app_root_widget());

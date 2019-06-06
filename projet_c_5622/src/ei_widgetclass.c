@@ -12,6 +12,14 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifndef max
+	#define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#endif
+
+#ifndef min
+	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#endif
+
 typedef enum {
   ei_none = 0,
 	ei_deplace,
@@ -174,6 +182,7 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
       // printf("Draw frame IMAGE\n");
       //Draw the image frame//ei_draw_polygon (surface, pts, *widgetframe->color, NULL); //clipper);
       //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
+
     }else if (widgetframe->text != NULL){
       // Draw the frame text
       // printf("Draw frame Text : %s\n", *widgetframe->text);
@@ -323,7 +332,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
       ei_surface_t image = widgetbutton->img;
   	  ei_rect_t image_rect = hw_surface_get_rect(image);
      	ei_point_t dst_point = {x, y};
-     	ei_size_t dst_size = image_rect.size;
+     	ei_size_t dst_size = {image_rect.size.width, image_rect.size.height};
      	ei_rect_t dst_rect = {dst_point, dst_size};
 
       // rectangle source où copier l'image
@@ -349,7 +358,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     		ei_copy_surface(surface, &dst_rect, image, &src_rect, 1);
     	}
     	else{
-    		ei_copy_surface(surface, &dst_rect, image, NULL, 1);
+    		ei_copy_surface(surface, &dst_rect, image, &rect, 1);
     	}
 
     }
