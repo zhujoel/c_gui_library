@@ -4,10 +4,7 @@
 #include "../include/ei_widgets.h"
 #include "../include/ei_event.h"
 #include "../include/ei_utils.h"
-<<<<<<< HEAD
 #include "../include/ei_draw.h"
-=======
->>>>>>> 9e6bcfcda1116a4c198c41718f4faae9a5bef08e
 #include "../include/GROSSEBIBLIOTHEQUE.h"
 //#include "../include/ei_placer.h"
 

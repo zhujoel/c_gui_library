@@ -206,6 +206,14 @@ polygon : ${OBJDIR}/polygon.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
 ${OBJDIR}/polygon.o : ${TESTS}/polygon.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/polygon.c -o ${OBJDIR}/polygon.o
 
+# button
+
+toplevel : ${OBJDIR}/toplevel.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o toplevel ${LDFLAGS} ${OBJDIR}/toplevel.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
+
+${OBJDIR}/toplevel.o : ${TESTS}/toplevel.c
+	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/toplevel.c -o ${OBJDIR}/toplevel.o
+
 
 
 # Building of the library libei

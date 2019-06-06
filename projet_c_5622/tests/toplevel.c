@@ -14,7 +14,6 @@
  */
 int ei_main(int argc, char** argv)
 {
-<<<<<<< HEAD
 	ei_size_t	screen_size		= {1920, 600};
 	ei_color_t	root_bgcol		= {0x52, 0x7f, 0xb4, 0xff};
 
@@ -59,8 +58,6 @@ int ei_main(int argc, char** argv)
 
 	/* We just exited from the main loop. Terminate the application (cleanup). */
 	ei_app_free();
-=======
->>>>>>> 9e6bcfcda1116a4c198c41718f4faae9a5bef08e
 
 	return (EXIT_SUCCESS);
 }

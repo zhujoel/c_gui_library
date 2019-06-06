@@ -71,7 +71,7 @@ typedef void	(*ei_widgetclass_setdefaultsfunc_t)	(struct ei_widget_t*	widget);
  * @param	widget		The widget instance to notify of a geometry change.
  * @param	rect		The new rectangular screen location of the widget
  *				(i.e. = widget->screen_location).
- */ei_color_t default_color = ei_default_background_color;
+ */
 typedef void	(*ei_widgetclass_geomnotifyfunc_t)	(struct ei_widget_t*	widget,
 							 ei_rect_t		rect);
 
