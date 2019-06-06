@@ -159,7 +159,7 @@ void ei_button_configure (ei_widget_t* widget, ei_size_t* requested_size, const 
     widgetbutton->text_anchor = *text_anchor;
   }
   if(img != NULL){
-    widgetbutton->img = img;
+    widgetbutton->img = *img;
   }
   if(img_rect != NULL){
     widgetbutton->img_rect = *img_rect;

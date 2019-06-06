@@ -104,7 +104,6 @@ void ei_placer_run(struct ei_widget_t* widget){
     widget->screen_location = screen_loc;
     widget->content_rect = &screen_loc;
   }
-<<<<<<< HEAD
   printf("NEW Screeeeen Location ---------\n");
 
   printf("%i\n", widget->screen_location.top_left.x);
@@ -117,21 +116,6 @@ void ei_placer_run(struct ei_widget_t* widget){
   printf("%i\n", widget->content_rect->top_left.y);
   printf("%i\n", widget->content_rect->size.width);
   printf("%i\n", widget->content_rect->size.height);
-=======
-  // printf("NEW Screeeeen Location ---------\n");
-
-  // printf("%i\n", widget->screen_location.top_left.x);
-  // printf("%i\n", widget->screen_location.top_left.y);
-  // printf("%i\n", widget->screen_location.size.width);
-  // printf("%i\n", widget->screen_location.size.height);
-
-  // printf("Content rect ---------\n");
-  // printf("%i\n", widget->content_rect->top_left.x);
-  // printf("%i\n", widget->content_rect->top_left.y);
-  // printf("%i\n", widget->content_rect->size.width);
-  // printf("%i\n", widget->content_rect->size.height);
-
->>>>>>> 2c0612a0a5ee50be42b8e493cd89406b2571c9ea
 }
 
 void ei_placer_forget(struct ei_widget_t* widget){
