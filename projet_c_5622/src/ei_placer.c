@@ -56,8 +56,10 @@ void ei_placer_run(struct ei_widget_t* widget){
       }
     }
 
+    printf("WiDtH PlAcER waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %i \n", widget->placer_params->w_data);
+    printf("HeIgHt PlAcER waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %i \n", widget->placer_params->h_data);
+    /** TODO: (joel) jai commenté pck wtf ça modifie width alors qu'on veut pas ?
     ei_widget_t* root = ei_app_root_widget();
-
     int diff = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
 
     if(diff > 0){
@@ -65,8 +67,10 @@ void ei_placer_run(struct ei_widget_t* widget){
       widget->placer_params->w_data += diff;
       widget->screen_location.size.width += diff;
     }
+    */
 
   }
+
 
   //Recalc the screen location of the widget
   int screen_x = 0;
@@ -111,7 +115,6 @@ void ei_placer_run(struct ei_widget_t* widget){
   printf("%i\n", widget->content_rect->top_left.y);
   printf("%i\n", widget->content_rect->size.width);
   printf("%i\n", widget->content_rect->size.height);
-
 }
 
 void ei_placer_forget(struct ei_widget_t* widget){

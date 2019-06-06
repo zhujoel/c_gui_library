@@ -14,7 +14,8 @@
  */
 void button_press(ei_widget_t* widget, ei_event_t* event, void* user_param)
 {
-	printf("Click !\n");
+	int* param = (int*)user_param;
+	printf("Click ! %i \n", *param);
 }
 
 /*
@@ -47,8 +48,10 @@ int ei_main(int argc, char** argv)
 	ei_widget_t*	button;
 	ei_size_t	button_size		= {300,300};
 	int		button_corner_radius	= 40;
-	int		button_x		= 50;
-	int		button_y		= 50;
+	int		button_x		= 120;
+	int		button_y		= 100;
+	int button_w = 190;
+	int button_h = 200;
 
 	ei_color_t	button_color		= {0x88, 0x88, 0x88, 0xff};
 	char*		button_title		= "Mon premier Bouton !";
@@ -63,19 +66,36 @@ int ei_main(int argc, char** argv)
 	ei_frame_configure(ei_app_root_widget(), NULL, &root_bgcol, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	ei_event_set_default_handle_func(process_key);
 
+	// TODO: (joel) crée l'image pour le bouton
+	char* image_filename	= "misc/klimt.jpg";
+	ei_surface_t image = hw_image_load(image_filename, ei_app_root_surface());
+	ei_anchor_t button_image_anchor = ei_anc_center;
+	ei_rect_t image_rect = hw_surface_get_rect(image);
+	ei_rect_t *image_rect2 = &image_rect;
+
 	/* Create, configure and place the button on screen. */
 	button = ei_widget_create("button", ei_app_root_widget());
+
+	// TODO: (joel) bouton avec une image
+	ei_button_configure	(button, &button_size, &button_color,
+				 &button_border_width, &button_corner_radius, &button_relief, NULL, NULL, NULL, NULL,
+				 &image, &image_rect2, &button_image_anchor, &button_callback, NULL);
+
+	// TODO: (joel) bouton avec un texte
+	/**
 	ei_button_configure	(button, &button_size, &button_color,
 	 			 &button_border_width, &button_corner_radius, &button_relief, &button_title, NULL, &button_text_color, &button_text_anchor,
 	 			 NULL, NULL, NULL, &button_callback, NULL);
-	ei_place(button, NULL, &button_x, &button_y, NULL, NULL, NULL, NULL, NULL, NULL );
+	*/
+	ei_place(button, NULL, &button_x, &button_y, &button_w, &button_h, NULL, NULL, NULL, NULL);
+
 
 	char*		button_title2		= "FROMAGE DE CHEVRE INCROYABLE Woooo";
 	ei_button_configure	(button, NULL, NULL, NULL, NULL, NULL, &button_title2, NULL, NULL, NULL,
 	 			 NULL, NULL, NULL, NULL, NULL);
 
 	/* Hook the keypress callback to the event. */
-	//ei_frame_configure(ei_app_root_widget(), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	ei_frame_configure(ei_app_root_widget(), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	/* Run the application's main loop. */
 	ei_app_run();
