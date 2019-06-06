@@ -7,6 +7,17 @@
 #include "../include/ei_widget.h"
 
 
+ei_bool_t process_key(ei_event_t* event)
+{
+	if (event->type == ei_ev_keydown)
+		if (event->param.key.key_sym == SDLK_ESCAPE) {
+			ei_app_quit_request();
+			return EI_TRUE;
+		}
+
+	return EI_FALSE;
+}
+
 /*
  * ei_main --
  *
@@ -14,7 +25,7 @@
  */
 int ei_main(int argc, char** argv)
 {
-	ei_size_t	screen_size		= {1920, 600};
+	ei_size_t	screen_size		= {1920, 900};
 	ei_color_t	root_bgcol		= {0x52, 0x7f, 0xb4, 0xff};
 
 	ei_widget_t*	frame;
@@ -48,17 +59,17 @@ int ei_main(int argc, char** argv)
 	ei_app_create(&screen_size, EI_FALSE);
 	ei_frame_configure(ei_app_root_widget(), NULL, &root_bgcol, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 250);
+	ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 50);
 	//image = hw_image_load(image_filename, ei_app_root_surface());
 	//image_size	= hw_surface_get_size(image);
 
 	/* Create, configure and place the frame on screen. */
 	frame = ei_widget_create("frame", ei_app_root_widget());
 	ei_frame_configure	(frame, &frame_size, &frame_color,
-				 &frame_border_width, &frame_relief, &text, font, &color, &text_anchor,
+				 &frame_border_width, &frame_relief, &text, &font, &color, &text_anchor,
 				 NULL, NULL, NULL);
 	ei_place(frame, &frame_anchor, &frame_x, &frame_y, &frame_w, &frame_h, &frame_rx, &frame_ry, &frame_wr, &frame_hr );
-
+	ei_event_set_default_handle_func(process_key);
 	/* Run the application's main loop. */
 	ei_app_run();
 

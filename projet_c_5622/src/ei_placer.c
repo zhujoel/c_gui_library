@@ -38,7 +38,7 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
 }
 
 void ei_placer_run(struct ei_widget_t* widget){
-  printf("PLACER RUN WIDGET ID : %i\n", widget->pick_id);
+  // printf("PLACER RUN WIDGET ID : %i\n", widget->pick_id);
 
   if(widget->pick_id != 0){
     int w = 0;
@@ -51,8 +51,9 @@ void ei_placer_run(struct ei_widget_t* widget){
     }else if(strcmp(widget->wclass->name, "frame")==0){
       struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
       if(widgetframe->text != NULL){
-        printf("Text found in placer run\n");
-        hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w, &h);
+        // printf("Text found in placer run\n");
+        // printf("%p\n", &widgetframe->text_font);
+        hw_text_compute_size (widgetframe->text, widgetframe->text_font, &w, &h);
       }
     }
 
@@ -63,7 +64,7 @@ void ei_placer_run(struct ei_widget_t* widget){
     int diff = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
 
     if(diff > 0){
-      printf("AUGMENTATION SYMBIOTE : %i\n", diff);
+      // printf("AUGMENTATION SYMBIOTE : %i\n", diff);
       widget->placer_params->w_data += diff;
       widget->screen_location.size.width += diff;
     }
@@ -76,7 +77,7 @@ void ei_placer_run(struct ei_widget_t* widget){
   int screen_x = 0;
   int screen_y = 0;
   if (widget != ei_app_root_widget()){
-    printf("CALC the screen_POS\n");
+    // printf("CALC the screen_POS\n");
     screen_x = widget->parent->screen_location.top_left.x;
     screen_y = widget->parent->screen_location.top_left.y;
 
@@ -85,7 +86,7 @@ void ei_placer_run(struct ei_widget_t* widget){
     int screen_w = widget->placer_params->w_data + (widget->placer_params->rw_data * widget->parent->screen_location.size.width);
     int screen_h = widget->placer_params->h_data + (widget->placer_params->rh_data * widget->parent->screen_location.size.height);
 
-    printf("%i\n", screen_w);
+    // printf("%i\n", screen_w);
 
     if(screen_x + screen_w > ei_app_root_widget()->screen_location.size.width){
       screen_w = ei_app_root_widget()->screen_location.size.width - screen_x;
@@ -93,7 +94,7 @@ void ei_placer_run(struct ei_widget_t* widget){
     if(screen_y + screen_h > ei_app_root_widget()->screen_location.size.height){
       screen_h = ei_app_root_widget()->screen_location.size.height - screen_y;
     }
-    printf("%i\n", screen_w);
+    // printf("%i\n", screen_w);
 
     ei_rect_t screen_loc = ei_rect(ei_point(screen_x, screen_y), ei_size(screen_w, screen_h));
     widget->screen_location = screen_loc;
@@ -103,6 +104,7 @@ void ei_placer_run(struct ei_widget_t* widget){
     widget->screen_location = screen_loc;
     widget->content_rect = &screen_loc;
   }
+<<<<<<< HEAD
   printf("NEW Screeeeen Location ---------\n");
 
   printf("%i\n", widget->screen_location.top_left.x);
@@ -115,6 +117,21 @@ void ei_placer_run(struct ei_widget_t* widget){
   printf("%i\n", widget->content_rect->top_left.y);
   printf("%i\n", widget->content_rect->size.width);
   printf("%i\n", widget->content_rect->size.height);
+=======
+  // printf("NEW Screeeeen Location ---------\n");
+
+  // printf("%i\n", widget->screen_location.top_left.x);
+  // printf("%i\n", widget->screen_location.top_left.y);
+  // printf("%i\n", widget->screen_location.size.width);
+  // printf("%i\n", widget->screen_location.size.height);
+
+  // printf("Content rect ---------\n");
+  // printf("%i\n", widget->content_rect->top_left.x);
+  // printf("%i\n", widget->content_rect->top_left.y);
+  // printf("%i\n", widget->content_rect->size.width);
+  // printf("%i\n", widget->content_rect->size.height);
+
+>>>>>>> 2c0612a0a5ee50be42b8e493cd89406b2571c9ea
 }
 
 void ei_placer_forget(struct ei_widget_t* widget){

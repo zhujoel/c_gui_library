@@ -8,16 +8,16 @@ typedef struct ei_widget_frame_t {
   ei_widget_t widget;
 
   //Specific attributes
-  const ei_color_t*	color;
-  int* border_width;
-  ei_relief_t* relief;
-  char**  text;
-  ei_font_t* text_font;
-  ei_color_t* text_color;
-  ei_anchor_t* text_anchor;
-  ei_surface_t* img;
-  ei_rect_t** img_rect;
-  ei_anchor_t* img_anchor;
+  ei_color_t	color;
+  int border_width;
+  ei_relief_t relief;
+  char*  text;
+  ei_font_t text_font;
+  ei_color_t text_color;
+  ei_anchor_t text_anchor;
+  ei_surface_t img;
+  ei_rect_t* img_rect;
+  ei_anchor_t img_anchor;
 
 } ei_widget_frame_t;
 
@@ -47,12 +47,12 @@ typedef struct ei_widget_toplevel_t {
   ei_widget_t widget;
 
   //Specific attributes
-  ei_color_t* color;
-  int* border_width;
-  char** title;
-  ei_bool_t* closable;
-  ei_axis_set_t* resizable;
-  ei_size_t** min_size;
+  ei_color_t color;
+  int border_width;
+  char* title;
+  ei_bool_t closable;
+  ei_axis_set_t resizable;
+  ei_size_t* min_size;
 
 } ei_widget_toplevel_t;
 

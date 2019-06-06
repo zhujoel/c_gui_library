@@ -162,10 +162,10 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
     ei_rect_t rect = ei_rect(ei_point(x, y), ei_size(w, h));
-
-    printf("Michel !\n");
-    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, *widgetframe->color, NULL, 0, *widgetframe->relief, *widgetframe->border_width);
-    printf("BOB !\n");
+    // printf("%i\n",widgetframe->border_width);
+    // printf("Michel !\n");
+    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetframe->color, NULL, 0, widgetframe->relief, widgetframe->border_width);
+    // printf("BOB !\n");
 
 
     if (widgetframe->img != NULL){
@@ -186,35 +186,35 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
       int y_text = y;
       int w_text;
       int h_text;
-      hw_text_compute_size (*widgetframe->text, widgetframe->text_font, &w_text, &h_text);
+      hw_text_compute_size (widgetframe->text, widgetframe->text_font, &w_text, &h_text);
 
-      apply_anchor_text(*widgetframe->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
+      apply_anchor_text(widgetframe->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
 
       ei_point_t text_point = ei_point(x_text, y_text);
 
-    	ei_draw_text(surface, &text_point, *widgetframe->text, widgetframe->text_font, widgetframe->text_color, &clipper);
+    	ei_draw_text(surface, &text_point, widgetframe->text, widgetframe->text_font, &widgetframe->text_color, &clipper);
     }
 
 
 
-    printf("OUI\n");
+    // printf("OUI\n");
     ei_widget_t* child = widget->children_head;
     if (child != NULL)
     {
-      printf("child != null\n");
+      // printf("child != null\n");
       if(widget->children_tail == child){
-          printf("TAIL = HEAD\n");
+          // printf("TAIL = HEAD\n");
       }
 
       while(child != widget->children_tail)
       {
-        printf("Widget while\n");
+        // printf("Widget while\n");
         //child->wclass->drawfunc(widget, ei_app_root_surface(), pick_surface, NULL);//&widget->screen_location); //widget->content_rect);
         if(child->next_sibling != NULL){
           //child = child->next_sibling;
         }
       }
-      printf("FIN WHILE\n");
+      // printf("FIN WHILE\n");
       child->wclass->drawfunc(child, ei_app_root_surface(), pick_surface, NULL); //&widget->screen_location); //widget->content_rect);
     //   printf("OUI\n");
     }
@@ -229,19 +229,19 @@ void frame_setdefaultsfunc(struct ei_widget_t* widget){
   ei_size_t	screen_size = {0, 0};
   ei_color_t default_color = ei_default_background_color;
   widgetframe->widget.requested_size = screen_size;
-  widgetframe->color = &default_color;
+  widgetframe->color = default_color;
   int border_width = 0;
-  widgetframe->border_width = &border_width;
+  widgetframe->border_width = border_width;
   ei_relief_t default_relief = ei_relief_none;
-  widgetframe->relief = &default_relief;
+  widgetframe->relief = default_relief;
   widgetframe->text = NULL;
   widgetframe->text_font = ei_default_font;
-  widgetframe->text_color = &default_color;
+  widgetframe->text_color = default_color;
   ei_anchor_t anchor_center = ei_anc_center;
-  widgetframe->text_anchor = &anchor_center;
+  widgetframe->text_anchor = anchor_center;
   widgetframe->img = NULL;
   widgetframe->img_rect = NULL;
-  widgetframe->img_anchor = &anchor_center;
+  widgetframe->img_anchor = anchor_center;
 }
 
 void frame_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -291,13 +291,13 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 
     apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
-    printf("PRINT LE BOUTON\n");
-    printf("%i\n", x);
-    printf("%i\n", y);
-    printf("%i\n", w);
-    printf("%i\n", h);
-    printf("Border : %i\n", widgetbutton->border_width);
-    printf("Corner : %i\n", widgetbutton->corner_radius);
+    // printf("PRINT LE BOUTON\n");
+    // printf("%i\n", x);
+    // printf("%i\n", y);
+    // printf("%i\n", w);
+    // printf("%i\n", h);
+    // printf("Border : %i\n", widgetbutton->border_width);
+    // printf("Corner : %i\n", widgetbutton->corner_radius);
 
     printf("hehe %i %i %i %i \n", x, y, w, h);
 
@@ -372,23 +372,23 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
       ei_point_t text_point = ei_point(x_text, y_text);
 
     	ei_draw_text(surface, &text_point, widgetbutton->text, widgetbutton->text_font, &widgetbutton->text_color, &widget->screen_location);
-      printf("TEXT POS\n");
-      printf("%i\n", x_text);
-      printf("%i\n", y_text);
-      printf("%i\n", w_text);
-      printf("%i\n", h_text);
+      // printf("TEXT POS\n");
+      // printf("%i\n", x_text);
+      // printf("%i\n", y_text);
+      // printf("%i\n", w_text);
+      // printf("%i\n", h_text);
 
-      printf("SCREEN LOC PARENT\n");
-      printf("%i\n", widget->screen_location.top_left.x);
-      printf("%i\n", widget->screen_location.top_left.y);
-      printf("%i\n", widget->screen_location.size.width);
-      printf("%i\n", widget->screen_location.size.height);
+      // printf("SCREEN LOC PARENT\n");
+      // printf("%i\n", widget->screen_location.top_left.x);
+      // printf("%i\n", widget->screen_location.top_left.y);
+      // printf("%i\n", widget->screen_location.size.width);
+      // printf("%i\n", widget->screen_location.size.height);
 
 
     }
 
   }else{
-    printf("Avoid printing Button widget\n");
+    // printf("Avoid printing Button widget\n");
   }
 }
 
@@ -411,8 +411,8 @@ void button_setdefaultsfunc(struct ei_widget_t*	widget){
   widgetbutton->corner_radius = k_default_button_corner_radius;
   widgetbutton->border_width = k_default_button_border_width;
 
-  printf("Border : %i\n", widgetbutton->border_width);
-  printf("Corner : %i\n", widgetbutton->corner_radius);
+  // printf("Border : %i\n", widgetbutton->border_width);
+  // printf("Corner : %i\n", widgetbutton->corner_radius);
 }
 
 void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -420,7 +420,7 @@ void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 }
 
 ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
-  printf("button handle\n");
+  // printf("button handle\n");
   struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
 
   if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
@@ -473,14 +473,14 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
   int x_text = 10;
   int y_text = 0;
   ei_point_t text_point = {x_text, y_text};
-  int* w_text = NULL;
-  int* h_text = NULL;
+  int* w_text = malloc(sizeof(int));
+  int* h_text = malloc(sizeof(int));
   ei_fontstyle_t fontstyle = ei_style_normal;
   ei_font_t font = hw_text_font_create("fonts/BigCheese.ttf", fontstyle, 30);
-  hw_text_compute_size (*widgettoplevel->title, font, w_text, h_text);
+  hw_text_compute_size (widgettoplevel->title, font, w_text, h_text);
   //Dessin de l'entête
   ei_rect_t rectangle = ei_rect(ei_point(x,y), ei_size(w, *h_text));
-  float rayon = 5;
+  float rayon = 20;
   ei_bool_t* bords = malloc(sizeof(ei_bool_t)*4);
 	bords[0] = 1;
 	bords[1] = 1;
@@ -496,15 +496,25 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
   ei_draw_polygon(surface, bouton_rouge, red, clipper);
   //On écrit le titre dans la meilleur police possible
   ei_color_t yellow = {0xf3, 0xf3, 0x0C, 0xff};
-  ei_draw_text(surface, &text_point, *widgettoplevel->title, font, &yellow, clipper);
+  ei_draw_text(surface, &text_point, widgettoplevel->title, font, &yellow, clipper);
   //Dessin du reste
   rectangle = ei_rect(ei_point(x,y + *h_text), ei_size(w, h - *h_text));
   bords[0] = 0;
 	bords[1] = 0;
 	bords[2] = 1;
 	bords[3] = 1;
+  // printf("x : %i\n",rectangle.top_left.x);
+  // printf("y : %i\n",rectangle.top_left.y);
+  // printf("w : %i\n",rectangle.size.width);
+  // printf("h : %i\n",rectangle.size.height);
   ei_linked_point_t* corps = rounded_frame(rectangle, rayon, bords);
-  ei_draw_polygon(surface, corps, *widgettoplevel->color, clipper);
+  // ei_linked_point_t* courant2 = corps;
+  // while (courant2 != NULL)
+  // {
+  //   printf("%i\n", courant2->point.y);
+  //   courant2 = courant2->next;
+  // }
+  ei_draw_polygon(surface, corps, widgettoplevel->color, clipper);
   //On dessine les enfants
   ei_widget_t* courant = widget->children_head;
   while (courant!=NULL)
@@ -520,7 +530,7 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
 	carre[2].point.x = x+w; carre[2].point.y = y+h-10; carre[2].next = &carre[3];
   carre[3].point.x = x+w; carre[3].point.y = y+h; carre[3].next = &carre[4];
   carre[4].point.x = x+w-10; carre[4].point.y = y+h; carre[4].next = NULL;
-  ei_draw_polygon(surface, carre, *widgettoplevel->color, clipper);
+  ei_draw_polygon(surface, carre, widgettoplevel->color, clipper);
   ei_draw_polyline(surface, carre, black, clipper);
 }
 
@@ -529,16 +539,18 @@ void toplevel_setdefaultsfunc(struct ei_widget_t*	widget){
   ei_size_t	screen_size = {0, 0};
   ei_color_t default_color = ei_default_background_color;
   widgettoplevel->widget.requested_size = screen_size;
-  widgettoplevel->color = &default_color;
+  widgettoplevel->color = default_color;
   int default_width = 4;
-  widgettoplevel->border_width = &default_width;
-  strcpy(*widgettoplevel->title, "TopLevel");
+  widgettoplevel->border_width = default_width;
+  char* default_title = "TopLevel";
+  widgettoplevel->title = default_title;
+  //strcpy(*widgettoplevel->title, "TopLevel");
   ei_bool_t closable = EI_TRUE;
-  widgettoplevel->closable = &closable;
+  widgettoplevel->closable = closable;
   ei_axis_set_t axis = ei_axis_both;
-  widgettoplevel->resizable = &axis;
+  widgettoplevel->resizable = axis;
   ei_size_t	min_size = {160, 120};
-  *widgettoplevel->min_size = &min_size;
+  widgettoplevel->min_size = &min_size;
 }
 
 void toplevel_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
@@ -558,7 +570,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
   int y1 = widget->placer_params->y_data;
   int x2 = x1 + widget->placer_params->w_data;
   int y2 = y1 + widget->placer_params->h_data;
-  int y3 = y1 + *widgettoplevel->border_width; // border_width = taille de l'entête ??????
+  int y3 = y1 + widgettoplevel->border_width; // border_width = taille de l'entête ??????
   ei_widget_t* actif = ei_event_get_active_widget();
 
   if (actif == NULL)   // On a pas de widget actif
@@ -566,14 +578,16 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     if (event->type == ei_ev_mouse_buttondown
     && event->param.mouse.button_number == 1)
     {
+      printf("appuye\n");
       if (dedans(event->param.mouse.where,x1,y1,x2,y3)) // Pour déplacer la fenetre
       {
+        printf("selec\n");
         *position_precedente = event->param.mouse.where;
         ei_event_set_active_widget(widget);
         action = ei_deplace;
         return EI_TRUE;
       }
-      else if (*widgettoplevel->resizable != ei_axis_none
+      else if (widgettoplevel->resizable != ei_axis_none
               && dedans(event->param.mouse.where,x2-10,y2-10,x2,y2))       // Pour redimensionner la fenetre
       {
         *position_precedente = event->param.mouse.where;
@@ -581,9 +595,10 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         action = ei_redim;
         return EI_TRUE;
       }
-      else if (*widgettoplevel->closable == EI_TRUE
-              && dedans(event->param.mouse.where,x1,y1,x2,y2))      // Pour fermer la fenetre
+      else if (widgettoplevel->closable == EI_TRUE
+              && dedans(event->param.mouse.where,x1,y1,x1+10,y1+10))      // Pour fermer la fenetre
       {
+        printf("Quit\n");
         ei_app_quit_request();
         return EI_TRUE;
       }
@@ -609,11 +624,11 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       }
       else if (action == ei_redim)
       {
-        if (*widgettoplevel->resizable == ei_axis_x || *widgettoplevel->resizable == ei_axis_both)
+        if (widgettoplevel->resizable == ei_axis_x || widgettoplevel->resizable == ei_axis_both)
         {
           widget->placer_params->w_data += deltax;
         }
-        if (*widgettoplevel->resizable == ei_axis_y || *widgettoplevel->resizable == ei_axis_both)
+        if (widgettoplevel->resizable == ei_axis_y || widgettoplevel->resizable == ei_axis_both)
         {
           widget->placer_params->h_data += deltay;
         }

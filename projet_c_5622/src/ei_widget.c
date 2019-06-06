@@ -86,38 +86,38 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
     widgetframe->widget.requested_size = *requested_size;
   }
   if(color != NULL){
-    widgetframe->color = color;
+    widgetframe->color = *color;
   }
   if(border_width != NULL){
-    widgetframe->border_width = border_width;
+    widgetframe->border_width = *border_width;
   }
   if(relief != NULL){
-    widgetframe->relief = relief;
+    widgetframe->relief = *relief;
   }
   if(text_font != NULL){
-    widgetframe->text_font = text_font;
+    widgetframe->text_font = *text_font;
   }
   if(text != NULL){
-    widgetframe->text = text;
+    widgetframe->text = *text;
     if(widget->placer_params != NULL){
       // printf("placer run\n");
       ei_placer_run(widget);
     }
   }
   if(text_color != NULL){
-    widgetframe->text_color = text_color;
+    widgetframe->text_color = *text_color;
   }
   if(text_anchor != NULL){
-    widgetframe->text_anchor = text_anchor;
+    widgetframe->text_anchor = *text_anchor;
   }
   if(img != NULL){
-    widgetframe->img = img;
+    widgetframe->img = *img;
   }
   if(img_rect != NULL){
-    widgetframe->img_rect = img_rect;
+    widgetframe->img_rect = *img_rect;
   }
   if(img_anchor != NULL){
-    widgetframe->img_anchor = img_anchor;
+    widgetframe->img_anchor = *img_anchor;
   }
 }
 
@@ -180,16 +180,22 @@ void ei_toplevel_configure (ei_widget_t* widget, ei_size_t* requested_size, ei_c
   if(requested_size != NULL){
     widgettoplevel->widget.requested_size = *requested_size;
   }
-  if(requested_size != NULL){
-    widgettoplevel->title = title;
+  if(color != NULL){
+    widgettoplevel->color = *color;
   }
-  if(requested_size != NULL){
-    widgettoplevel->closable = closable;
+  if(border_width != NULL){
+    widgettoplevel->border_width = *border_width;
   }
-  if(requested_size != NULL){
-    widgettoplevel->resizable = resizable;
+  if(title != NULL){
+    widgettoplevel->title = *title;
   }
-  if(requested_size != NULL){
-    widgettoplevel->min_size = min_size;
+  if(closable != NULL){
+    widgettoplevel->closable = *closable;
+  }
+  if(resizable != NULL){
+    widgettoplevel->resizable = *resizable;
+  }
+  if(min_size != NULL){
+    widgettoplevel->min_size = *min_size;
   }
 }

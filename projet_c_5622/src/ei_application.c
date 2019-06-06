@@ -87,10 +87,11 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
 }
 
 void ei_app_run(){
-  int compteur = 0;
   ei_widget_t* actif;
   ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
-  //ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
+  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
+  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
+  ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
   hw_surface_update_rects(ei_app_root_surface(), NULL);
   struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
   while (continuer)
@@ -120,7 +121,6 @@ void ei_app_run(){
       }
     }
     hw_surface_update_rects(ei_app_root_surface(), NULL);
-    printf("%i\n",compteur++);
   }
   free(event);
 }
