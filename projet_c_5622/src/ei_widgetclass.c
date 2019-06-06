@@ -563,6 +563,12 @@ ei_bool_t dedans(ei_point_t point, int x1, int y1, int x2, int y2)
   return (x1 < point.x) && (x2 > point.x) && (y1 < point.y) && (y2 > point.y);
 }
 
+/* Vérifie que le point est dans un cercle définit par son centre et son rayon*/
+ei_bool_t danscercle(ei_point_t point, ei_point_t centre, int rayon)
+{
+  return ((point.x - centre.x)*(point.x - centre.x) + (point.y - centre.y)*(point.y - centre.y)) < rayon*rayon ;
+}
+
 ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
   struct ei_widget_toplevel_t* widgettoplevel = (struct ei_widget_toplevel_t*)widget;
   int x1 = widget->placer_params->x_data;
@@ -580,13 +586,11 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
     if (event->type == ei_ev_mouse_buttondown
     && event->param.mouse.button_number == 1)
     {
-      printf("Window\n");
-      if (dedans(event->param.mouse.where,x1,y1,x2,y3)) // Pour déplacer la fenetre
+      if (widgettoplevel->closable == EI_TRUE
+              && danscercle(event->param.mouse.where,ei_point(x1+h_text/2, y1+h_text/2), h_text/2)) 			// Pour fermer la fenetre
       {
-        printf("Move\n");
-        position_precedente = event->param.mouse.where;
-        ei_event_set_active_widget(widget);
-        action = ei_deplace;
+				printf("Close\n");
+        ei_placer_forget(widget);
         return EI_TRUE;
       }
       else if (widgettoplevel->resizable != ei_axis_none
@@ -598,11 +602,12 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         action = ei_redim;
         return EI_TRUE;
       }
-      else if (widgettoplevel->closable == EI_TRUE
-              && dedans(event->param.mouse.where,x1 + 5,y1 + 5, x1+20, y1+20))      // Pour fermer la fenetre
+      else if (dedans(event->param.mouse.where,x1,y1,x2,y3)) // Pour déplacer la fenetre
       {
-        printf("Close\n");
-        ei_placer_forget(widget);
+				printf("Move\n");
+        position_precedente = event->param.mouse.where;
+        ei_event_set_active_widget(widget);
+        action = ei_deplace;
         return EI_TRUE;
       }
     }
