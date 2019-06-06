@@ -280,6 +280,8 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     int w = placer_params->w_data;
     int h = placer_params->h_data;
 
+    printf("hoho %i %i %i %i \n", x, y, w, h);
+
     if(widget->parent != NULL){
       x = x + (placer_params->rx_data * widget->parent->placer_params->w_data);
       y = y + (placer_params->ry_data * widget->parent->placer_params->h_data);
@@ -297,19 +299,60 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     // printf("Border : %i\n", widgetbutton->border_width);
     // printf("Corner : %i\n", widgetbutton->corner_radius);
 
-    ei_rect_t rect = ei_rect(ei_point(x, y), ei_size(w, h));
+    printf("hehe %i %i %i %i \n", x, y, w, h);
+
+    ei_point_t rect_point = {x, y};
+    ei_size_t rect_size = {w, h};
+    ei_rect_t rect = {rect_point, rect_size};
+
+    printf("haha %i %i %i %i \n", rect.top_left.x, rect.top_left.y, rect.size.width, rect.size.height);
 
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetbutton->color, NULL, widgetbutton->corner_radius, widgetbutton->relief, widgetbutton->border_width);
     //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
     // ei_draw_polygon (surface, pts, *widgetbutton->color, NULL); //TODO Clipper du parent
     // ei_draw_polygon (pick_surface, pts, *widget->pick_color, NULL); //TODO Clipper du parent
     // printf("1\n");
-
     if (widgetbutton->img != NULL){
-      // printf("Draw Button IMAGE\n");
+      printf("Draw Button IMAGE\n");
       //Draw the image frame
-      //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
-    }else if (widgetbutton->text != NULL){
+      // TODO: (joel) c'est +/- une copie/colle de la fonction draw_image parce que
+      // draw image prend le filename en parametre alors que là on a déjà la surface avec l'image dessiné,
+      // du coup il faut copier
+      ei_surface_t image = widgetbutton->img;
+  	  ei_rect_t image_rect = hw_surface_get_rect(image);
+     	ei_point_t dst_point = {x, y};
+     	ei_size_t dst_size = image_rect.size;
+     	ei_rect_t dst_rect = {dst_point, dst_size};
+
+      // rectangle source où copier l'image
+    	if (clipper != NULL){
+    		// si il y a un clipper, on va copier qu'une partie de l'image :
+    		// l'intersection entre le rectangle de destination et le clipper
+    		int inter_topleftx = max(dst_rect.top_left.x, clipper->top_left.x);
+    		int inter_toplefty = max(dst_rect.top_left.y, clipper->top_left.y);
+    		int inter_bottomrightx = min(dst_rect.top_left.x + dst_rect.size.width, clipper->top_left.x + clipper->size.width );
+    		int inter_bottomrighty = min(dst_rect.top_left.y + dst_rect.size.height, clipper->top_left.y + clipper->size.height );
+    		int inter_width = inter_bottomrightx - inter_topleftx;
+    		int inter_height = inter_bottomrighty - inter_toplefty;
+    		ei_size_t intersection_size = {inter_width, inter_height};
+    		ei_point_t intersection_point = {inter_topleftx, inter_toplefty};
+    		ei_rect_t intersection = {intersection_point, intersection_size};
+
+    		ei_point_t src_point = {intersection.top_left.x - dst_rect.top_left.x, intersection.top_left.y - dst_rect.top_left.y};
+    		ei_size_t src_size = intersection_size;
+    		ei_rect_t src_rect = {src_point, src_size};
+
+    		dst_rect.top_left.x = inter_topleftx;
+    		dst_rect.top_left.y = inter_toplefty;
+    		ei_copy_surface(surface, &dst_rect, image, &src_rect, 1);
+    	}
+    	else{
+    		ei_copy_surface(surface, &dst_rect, image, NULL, 1);
+    	}
+
+    }
+
+    else if (widgetbutton->text != NULL){
       // Draw the frame text
       // printf("Draw Button Text : %p\n", widgetbutton->text);
       //Frame Clipper
@@ -379,17 +422,32 @@ void button_geomnotifyfunc(struct ei_widget_t*	widget, ei_rect_t rect){
 ei_bool_t button_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* event){
   // printf("button handle\n");
   struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
+
   if (event->type == ei_ev_mouse_buttondown && widgetbutton->relief != ei_relief_none)
   {
+    printf("bring sally down \n");
     widgetbutton->relief = ei_relief_sunken;
+
+    // TODO: (joel) à modifier ? lol parce que on dessine le bouton a chaque fois qu'on appuie
+    button_drawfunc(&widgetbutton->widget, ei_app_root_surface(), NULL, NULL);
+
     return  EI_TRUE;
   }
+
   else if (event->type == ei_ev_mouse_buttonup && widgetbutton->relief != ei_relief_none)
   {
+    printf("bring sally up \n");
     widgetbutton->relief = ei_relief_raised;
+
+    // TODO: (joel) à modifier ? lol parce que on dessine le bouton a chaque fois qu'on appuie
+    button_drawfunc(&widgetbutton->widget, ei_app_root_surface(), NULL, NULL);
+
+    // TODO: user_param à modifier avec une vraie paramètre éventuellement
+    int user_param = 52;
+    widgetbutton->callback(&(widgetbutton->widget), NULL, &user_param);
     return  EI_TRUE;
   }
-  else {return EI_FALSE;}
+  return EI_FALSE;
 }
 
 ///////////////////////
@@ -579,7 +637,8 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       return EI_TRUE;
     }
   }
-  return EI_FALSE;}
+  return EI_FALSE;
+}
 
 //registers
 void ei_frame_register_class (){

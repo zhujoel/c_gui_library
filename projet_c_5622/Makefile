@@ -53,7 +53,7 @@ endif
 # Main target of the makefile. To build specific targets, call "make <target_name>"
 
 TARGETS		=	${LIBEI} \
-			minimal lines frame button hello_world puzzle two048 text copy pointe rounded_frame draw_button draw_image arc fill polygon
+			minimal lines frame button hello_world puzzle two048 text copy pointe rounded_frame draw_button draw_image arc fill polygon toplevel
 all : ${TARGETS}
 
 

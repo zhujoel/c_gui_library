@@ -2,7 +2,7 @@
  *  @file	ei_placer.h
  *  @brief	Manages the positionning and sizing of widgets on the screen.
  *
- *  \author 
+ *  \author
  *  Created by François Bérard on 18.12.11.
  *  Copyright 2011 Ensimag. All rights reserved.
  *

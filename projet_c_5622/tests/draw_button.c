@@ -16,7 +16,7 @@
  */
 void test_draw_button(ei_surface_t surface, ei_rect_t* clipper){
 		ei_color_t		color		= { 0, 255, 255, 50 };
-		ei_point_t top_left = {50, 50};
+		ei_point_t top_left = {100, 100};
 		ei_size_t size = {200, 400};
 		ei_rect_t	rect = {top_left, size};
 		float rayon = 20;

@@ -64,6 +64,7 @@ ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t
 
 ei_widget_t* ei_widget_create (ei_widgetclass_name_t	class_name, ei_widget_t* parent){
   if(parent != NULL){
+    printf("yes man \n");
     return ei_widget_create_root(class_name, parent);
   }
   //Parent is null
@@ -122,13 +123,16 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
 
 void ei_button_configure (ei_widget_t* widget, ei_size_t* requested_size, const ei_color_t*	color, int* border_width, int* corner_radius, ei_relief_t* relief, char** text, ei_font_t* text_font, ei_color_t* text_color, ei_anchor_t* text_anchor, ei_surface_t* img, ei_rect_t** img_rect, ei_anchor_t* img_anchor, ei_callback_t* callback, void** user_param){
   struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
-  // if(requested_size != NULL){
-  //   widgetbutton->widget.requested_size = *requested_size;
-  // }
-  // if(color != NULL){
-  //   widgetbutton->color = color;
+  if(requested_size != NULL){
+    widgetbutton->widget.requested_size = *requested_size;
+  }
+  if(color != NULL){
+    widgetbutton->color.red = color->red;
+    widgetbutton->color.green = color->green;
+    widgetbutton->color.blue = color->blue;
+    widgetbutton->color.alpha = color->alpha;
 
-  // }
+  }
   if(border_width != NULL){
     widgetbutton->border_width = *border_width;
   }
