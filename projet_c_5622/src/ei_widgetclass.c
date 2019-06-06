@@ -629,6 +629,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         {
           widget->placer_params->h_data += deltay;
         }
+        ei_placer_run(widget);
       }
       position_precedente = event->param.mouse.where;
       return EI_TRUE;
