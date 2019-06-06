@@ -63,6 +63,13 @@ ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
   int y = widget->placer_params->y_data;
   int w = widget->placer_params->w_data;
   int h = widget->placer_params->h_data;
+  if (widget->parent != NULL)
+  {
+    x = x + (widget->placer_params->rx_data * widget->parent->placer_params->w_data);
+    y = y + (widget->placer_params->ry_data * widget->parent->placer_params->h_data);
+    w = w + (widget->placer_params->rw_data * widget->parent->placer_params->w_data);
+    h = h + (widget->placer_params->rh_data * widget->parent->placer_params->h_data);
+  }
   return (x < point.x) && (x + w > point.x) && (y < point.y) && (y + h > point.y);
 }
 
@@ -115,7 +122,9 @@ void ei_app_run(){
           || (event->type == ei_ev_mouse_move))
       {
         actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
+        printf("%i\n", actif->pick_id);
         actif->wclass->handlefunc(actif, event);
+
         ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location);
       }
       else

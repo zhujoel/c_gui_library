@@ -34,7 +34,8 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
   placer_params->rh = &placer_params->rh_data;
 
   widget->placer_params = placer_params;
-
+  printf("Pick ID dans placer : %i\n", widget->pick_id);
+  printf("%p\n", widget->placer_params);
   ei_placer_run(widget);
 }
 

@@ -518,11 +518,6 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
     rectangle = ei_rect(ei_point(x + widgettoplevel->border_width,y + h_text + widgettoplevel->border_width), ei_size(w - 1 - (widgettoplevel->border_width * 2), h - h_text - (widgettoplevel->border_width * 2)));
     // TODO : ei_rect_t clipper_fils = recta
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, widgettoplevel->color, clipper, 0, ei_relief_none, 0);
-    //Le petit carré pour resize
-    if(y + h - 15 < ei_app_root_widget()->screen_location.size.height){
-      rectangle = ei_rect(ei_point(x + w - 16, y + h - 15), ei_size(15, 15));
-      ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, grey, clipper, 0, ei_relief_none, 0);
-    }
 
     //On dessine les enfants
     ei_widget_t* courant = widget->children_head;
@@ -530,6 +525,11 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
     {
       courant->wclass->drawfunc(courant, surface, pick_surface, clipper);
       courant = courant->next_sibling;
+    }
+		//Le petit carré pour resize
+    if(y + h - 15 < ei_app_root_widget()->screen_location.size.height){
+      rectangle = ei_rect(ei_point(x + w - 16, y + h - 15), ei_size(15, 15));
+      ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, grey, clipper, 0, ei_relief_none, 0);
     }
   }
 }
