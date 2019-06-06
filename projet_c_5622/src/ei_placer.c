@@ -63,22 +63,23 @@ void ei_placer_run(struct ei_widget_t* widget){
       if(widgettoplevel->title != NULL){
         hw_text_compute_size (widgettoplevel->title, ei_get_toplevel_font(), &w, &h);
         //Add the red button size
-        w += h - 10;
+        w += h + 10;
+        h += 15;
       }
     }
 
-    printf("WiDtH PlAcER %i \n", widget->placer_params->w_data);
-    printf("HeIgHt PlAcER %i \n", widget->placer_params->h_data);
     ei_widget_t* root = ei_app_root_widget();
-    int diff = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
+    int diff_x = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
+    int diff_y = h - (widget->placer_params->h_data + (widget->placer_params->rh_data * root->screen_location.size.height));
 
-    if(diff > 0){
-      widget->placer_params->w_data += diff;
-      widget->screen_location.size.width += diff;
+    if(diff_x > 0){
+      widget->placer_params->w_data += diff_x;
+      widget->screen_location.size.width += diff_x;
     }
-
-    printf("WiDtH PlAcER %i \n", widget->placer_params->w_data);
-    printf("HeIgHt PlAcER %i \n", widget->placer_params->h_data);
+    if(diff_y > 0){
+      widget->placer_params->h_data += diff_y;
+      widget->screen_location.size.height += diff_y;
+    }
   }
 
 

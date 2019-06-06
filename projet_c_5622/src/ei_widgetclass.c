@@ -484,6 +484,11 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
     int w = widget->placer_params->w_data;
     int h = widget->placer_params->h_data;
 
+    x = x + (widget->placer_params->rx_data * widget->parent->placer_params->w_data);
+    y = y + (widget->placer_params->ry_data * widget->parent->placer_params->h_data);
+    w = w + (widget->placer_params->rw_data * widget->parent->placer_params->w_data);
+    h = h + (widget->placer_params->rh_data * widget->parent->placer_params->h_data);
+
     //Dessin de l'entête
     ei_rect_t rectangle = ei_rect(ei_point(x,y), ei_size(w, h_text));
     float rayon = h_text / 2;
@@ -513,8 +518,10 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
     rectangle = ei_rect(ei_point(x + widgettoplevel->border_width,y + h_text + widgettoplevel->border_width), ei_size(w - 1 - (widgettoplevel->border_width * 2), h - h_text - (widgettoplevel->border_width * 2)));
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, widgettoplevel->color, clipper, 0, ei_relief_none, 0);
     //Le petit carré pour resize
-    rectangle = ei_rect(ei_point(x + w - 16, y + h - 15), ei_size(15, 15));
-    ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, grey, clipper, 0, ei_relief_none, 0);
+    if(y + h - 15 < ei_app_root_widget()->screen_location.size.height){
+      rectangle = ei_rect(ei_point(x + w - 16, y + h - 15), ei_size(15, 15));
+      ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rectangle, grey, clipper, 0, ei_relief_none, 0);
+    }
 
     //On dessine les enfants
     ei_widget_t* courant = widget->children_head;
@@ -615,9 +622,14 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       int deltay = event->param.mouse.where.y - position_precedente.y;
       if (action == ei_deplace)
       {
-        printf("Deplace\n");
         widget->placer_params->x_data += deltax;
         widget->placer_params->y_data += deltay;
+        if(widget->placer_params->y_data < 0){
+          widget->placer_params->y_data = 0;
+        }else if(widget->placer_params->y_data + h_text + widgettoplevel->border_width > ei_app_root_widget()->screen_location.size.height){
+          widget->placer_params->y_data = ei_app_root_widget()->screen_location.size.height - (h_text + widgettoplevel->border_width);
+        }
+        ei_placer_run(widget);
       }
       else if (action == ei_redim)
       {

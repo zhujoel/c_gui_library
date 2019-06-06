@@ -68,26 +68,30 @@ ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
 
 
 ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
-  if (dans_frame(point, widget))
-  {
-    if (widget->children_head == NULL){return widget;}
-    else
+  if(widget->placer_params != NULL){
+    if (dans_frame(point, widget))
     {
-      ei_widget_t* courant = widget->children_head;
-      ei_widget_t* dernierwidget = NULL;
-      while (courant != NULL)
+      if (widget->children_head == NULL){return widget;}
+      else
       {
-        if (dans_frame(point, courant))
+        ei_widget_t* courant = widget->children_head;
+        ei_widget_t* dernierwidget = NULL;
+        while (courant != NULL)
         {
-          dernierwidget = courant;
+          if (courant->placer_params != NULL && dans_frame(point, courant))
+          {
+            dernierwidget = courant;
+          }
+          courant = courant->next_sibling;
         }
-        courant = courant->next_sibling;
+        if (dernierwidget == NULL){return widget;}
+        else {return parcours_profondeur_pick(dernierwidget, point);}
       }
-      if (dernierwidget == NULL){return widget;}
-      else {return parcours_profondeur_pick(dernierwidget, point);}
     }
+    else{return widget;}
+  }else{
+    return widget;
   }
-  else{return widget;}
 }
 
 void ei_app_run(){
