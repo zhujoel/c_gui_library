@@ -2,6 +2,8 @@
 #include "../include/ei_utils.h"
 #include "../include/ei_event.h"
 #include "../include/ei_widget.h"
+#include "../include/ei_widgetclass.h"
+#include "../include/GROSSEBIBLIOTHEQUE.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -59,18 +61,22 @@ void ei_app_free(){
 
 ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
 {
-  int x = widget->placer_params->x_data;
-  int y = widget->placer_params->y_data;
-  int w = widget->placer_params->w_data;
-  int h = widget->placer_params->h_data;
-  if (widget->parent != NULL)
-  {
-    x = x + (widget->placer_params->rx_data * widget->parent->placer_params->w_data);
-    y = y + (widget->placer_params->ry_data * widget->parent->placer_params->h_data);
-    w = w + (widget->placer_params->rw_data * widget->parent->placer_params->w_data);
-    h = h + (widget->placer_params->rh_data * widget->parent->placer_params->h_data);
+  if(widget->placer_params != NULL){
+    int x = widget->placer_params->x_data;
+    int y = widget->placer_params->y_data;
+    int w = widget->placer_params->w_data;
+    int h = widget->placer_params->h_data;
+    if (widget->parent != NULL)
+    {
+      x = x + (widget->placer_params->rx_data * widget->parent->placer_params->w_data) + widget->parent->placer_params->x_data;
+      y = y + (widget->placer_params->ry_data * widget->parent->placer_params->h_data) + widget->parent->placer_params->y_data;
+      w = w + (widget->placer_params->rw_data * widget->parent->placer_params->w_data);
+      h = h + (widget->placer_params->rh_data * widget->parent->placer_params->h_data);
+    }
+    apply_anchor(widget->placer_params->anchor_data, &x, &y, &w, &h);
+    return (x < point.x) && (x + w > point.x) && (y < point.y) && (y + h > point.y);
   }
-  return (x < point.x) && (x + w > point.x) && (y < point.y) && (y + h > point.y);
+  else{return EI_FALSE;}
 }
 
 
@@ -101,8 +107,25 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
   }
 }
 
+ei_widget_t* parcours_profondeur_pick_id(ei_widget_t* widget, uint32_t pick_id){
+  if (widget == NULL){return NULL;}
+  else if (widget->pick_id == pick_id){return widget;}
+  else {
+    ei_widget_t* courant = widget->children_head;
+    ei_widget_t* result = NULL;
+    while (courant!=NULL)
+    {
+      result = parcours_profondeur_pick_id(courant,pick_id);
+      if (result != NULL){return result;}
+      courant = courant->next_sibling;
+    }
+    return NULL;
+  }
+}
+
 void ei_app_run(){
   ei_widget_t* actif;
+  uint32_t* pixel_ptr_pick_surface = (uint32_t*)hw_surface_get_buffer(picking_surface);
   ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
   hw_surface_update_rects(ei_app_root_surface(), NULL);
   struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
@@ -122,7 +145,13 @@ void ei_app_run(){
           || (event->type == ei_ev_mouse_move))
       {
         actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
-        printf("%i\n", actif->pick_id);
+        //pixel_ptr_pick_surface += event->param.mouse.where.x + event->param.mouse.where.y*hw_surface_get_size(ei_app_root_surface()).width;
+        //uint32_t		pick_id = *pixel_ptr_pick_surface;//convertColorToId(&pick_color);
+        //pixel_ptr_pick_surface -= event->param.mouse.where.x + event->param.mouse.where.y*hw_surface_get_size(ei_app_root_surface()).width;
+        //actif = parcours_profondeur_pick_id(ei_app_root_widget(), pick_id);
+        //printf("Pick ID : %i\n", pick_id);
+        printf("Pick ID de actif : : %i\n", actif->pick_id);
+        printf("Souris : %i %i\n", event->param.mouse.where.x, event->param.mouse.where.y);
         actif->wclass->handlefunc(actif, event);
 
         ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location);

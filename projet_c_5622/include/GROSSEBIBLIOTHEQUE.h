@@ -96,5 +96,14 @@ void ei_draw_image(const char* filename,
 							ei_point_t* where,
 							const ei_rect_t* clipper);
 
+void apply_anchor_text(ei_anchor_t anchor,
+	 int* x, int* y, int* w, int* h, int* w_parent, int* h_parent);
+
+void apply_anchor(ei_anchor_t anchor, int* x, int* y, int* w, int* h);
+
+uint32_t convertColorToId(ei_color_t*	pick_color);
+
+ei_color_t* convertIdToColor(uint32_t id);
+
 
 #endif

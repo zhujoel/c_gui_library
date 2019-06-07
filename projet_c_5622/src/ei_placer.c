@@ -40,8 +40,8 @@ void ei_place (struct ei_widget_t* widget, ei_anchor_t* anchor, int* x, int* y, 
 }
 
 void ei_placer_run(struct ei_widget_t* widget){
-  // printf("PLACER RUN WIDGET ID : %i\n", widget->pick_id);
 
+  // printf("PLACER RUN WIDGET ID : %i\n", widget->pick_id);
   if(widget->pick_id != 0){
     int w = 0;
     int h = 0;
@@ -68,7 +68,9 @@ void ei_placer_run(struct ei_widget_t* widget){
         h += 15;
       }
     }
-
+    if (widget->pick_id == 2){
+      printf("PLACER SUR BOUTON\n");
+    }
     ei_widget_t* root = ei_app_root_widget();
     int diff_x = w - (widget->placer_params->w_data + (widget->placer_params->rw_data * root->screen_location.size.width));
     int diff_y = h - (widget->placer_params->h_data + (widget->placer_params->rh_data * root->screen_location.size.height));
@@ -127,6 +129,7 @@ void ei_placer_run(struct ei_widget_t* widget){
   printf("%i\n", widget->content_rect->top_left.y);
   printf("%i\n", widget->content_rect->size.width);
   printf("%i\n", widget->content_rect->size.height);
+
 }
 
 void ei_placer_forget(struct ei_widget_t* widget){

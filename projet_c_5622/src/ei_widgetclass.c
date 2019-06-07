@@ -175,6 +175,7 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     // printf("%i\n",widgetframe->border_width);
     // printf("Michel !\n");
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetframe->color, NULL, 0, widgetframe->relief, widgetframe->border_width);
+		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(pick_surface, rect, *widget->pick_color, NULL, 0, widgetframe->relief, widgetframe->border_width);
     // printf("BOB !\n");
 
 
@@ -291,11 +292,11 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     int w = placer_params->w_data;
     int h = placer_params->h_data;
 
-    printf("hoho %i %i %i %i \n", x, y, w, h);
+    // printf("hoho %i %i %i %i \n", x, y, w, h);
 
     if(widget->parent != NULL){
-      x = x + (placer_params->rx_data * widget->parent->placer_params->w_data);
-      y = y + (placer_params->ry_data * widget->parent->placer_params->h_data);
+      x = x + (placer_params->rx_data * widget->parent->placer_params->w_data) + widget->parent->placer_params->x_data;
+      y = y + (placer_params->ry_data * widget->parent->placer_params->h_data) + widget->parent->placer_params->y_data;
       w = w + (placer_params->rw_data * widget->parent->placer_params->w_data);
       h = h + (placer_params->rh_data * widget->parent->placer_params->h_data);
     }
@@ -310,13 +311,13 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     // printf("Border : %i\n", widgetbutton->border_width);
     // printf("Corner : %i\n", widgetbutton->corner_radius);
 
-    printf("hehe %i %i %i %i \n", x, y, w, h);
+    // printf("hehe %i %i %i %i \n", x, y, w, h);
 
     ei_point_t rect_point = {x, y};
     ei_size_t rect_size = {w, h};
     ei_rect_t rect = {rect_point, rect_size};
 
-    printf("haha %i %i %i %i \n", rect.top_left.x, rect.top_left.y, rect.size.width, rect.size.height);
+    // printf("haha %i %i %i %i \n", rect.top_left.x, rect.top_left.y, rect.size.width, rect.size.height);
 
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetbutton->color, NULL, widgetbutton->corner_radius, widgetbutton->relief, widgetbutton->border_width);
     //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
@@ -523,7 +524,7 @@ void toplevel_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_sur
     ei_widget_t* courant = widget->children_head;
     while (courant!=NULL)
     {
-      courant->wclass->drawfunc(courant, surface, pick_surface, clipper);
+      courant->wclass->drawfunc(courant, ei_app_root_surface(), pick_surface, clipper);
       courant = courant->next_sibling;
     }
 		//Le petit carré pour resize
@@ -628,6 +629,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       int deltay = event->param.mouse.where.y - position_precedente.y;
       if (action == ei_deplace)
       {
+				// printf("1 %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
         widget->placer_params->x_data += deltax;
         widget->placer_params->y_data += deltay;
         if(widget->placer_params->y_data < 0){
@@ -635,10 +637,13 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         }else if(widget->placer_params->y_data + h_text + widgettoplevel->border_width > ei_app_root_widget()->screen_location.size.height){
           widget->placer_params->y_data = ei_app_root_widget()->screen_location.size.height - (h_text + widgettoplevel->border_width);
         }
+				// printf("2 %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
         ei_placer_run(widget);
+				// printf("3 %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
       }
       else if (action == ei_redim)
       {
+				// printf("1- %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
         if (widgettoplevel->resizable == ei_axis_x || widgettoplevel->resizable == ei_axis_both)
         {
           widget->placer_params->w_data += deltax;
@@ -647,7 +652,9 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         {
           widget->placer_params->h_data += deltay;
         }
+				// printf("2- %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
         ei_placer_run(widget);
+				// printf("3- %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
       }
       position_precedente = event->param.mouse.where;
       return EI_TRUE;
