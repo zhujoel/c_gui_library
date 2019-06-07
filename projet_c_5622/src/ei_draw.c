@@ -401,8 +401,6 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 				float y1 = courant->point.y;
 				float x2 = courant->next->point.x;
 				float y2 = courant->next->point.y;
-				// printf("y1 pas dans if : %f\n", y1);
-				// printf("y2 pas dans if : %i\n", courant->next->point.y);
 
 				if ((y2-y1)!=0)
 				{
@@ -421,10 +419,7 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 					else
 					{
 						ei_cellule_t *last = derniere_cellule(TC[ymin]);
-						//printf("%p\n", last);
 						last->suivant = nouveau;
-						//printf("%p\n", nouveau);
-						// derniere_cellule(TC[ymin])->suivant = nouveau;
 					}
 				}
 				courant = courant->next;

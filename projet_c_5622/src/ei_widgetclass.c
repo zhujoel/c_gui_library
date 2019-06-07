@@ -151,7 +151,7 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
 {
   /* implémentation du dessin d’un widget de la classe "frame" */
   if(widget->placer_params != NULL){
-    // printf("Widget FRAME PLACE !\n");
+
     struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
 
     ei_placer_params_t* placer_params = widget->placer_params;
@@ -172,21 +172,15 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     apply_anchor(placer_params->anchor_data, &x, &y, &w, &h);
 
     ei_rect_t rect = ei_rect(ei_point(x, y), ei_size(w, h));
-    // printf("%i\n",widgetframe->border_width);
-    // printf("Michel !\n");
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetframe->color, clipper, 0, widgetframe->relief, widgetframe->border_width);
 		ei_draw_widget_with_relief_and_corner_radius_that_is_optional(pick_surface, rect, *widget->pick_color, clipper, 0, widgetframe->relief, widgetframe->border_width);
-    // printf("BOB !\n");
-
 
     if (widgetframe->img != NULL){
-      // printf("Draw frame IMAGE\n");
-      //Draw the image frame//ei_draw_polygon (surface, pts, *widgetframe->color, NULL); //clipper);
-      //ei_copy_surface(surface, NULL, widgetframe->img, NULL, EI_TRUE);
+
+      //Draw the image frame
 
     }else if (widgetframe->text != NULL){
       // Draw the frame text
-      // printf("Draw frame Text : %s\n", *widgetframe->text);
 
       //Frame Clipper
       ei_point_t point = ei_point(x, y);
@@ -208,32 +202,15 @@ void frame_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfac
     }
 
 
-
-    // printf("OUI\n");
+		//On dessine les widgets enfants
     ei_widget_t* child = widget->children_head;
-    if (child != NULL)
+    while(child != NULL)
     {
-      // printf("child != null\n");
-      if(widget->children_tail == child){
-          // printf("TAIL = HEAD\n");
-      }
-
-      while(child != widget->children_tail)
-      {
-        // printf("Widget while\n");
-        //child->wclass->drawfunc(widget, ei_app_root_surface(), pick_surface, NULL);//&widget->screen_location); //widget->content_rect);
-        if(child->next_sibling != NULL){
-          //child = child->next_sibling;
-        }
-      }
-      // printf("FIN WHILE\n");
-      child->wclass->drawfunc(child, ei_app_root_surface(), pick_surface, NULL); //&widget->screen_location); //widget->content_rect);
-    //   printf("OUI\n");
+        child->wclass->drawfunc(child, ei_app_root_surface(), pick_surface, NULL);//&widget->screen_location); //widget->content_rect);
+        child = child->next_sibling;
     }
 
-  }else{
-    // printf("Avoid printing frame widget\n");
-  }
+	}
 }
 
 void frame_setdefaultsfunc(struct ei_widget_t* widget){
@@ -279,10 +256,8 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
 {
   /* implémentation du dessin d’un widget de la classe "button" */
 
-//TODO : Regarder Content_rect
 
   if(widget->placer_params != NULL){
-    // printf("Widget BUTTON PLACE !\n");
     struct ei_widget_button_t* widgetbutton = (struct ei_widget_button_t*)widget;
 
     ei_placer_params_t* placer_params = widget->placer_params;
@@ -292,7 +267,6 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     int w = placer_params->w_data;
     int h = placer_params->h_data;
 
-    // printf("hoho %i %i %i %i \n", x, y, w, h);
 
     if(widget->parent != NULL){
       x = x + (placer_params->rx_data * widget->parent->placer_params->w_data) + widget->parent->placer_params->x_data;
@@ -308,7 +282,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     ei_rect_t rect = {rect_point, rect_size};
 
     ei_draw_widget_with_relief_and_corner_radius_that_is_optional(surface, rect, widgetbutton->color, clipper, widgetbutton->corner_radius, widgetbutton->relief, widgetbutton->border_width);
-    //ei_draw_button(surface, pts, *widgetbutton->color, clipper):
+
     if (widgetbutton->img != NULL){
       printf("Draw Button IMAGE\n");
       //Draw the image frame
@@ -352,18 +326,14 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
       //Frame Clipper
 
       //Point
-      int x_text = x;// + *widgetbutton->border_width + (*widgetbutton->corner_radius /2);
-      int y_text = y;// + *widgetbutton->border_width + (*widgetbutton->corner_radius /2);
+      int x_text = x;
+      int y_text = y;
       int w_text;
       int h_text;
       hw_text_compute_size (widgetbutton->text, widgetbutton->text_font, &w_text, &h_text);
 
       apply_anchor_text(widgetbutton->text_anchor, &x_text, &y_text, &w_text, &h_text, &w, &h);
 
-			// if(widgetbutton->relief == ei_relief_raised){
-			// 	// x_text -= widgetbutton->border_width / 2;
-			// 	// y_text -= widgetbutton->border_width / 2;
-			// }else
 			if(widgetbutton->relief == ei_relief_sunken){
 				x_text += widgetbutton->border_width / 2;
 				y_text += widgetbutton->border_width / 2;
@@ -375,7 +345,7 @@ void button_drawfunc (struct ei_widget_t* widget, ei_surface_t surface, ei_surfa
     }
 
   }else{
-    // printf("Avoid printing Button widget\n");
+    printf("Avoid printing Button widget\n");
   }
 }
 
@@ -549,7 +519,7 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
   int y3 = y1 + widgettoplevel->border_width + h_text; // border_width = taille de l'entête ??????
   ei_widget_t* actif = ei_event_get_active_widget();
 
-  if (actif == NULL)   // On a pas de widget actif
+  if (actif == NULL)   // Si on a pas de widget actif
   {
     if (event->type == ei_ev_mouse_buttondown
     && event->param.mouse.button_number == 1)
@@ -557,14 +527,12 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       if (widgettoplevel->closable == EI_TRUE
               && danscercle(event->param.mouse.where,ei_point(x1+h_text/2, y1+h_text/2), h_text/2)) 			// Pour fermer la fenetre
       {
-				printf("Close\n");
         ei_placer_forget(widget);
         return EI_TRUE;
       }
       else if (widgettoplevel->resizable != ei_axis_none
               && dedans(event->param.mouse.where,x2-15,y2-15,x2,y2))       // Pour redimensionner la fenetre
       {
-        printf("Resize\n");
         position_precedente = event->param.mouse.where;
         ei_event_set_active_widget(widget);
         action = ei_redim;
@@ -572,7 +540,6 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       }
       else if (dedans(event->param.mouse.where,x1,y1,x2,y3)) // Pour déplacer la fenetre
       {
-				printf("Move\n");
         position_precedente = event->param.mouse.where;
         ei_event_set_active_widget(widget);
         action = ei_deplace;
@@ -595,17 +562,14 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
       int deltay = event->param.mouse.where.y - position_precedente.y;
       if (action == ei_deplace)
       {
-				// printf("1 %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
+
         widget->placer_params->x_data += deltax;
         widget->placer_params->y_data += deltay;
-				// printf("2 %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
         ei_placer_run(widget);
-				// printf("3 %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
-      }
+			}
       else if (action == ei_redim)
       {
-				// printf("1- %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
-        if (widgettoplevel->resizable == ei_axis_x || widgettoplevel->resizable == ei_axis_both)
+				if (widgettoplevel->resizable == ei_axis_x || widgettoplevel->resizable == ei_axis_both)
         {
           widget->placer_params->w_data += deltax;
         }
@@ -613,10 +577,8 @@ ei_bool_t toplevel_handlefunc(struct ei_widget_t*	widget, struct ei_event_t* eve
         {
           widget->placer_params->h_data += deltay;
         }
-				// printf("2- %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
-        ei_placer_run(widget);
-				// printf("3- %i %i %i %i\n",widget->placer_params->x_data, widget->placer_params->y_data, widget->placer_params->w_data, widget->placer_params->h_data);
-      }
+				ei_placer_run(widget);
+			}
 
 			if(widget->placer_params->y_data < 0){
 				widget->placer_params->y_data = 0;

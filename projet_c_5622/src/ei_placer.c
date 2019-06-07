@@ -41,7 +41,6 @@ extern void apply_anchor(ei_anchor_t anchor, int* x, int* y, int* w, int* h);
 
 void ei_placer_run(struct ei_widget_t* widget){
 
-  // printf("PLACER RUN WIDGET ID : %i\n", widget->pick_id);
   if(widget->pick_id != 0){
     int w = 0;
     int h = 0;
@@ -54,8 +53,6 @@ void ei_placer_run(struct ei_widget_t* widget){
     else if(strcmp(widget->wclass->name, "frame")==0){
       struct ei_widget_frame_t* widgetframe = (struct ei_widget_frame_t*)widget;
       if(widgetframe->text != NULL){
-        // printf("Text found in placer run\n");
-        // printf("%p\n", &widgetframe->text_font);
         hw_text_compute_size (widgetframe->text, widgetframe->text_font, &w, &h);
       }
     }else if(strcmp(widget->wclass->name, "toplevel")==0){
@@ -86,7 +83,6 @@ void ei_placer_run(struct ei_widget_t* widget){
   int screen_x = 0;
   int screen_y = 0;
   if (widget != ei_app_root_widget()){
-    //printf("CALC the screen_POS\n");
     screen_x = widget->parent->screen_location.top_left.x;
     screen_y = widget->parent->screen_location.top_left.y;
 
@@ -96,8 +92,6 @@ void ei_placer_run(struct ei_widget_t* widget){
     int screen_h = widget->placer_params->h_data + (widget->placer_params->rh_data * widget->parent->screen_location.size.height);
 
     apply_anchor(widget->placer_params->anchor_data, &screen_x, &screen_y, &screen_w, &screen_h);
-
-    // printf("%i\n", screen_w);
 
     if(screen_x + screen_w > ei_app_root_widget()->screen_location.size.width){
       screen_w = ei_app_root_widget()->screen_location.size.width - screen_x;
@@ -114,19 +108,6 @@ void ei_placer_run(struct ei_widget_t* widget){
     widget->screen_location = screen_loc;
     widget->content_rect = &screen_loc;
   }
-  // printf("NEW Screeeeen Location ---------\n");
-  //
-  // printf("%i\n", widget->screen_location.top_left.x);
-  // printf("%i\n", widget->screen_location.top_left.y);
-  // printf("%i\n", widget->screen_location.size.width);
-  // printf("%i\n", widget->screen_location.size.height);
-  //
-  // printf("Content rect ---------\n");
-  // printf("%i\n", widget->content_rect->top_left.x);
-  // printf("%i\n", widget->content_rect->top_left.y);
-  // printf("%i\n", widget->content_rect->size.width);
-  // printf("%i\n", widget->content_rect->size.height);
-
   //On recalcule pour les enfants
   ei_widget_t* courant = widget->children_head;
   while (courant!=NULL)

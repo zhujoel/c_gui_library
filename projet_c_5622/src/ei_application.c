@@ -45,21 +45,9 @@ void ei_app_free(){
 }
 
 
-// void parcours_profondeur_draw(ei_widget_t* widget){
-//   if (widget != NULL)
-//   {
-//     widget->wclass->drawfunc(widget, ei_app_root_surface(), picking_surface, &widget->screen_location); //widget->content_rect);
-//     ei_widget_t* courant = widget->children_head;
-//     while (courant != NULL)
-//     {
-//       parcours_profondeur_draw(courant);
-//       courant = courant->next_sibling;
-//     }
-//   }
-// }
+// Test si le point est dans le widget
 
-
-ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
+ei_bool_t dans_w(ei_point_t point, ei_widget_t* widget)
 {
   if(widget->placer_params != NULL){
     int x = widget->placer_params->x_data;
@@ -79,10 +67,11 @@ ei_bool_t dans_frame(ei_point_t point, ei_widget_t* widget)
   else{return EI_FALSE;}
 }
 
+// Parcourt les widgets pour trouver celui à l'emplacement du point
 
 ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
   if(widget->placer_params != NULL){
-    if (dans_frame(point, widget))
+    if (dans_w(point, widget))
     {
       if (widget->children_head == NULL){return widget;}
       else
@@ -91,7 +80,7 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
         ei_widget_t* dernierwidget = NULL;
         while (courant != NULL)
         {
-          if (courant->placer_params != NULL && dans_frame(point, courant))
+          if (courant->placer_params != NULL && dans_w(point, courant))
           {
             dernierwidget = courant;
           }
@@ -107,28 +96,14 @@ ei_widget_t* parcours_profondeur_pick(ei_widget_t* widget, ei_point_t point){
   }
 }
 
-ei_widget_t* parcours_profondeur_pick_id(ei_widget_t* widget, uint32_t pick_id){
-  if (widget == NULL){return NULL;}
-  else if (widget->pick_id == pick_id){return widget;}
-  else {
-    ei_widget_t* courant = widget->children_head;
-    ei_widget_t* result = NULL;
-    while (courant!=NULL)
-    {
-      result = parcours_profondeur_pick_id(courant,pick_id);
-      if (result != NULL){return result;}
-      courant = courant->next_sibling;
-    }
-    return NULL;
-  }
-}
 
 void ei_app_run(){
   ei_widget_t* actif;
-  uint32_t* pixel_ptr_pick_surface = (uint32_t*)hw_surface_get_buffer(picking_surface);
   ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location); //widget->content_rect);
   hw_surface_update_rects(ei_app_root_surface(), NULL);
   struct ei_event_t* event = malloc(sizeof(struct ei_event_t*));
+
+  // Boucle principale
   while (continuer)
   {
     hw_event_wait_next(event);
@@ -146,13 +121,6 @@ void ei_app_run(){
           || (event->type == ei_ev_mouse_buttonup))
       {
         actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
-        //pixel_ptr_pick_surface += event->param.mouse.where.x + event->param.mouse.where.y*hw_surface_get_size(ei_app_root_surface()).width;
-        //uint32_t		pick_id = *pixel_ptr_pick_surface;//convertColorToId(&pick_color);
-        //pixel_ptr_pick_surface -= event->param.mouse.where.x + event->param.mouse.where.y*hw_surface_get_size(ei_app_root_surface()).width;
-        //actif = parcours_profondeur_pick_id(ei_app_root_widget(), pick_id);
-        //printf("Pick ID : %i\n", pick_id);
-        // printf("Pick ID de actif : : %i\n", actif->pick_id);
-        // printf("Souris : %i %i\n", event->param.mouse.where.x, event->param.mouse.where.y);
         actif->wclass->handlefunc(actif, event);
 
         hw_surface_lock(ei_app_root_surface());

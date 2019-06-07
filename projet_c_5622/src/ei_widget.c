@@ -30,7 +30,6 @@ ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t
       fprintf(stderr, "THIS CLASS NAME DOES NOT EXIST DUDE");
       return NULL;
     }
-    // printf("Widget : %s\n", class_name);
 
     struct ei_widget_t* new_widget = widgetclass->allocfunc();
 
@@ -64,7 +63,6 @@ ei_widget_t* ei_widget_create_root(ei_widgetclass_name_t	class_name, ei_widget_t
 
 ei_widget_t* ei_widget_create (ei_widgetclass_name_t	class_name, ei_widget_t* parent){
   if(parent != NULL){
-    printf("yes man \n");
     return ei_widget_create_root(class_name, parent);
   }
   //Parent is null
@@ -100,7 +98,6 @@ void ei_frame_configure (ei_widget_t* widget, ei_size_t* requested_size, const e
   if(text != NULL){
     widgetframe->text = *text;
     if(widget->placer_params != NULL){
-      // printf("placer run\n");
       ei_placer_run(widget);
     }
   }
@@ -147,7 +144,6 @@ void ei_button_configure (ei_widget_t* widget, ei_size_t* requested_size, const 
   }
   if(text != NULL){
     widgetbutton->text = *text;
-    // printf("%s\n", *text);
     if(widget->placer_params != NULL){
       ei_placer_run(widget);
     }
