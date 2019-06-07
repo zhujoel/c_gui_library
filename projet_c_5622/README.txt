@@ -8,11 +8,11 @@ draw_button : dessine un bouton en relief
 draw_image : load une image et la dessine
 arc : génère arc de cercle et dessine
 fill : test ei_fill, remplie une surface d'une couleur
-button :
-frame :
-freq_counter :
-hello_world :
+button : test d'un widget button
+frame : test d'un widget frame
+freq_counter : test frequency counter
+hello_world : test de tous les widgets
 minimal : vérifie si la fenetre se lance
-puzzle :
-toplevel :
-two048 :
+puzzle : test d'un jeu de puzzle avec image
+toplevel : test d'un widget toplevel
+two048 : test jeu 2048 
