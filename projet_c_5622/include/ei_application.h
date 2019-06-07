@@ -3,7 +3,7 @@
  *  @brief	Manages the main steps of a graphical application: initialization, main window,
  *		main loop, quitting, resource freeing.
  *
- *  \author 
+ *  \author
  *  Created by François Bérard on 30.12.11.
  *  Copyright 2011 Ensimag. All rights reserved.
  *
@@ -85,4 +85,3 @@ ei_surface_t ei_app_root_surface();
 
 
 #endif
-

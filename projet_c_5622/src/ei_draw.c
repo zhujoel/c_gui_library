@@ -6,6 +6,14 @@
 #include <stdio.h>
 #include <math.h>
 
+#ifndef max
+	#define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#endif
+
+#ifndef min
+	#define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#endif
+
 #ifndef PI
 	#define PI 3.14159265
 #endif
@@ -406,12 +414,14 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 				float y1 = courant->point.y;
 				float x2 = courant->next->point.x;
 				float y2 = courant->next->point.y;
-				// printf("y1 pas dans if : %f\n", y1);
-				// printf("y2 pas dans if : %i\n", courant->next->point.y);
+
+				// printf("%f\n", y1);
+				// printf("%f\n", y2);
 
 				if ((y2-y1)!=0)
 				{
 					float pente = (x2-x1)/(y2-y1);
+
 					uint32_t ymin = y1<y2?y1:y2;
 					ydepart = ymin<ydepart?ymin:ydepart;
 					ei_cellule_t* nouveau = malloc(sizeof(ei_cellule_t));
@@ -896,10 +906,10 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	arc_bottomright[NB_ELEMS_ARC].next = &semi_arc_bottomleft_inf[0];
 	semi_arc_bottomleft_inf[NB_ELEMS_SEMI_ARC].next = &relief[0];
 
-	if(reliefType == 0){;
+	if(reliefType == 0){
 
 	}
-	else if(reliefType == 2){
+	else if(reliefType == 1){
 		rect_red = color.red*LIGHTER_SHADE;
 		rect_blue = color.blue*LIGHTER_SHADE;
 		rect_green = color.green*LIGHTER_SHADE;
@@ -922,7 +932,7 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 		ei_color_t		color_bottomright		= { rect_red, rect_green, rect_blue, 0xff };
 		ei_draw_polygon(surface, semi_arc_topright_inf, color_bottomright, clipper);
 	}
-	else if(reliefType == 1){
+	else if(reliefType == 2){
 		rect_red = color.red*DARKER_SHADE;
 		rect_blue = color.blue*DARKER_SHADE;
 		rect_green = color.green*DARKER_SHADE;
@@ -952,7 +962,6 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	ei_size_t rect_int_size = {rect.size.width - 2*(rect_int_topleft.x-rect.top_left.x), rect.size.height - 2*(rect_int_topleft.y-rect.top_left.y)};
 	ei_rect_t rect_int = {rect_int_topleft, rect_int_size};
 	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);
-
 	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
 	hw_surface_unlock(surface);
 	free(arc_topleft);
