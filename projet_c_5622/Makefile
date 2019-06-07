@@ -120,10 +120,11 @@ ${OBJDIR}/hello_world.o : ${TESTS}/hello_world.c
 ${OBJDIR}/event.o : ${SOURCE}/ei_event.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${SOURCE}/ei_event.c -o ${OBJDIR}/event.o
 
+
 # puzzle
 
-puzzle : ${OBJDIR}/puzzle.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o puzzle ${LDFLAGS} ${OBJDIR}/puzzle.o ${LIBEI} ${LIBS}
+puzzle : ${OBJDIR}/puzzle.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o puzzle ${LDFLAGS} ${OBJDIR}/puzzle.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/puzzle.o : ${TESTS}/puzzle.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/puzzle.c -o ${OBJDIR}/puzzle.o
@@ -131,11 +132,12 @@ ${OBJDIR}/puzzle.o : ${TESTS}/puzzle.c
 
 # two048
 
-two048 : ${OBJDIR}/two048.o ${LIBEIBASE} ${LIBEI}
-	${LINK} -o two048 ${LDFLAGS} ${OBJDIR}/two048.o ${LIBEI} ${LIBS}
+two048 : ${OBJDIR}/two048.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
+	${LINK} -o two048 ${LDFLAGS} ${OBJDIR}/two048.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/two048.o : ${TESTS}/two048.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/two048.c -o ${OBJDIR}/two048.o
+
 
 # text
 
@@ -206,14 +208,13 @@ polygon : ${OBJDIR}/polygon.o ${OBJDIR}/draw.o ${LIBEIBASE} ${LIBEI}
 ${OBJDIR}/polygon.o : ${TESTS}/polygon.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/polygon.c -o ${OBJDIR}/polygon.o
 
-# button
+# toplevel
 
 toplevel : ${OBJDIR}/toplevel.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEIBASE} ${LIBEI}
 	${LINK} -o toplevel ${LDFLAGS} ${OBJDIR}/toplevel.o ${OBJDIR}/appli.o ${OBJDIR}/widget.o ${OBJDIR}/widgetclass.o ${OBJDIR}/draw.o ${OBJDIR}/placer.o ${OBJDIR}/event.o ${LIBEI} ${LIBS}
 
 ${OBJDIR}/toplevel.o : ${TESTS}/toplevel.c
 	${CC} ${CCFLAGS} ${INCFLAGS} ${TESTS}/toplevel.c -o ${OBJDIR}/toplevel.o
-
 
 
 # Building of the library libei
