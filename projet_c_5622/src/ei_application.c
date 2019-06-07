@@ -12,38 +12,9 @@ static ei_surface_t main_window	= NULL;
 static ei_surface_t picking_surface = NULL;
 static ei_bool_t continuer = EI_TRUE;
 
-// tableau dynamique des rectangles invalidatés
-typedef struct {
-  ei_rect_t* rects;
-  size_t used;
-  size_t size;
-} invalidated_rect;
-
-// fonction pour gérer le tableau dynamique
-void initArray(invalidated_rect *a, size_t initialSize) {
-  a->rects = malloc(initialSize * sizeof(ei_rect_t));
-  a->used = 0;
-  a->size = initialSize;
-}
-
-void insertArray(invalidated_rect *a, ei_rect_t element) {
-  // a->used is the number of used entries, because a->array[a->used++] updates a->used only *after* the array has been accessed.
-  // Therefore a->used can go up to a->size
-  if (a->used == a->size) {
-    a->size *= 2;
-    a->rects = realloc(a->rects, a->size * sizeof(int));
-  }
-  a->rects[a->used++] = element;
-}
-
-void freeArray(invalidated_rect *a) {
-  free(a->rects);
-  a->rects = NULL;
-  a->used = a->size = 0;
-}
-
 // rectangles invalidatés
-static invalidated_rect invalidated_rects;
+static ei_linked_rect_t* invalidated_rects;
+static ei_linked_rect_t* current_invalidated_rects;
 static ei_bool_t invalidated_rect_called = EI_FALSE;
 
 
@@ -145,6 +116,7 @@ void ei_app_run(){
       {
         actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
         actif->wclass->handlefunc(actif, event);
+
       }
       else
       {
@@ -155,7 +127,7 @@ void ei_app_run(){
         }
       }
     }
-    hw_surface_update_rects(ei_app_root_surface(), NULL);
+    hw_surface_update_rects(ei_app_root_surface(), invalidated_rects);
     printf("%i\n",compteur++);
   }
   free(event);
@@ -164,15 +136,21 @@ void ei_app_run(){
 void ei_app_invalidate_rect(ei_rect_t* rect){
   if(invalidated_rect_called == EI_FALSE){
     invalidated_rect_called = EI_TRUE;
-    initArray(&invalidated_rects, 1);
+    invalidated_rects = malloc(sizeof(ei_linked_rect_t));
+    invalidated_rects->rect = *rect;
+    current_invalidated_rects = invalidated_rects;
   }
   else{
-    insertArray(&invalidated_rects, *rect);
+    ei_linked_rect_t* WOAH_TROP_COOL = malloc(sizeof(ei_linked_rect_t));
+    WOAH_TROP_COOL->rect = *rect;
+    WOAH_TROP_COOL->next = NULL;
+    current_invalidated_rects->next = WOAH_TROP_COOL;
+    current_invalidated_rects = WOAH_TROP_COOL;
   }
 }
 
 void ei_app_free_invalidate_rect(){
-  freeArray(&invalidated_rects);
+  free(invalidated_rects);
 }
 
 void ei_app_quit_request(){
