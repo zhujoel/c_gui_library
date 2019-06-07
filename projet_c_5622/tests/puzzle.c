@@ -11,10 +11,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ei_application.h"
-#include "ei_widget.h"
-#include "ei_utils.h"
-#include "ei_event.h"
+#include "../include/ei_application.h"
+#include "../include/ei_widget.h"
+#include "../include/ei_utils.h"
+#include "../include/ei_event.h"
+#include "../include/hw_interface.h"
+#include "../include/ei_widget.h"
+#include "../include/ei_placer.h"
+#include "../include/ei_widgetclass.h"
+#include "../include/ei_types.h"
+#include "../include/GROSSEBIBLIOTHEQUE.h"
+#include "../include/ei_draw.h"
 
 
 static const int		k_tile_size			= 128;
@@ -77,7 +84,7 @@ void handle_tile_press(ei_widget_t* widget, ei_event_t* event, void* user_param)
 	ei_point_t	swap_pos;
 	ei_point_t	swap_coordinates;
 	int		i;
-	
+
 	for (i = 0; i < 4; i++) {
 		swap_pos	= ei_point_add(current, offsets[i]);
 		if (valid(puzzle, swap_pos) && tile_at(puzzle, swap_pos) == NULL) {
@@ -115,7 +122,7 @@ void create_puzzle_window(char* image_filename)
 	ei_rect_t		img_rect;
 	ei_rect_t*		img_rect_ptr		= &img_rect;
 	ei_callback_t		callback		= handle_tile_press;
-	
+
 	puzzle_t*		puzzle;
 	tile_t*			tile;
 
@@ -200,7 +207,7 @@ int ei_main(int argc, char* argv[])
 
 	ei_app_create(&root_window_size, fullscreen);
 	ei_frame_configure(ei_app_root_widget(), NULL, &root_bgcol, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-	
+
 	ei_event_set_default_handle_func(global_handler);
 
 	if (argc > 1)
@@ -209,7 +216,7 @@ int ei_main(int argc, char* argv[])
 		create_puzzle_window(k_default_image_filename);
 
 	ei_app_run();
-	
+
 	ei_app_free();
 
 	return (EXIT_SUCCESS);
