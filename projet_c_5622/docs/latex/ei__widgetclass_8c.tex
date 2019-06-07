@@ -7,6 +7,8 @@
 {\ttfamily \#include \char`\"{}../include/ei\-\_\-widgets.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/ei\-\_\-event.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/ei\-\_\-utils.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/ei\-\_\-draw.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/\-G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h\char`\"{}}\\*
 {\ttfamily \#include $<$stdlib.\-h$>$}\\*
 {\ttfamily \#include $<$string.\-h$>$}\\*
 {\ttfamily \#include $<$stdio.\-h$>$}\\*
@@ -20,6 +22,8 @@ enum \hyperlink{ei__widgetclass_8c_a0a8c78bdff8165f440932e659a4a7335}{ei\-\_\-in
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+\hyperlink{ei__types_8h_a22c8198e4d641e4bc67bb17f9c6bcda7}{ei\-\_\-font\-\_\-t} \hyperlink{ei__widgetclass_8c_affad856111aef69022d4f3c560ec825c}{ei\-\_\-get\-\_\-toplevel\-\_\-font} ()
 \item 
 void \hyperlink{ei__widgetclass_8c_af742f16921cbf9c4a1a662ade31d91cc}{ei\-\_\-widgetclass\-\_\-register} (\hyperlink{structei__widgetclass__t}{ei\-\_\-widgetclass\-\_\-t} $\ast$widgetclass)
 \begin{DoxyCompactList}\small\item\em Registers a class to the program so that widgets of this class can be created. This must be done only once per widged class in the application. \end{DoxyCompactList}\item 
@@ -65,6 +69,8 @@ void \hyperlink{ei__widgetclass_8c_abf57b97db914479643a25158f58119cc}{toplevel\-
 \item 
 \hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28}{ei\-\_\-bool\-\_\-t} \hyperlink{ei__widgetclass_8c_afb4ac8d56afe36469f6dd4cbd3832f9c}{dedans} (\hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} point, int x1, int y1, int x2, int y2)
 \item 
+\hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28}{ei\-\_\-bool\-\_\-t} \hyperlink{ei__widgetclass_8c_acfb50426ecd681f107ec3bf5089e4b7a}{danscercle} (\hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} point, \hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} centre, int rayon)
+\item 
 \hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28}{ei\-\_\-bool\-\_\-t} \hyperlink{ei__widgetclass_8c_a4ae69d77ca5a782217f3a11e8ab21dac}{toplevel\-\_\-handlefunc} (struct \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget, struct \hyperlink{structei__event__t}{ei\-\_\-event\-\_\-t} $\ast$event)
 \item 
 void \hyperlink{ei__widgetclass_8c_acdfaf4883aa16509c0d51e35177eb6b9}{ei\-\_\-frame\-\_\-register\-\_\-class} ()
@@ -78,7 +84,7 @@ void \hyperlink{ei__widgetclass_8c_a856904bc16ac897b9a2385e67402d570}{ei\-\_\-to
 \item 
 static \hyperlink{structei__widgetclass__t}{ei\-\_\-widgetclass\-\_\-t} $\ast$ \hyperlink{ei__widgetclass_8c_a5447becf90b1967386b53be7a2313880}{widgetsclass} = N\-U\-L\-L
 \item 
-static \hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} $\ast$ \hyperlink{ei__widgetclass_8c_ab776dcd78407499efd16bd4868fd5165}{position\-\_\-precedente}
+static \hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} \hyperlink{ei__widgetclass_8c_ae2214e7bfea077ed5795cd3dfc2f02b1}{position\-\_\-precedente}
 \item 
 static \hyperlink{ei__widgetclass_8c_a0a8c78bdff8165f440932e659a4a7335}{ei\-\_\-interaction\-\_\-t} \hyperlink{ei__widgetclass_8c_a737f04065fd7e321eafcb046b3834806}{action} = \hyperlink{ei__widgetclass_8c_a0a8c78bdff8165f440932e659a4a7335ae4d9d461ed8fcebe4212326a4cf629fd}{ei\-\_\-none}
 \end{DoxyCompactItemize}
@@ -101,7 +107,7 @@ static \hyperlink{ei__widgetclass_8c_a0a8c78bdff8165f440932e659a4a7335}{ei\-\_\-
 \end{Desc}
 
 
-Definition at line 13 of file ei\-\_\-widgetclass.\-c.
+Definition at line 23 of file ei\-\_\-widgetclass.\-c.
 
 
 
@@ -119,7 +125,7 @@ Definition at line 13 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a12492e1fdb4487ea86d8a5a6fae828c6}
 
 
-Definition at line 53 of file ei\-\_\-widgetclass.\-c.
+Definition at line 65 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a5908f0805ccaa819c38ebaf0ca4d886f}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!apply\-\_\-anchor\-\_\-text@{apply\-\_\-anchor\-\_\-text}}
 \index{apply\-\_\-anchor\-\_\-text@{apply\-\_\-anchor\-\_\-text}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -136,7 +142,7 @@ Definition at line 53 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a5908f0805ccaa819c38ebaf0ca4d886f}
 
 
-Definition at line 90 of file ei\-\_\-widgetclass.\-c.
+Definition at line 102 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a0cbe9e7959a171e2a55c57bcdddddd49}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!button\-\_\-allocfunc@{button\-\_\-allocfunc}}
 \index{button\-\_\-allocfunc@{button\-\_\-allocfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -147,7 +153,7 @@ Definition at line 90 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a0cbe9e7959a171e2a55c57bcdddddd49}
 
 
-Definition at line 239 of file ei\-\_\-widgetclass.\-c.
+Definition at line 247 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a578749d37978b6fe2679b391c91b1c8f}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!button\-\_\-drawfunc@{button\-\_\-drawfunc}}
 \index{button\-\_\-drawfunc@{button\-\_\-drawfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -161,7 +167,7 @@ Definition at line 239 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a578749d37978b6fe2679b391c91b1c8f}
 
 
-Definition at line 247 of file ei\-\_\-widgetclass.\-c.
+Definition at line 255 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_afb8e8359f217d519ae22939cfb92486e}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!button\-\_\-geomnotifyfunc@{button\-\_\-geomnotifyfunc}}
 \index{button\-\_\-geomnotifyfunc@{button\-\_\-geomnotifyfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -173,7 +179,7 @@ Definition at line 247 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_afb8e8359f217d519ae22939cfb92486e}
 
 
-Definition at line 364 of file ei\-\_\-widgetclass.\-c.
+Definition at line 369 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a7ef3b8cc2fa6576580a1e12f3d08f17d}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!button\-\_\-handlefunc@{button\-\_\-handlefunc}}
 \index{button\-\_\-handlefunc@{button\-\_\-handlefunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -185,7 +191,7 @@ Definition at line 364 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a7ef3b8cc2fa6576580a1e12f3d08f17d}
 
 
-Definition at line 368 of file ei\-\_\-widgetclass.\-c.
+Definition at line 373 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a017455a92ce9fa000cd44548ccf45f89}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!button\-\_\-releasefunc@{button\-\_\-releasefunc}}
 \index{button\-\_\-releasefunc@{button\-\_\-releasefunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -196,7 +202,7 @@ Definition at line 368 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a017455a92ce9fa000cd44548ccf45f89}
 
 
-Definition at line 243 of file ei\-\_\-widgetclass.\-c.
+Definition at line 251 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a9fc68c07f6660c83e29d540b31e5cfb2}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!button\-\_\-setdefaultsfunc@{button\-\_\-setdefaultsfunc}}
 \index{button\-\_\-setdefaultsfunc@{button\-\_\-setdefaultsfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -207,7 +213,20 @@ Definition at line 243 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a9fc68c07f6660c83e29d540b31e5cfb2}
 
 
-Definition at line 341 of file ei\-\_\-widgetclass.\-c.
+Definition at line 352 of file ei\-\_\-widgetclass.\-c.
+
+\hypertarget{ei__widgetclass_8c_acfb50426ecd681f107ec3bf5089e4b7a}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!danscercle@{danscercle}}
+\index{danscercle@{danscercle}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
+\subsubsection[{danscercle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-bool\-\_\-t} danscercle (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-point\-\_\-t}}]{point, }
+\item[{{\bf ei\-\_\-point\-\_\-t}}]{centre, }
+\item[{int}]{rayon}
+\end{DoxyParamCaption}
+)}}\label{ei__widgetclass_8c_acfb50426ecd681f107ec3bf5089e4b7a}
+
+
+Definition at line 505 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_afb4ac8d56afe36469f6dd4cbd3832f9c}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!dedans@{dedans}}
 \index{dedans@{dedans}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -222,7 +241,7 @@ Definition at line 341 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_afb4ac8d56afe36469f6dd4cbd3832f9c}
 
 
-Definition at line 423 of file ei\-\_\-widgetclass.\-c.
+Definition at line 499 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a838fccb1cd368bdb5dd486f5fcb07ac3}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!ei\-\_\-button\-\_\-register\-\_\-class@{ei\-\_\-button\-\_\-register\-\_\-class}}
 \index{ei\-\_\-button\-\_\-register\-\_\-class@{ei\-\_\-button\-\_\-register\-\_\-class}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -237,7 +256,7 @@ Registers the \char`\"{}button\char`\"{} widget class in the program. This must 
 
 
 
-Definition at line 515 of file ei\-\_\-widgetclass.\-c.
+Definition at line 615 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_acdfaf4883aa16509c0d51e35177eb6b9}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!ei\-\_\-frame\-\_\-register\-\_\-class@{ei\-\_\-frame\-\_\-register\-\_\-class}}
 \index{ei\-\_\-frame\-\_\-register\-\_\-class@{ei\-\_\-frame\-\_\-register\-\_\-class}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -252,7 +271,18 @@ Registers the \char`\"{}frame\char`\"{} widget class in the program. This must b
 
 
 
-Definition at line 501 of file ei\-\_\-widgetclass.\-c.
+Definition at line 601 of file ei\-\_\-widgetclass.\-c.
+
+\hypertarget{ei__widgetclass_8c_affad856111aef69022d4f3c560ec825c}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!ei\-\_\-get\-\_\-toplevel\-\_\-font@{ei\-\_\-get\-\_\-toplevel\-\_\-font}}
+\index{ei\-\_\-get\-\_\-toplevel\-\_\-font@{ei\-\_\-get\-\_\-toplevel\-\_\-font}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
+\subsubsection[{ei\-\_\-get\-\_\-toplevel\-\_\-font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-font\-\_\-t} ei\-\_\-get\-\_\-toplevel\-\_\-font (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ei__widgetclass_8c_affad856111aef69022d4f3c560ec825c}
+
+
+Definition at line 161 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__widgetclass_8c_a856904bc16ac897b9a2385e67402d570}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!ei\-\_\-toplevel\-\_\-register\-\_\-class@{ei\-\_\-toplevel\-\_\-register\-\_\-class}}
 \index{ei\-\_\-toplevel\-\_\-register\-\_\-class@{ei\-\_\-toplevel\-\_\-register\-\_\-class}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -267,7 +297,7 @@ Registers the \char`\"{}toplevel\char`\"{} widget class in the program. This mus
 
 
 
-Definition at line 529 of file ei\-\_\-widgetclass.\-c.
+Definition at line 629 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a00f3c7506df390ca8a5b52d8b386bced}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!ei\-\_\-widgetclass\-\_\-from\-\_\-name@{ei\-\_\-widgetclass\-\_\-from\-\_\-name}}
 \index{ei\-\_\-widgetclass\-\_\-from\-\_\-name@{ei\-\_\-widgetclass\-\_\-from\-\_\-name}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -290,7 +320,7 @@ The structure describing the class.
 \end{DoxyReturn}
 
 
-Definition at line 37 of file ei\-\_\-widgetclass.\-c.
+Definition at line 49 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_af742f16921cbf9c4a1a662ade31d91cc}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!ei\-\_\-widgetclass\-\_\-register@{ei\-\_\-widgetclass\-\_\-register}}
 \index{ei\-\_\-widgetclass\-\_\-register@{ei\-\_\-widgetclass\-\_\-register}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -310,7 +340,7 @@ Registers a class to the program so that widgets of this class can be created. T
 \end{DoxyParams}
 
 
-Definition at line 23 of file ei\-\_\-widgetclass.\-c.
+Definition at line 35 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a464922d05d27b6bef94fa35fa498e322}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!frame\-\_\-allocfunc@{frame\-\_\-allocfunc}}
 \index{frame\-\_\-allocfunc@{frame\-\_\-allocfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -321,7 +351,7 @@ Definition at line 23 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a464922d05d27b6bef94fa35fa498e322}
 
 
-Definition at line 130 of file ei\-\_\-widgetclass.\-c.
+Definition at line 142 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_ad740a956f35b243622c45d372ef878f6}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!frame\-\_\-drawfunc@{frame\-\_\-drawfunc}}
 \index{frame\-\_\-drawfunc@{frame\-\_\-drawfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -335,7 +365,7 @@ Definition at line 130 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_ad740a956f35b243622c45d372ef878f6}
 
 
-Definition at line 138 of file ei\-\_\-widgetclass.\-c.
+Definition at line 150 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_abe0d473c5e87b0d5c75a5012c3ac3dd2}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!frame\-\_\-geomnotifyfunc@{frame\-\_\-geomnotifyfunc}}
 \index{frame\-\_\-geomnotifyfunc@{frame\-\_\-geomnotifyfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -347,7 +377,7 @@ Definition at line 138 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_abe0d473c5e87b0d5c75a5012c3ac3dd2}
 
 
-Definition at line 228 of file ei\-\_\-widgetclass.\-c.
+Definition at line 236 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a26b2a8b8cc681ba54f3d68657bf592b1}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!frame\-\_\-handlefunc@{frame\-\_\-handlefunc}}
 \index{frame\-\_\-handlefunc@{frame\-\_\-handlefunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -359,7 +389,7 @@ Definition at line 228 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a26b2a8b8cc681ba54f3d68657bf592b1}
 
 
-Definition at line 232 of file ei\-\_\-widgetclass.\-c.
+Definition at line 240 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_aad1aa6cbab19cc599e1fbff591a60072}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!frame\-\_\-releasefunc@{frame\-\_\-releasefunc}}
 \index{frame\-\_\-releasefunc@{frame\-\_\-releasefunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -370,7 +400,7 @@ Definition at line 232 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_aad1aa6cbab19cc599e1fbff591a60072}
 
 
-Definition at line 134 of file ei\-\_\-widgetclass.\-c.
+Definition at line 146 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_ac21be8c3879589e0e655ca2c4c834995}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!frame\-\_\-setdefaultsfunc@{frame\-\_\-setdefaultsfunc}}
 \index{frame\-\_\-setdefaultsfunc@{frame\-\_\-setdefaultsfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -381,7 +411,7 @@ Definition at line 134 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_ac21be8c3879589e0e655ca2c4c834995}
 
 
-Definition at line 209 of file ei\-\_\-widgetclass.\-c.
+Definition at line 216 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_aaee887b7ce2a7ee1033bb722ee84f646}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!toplevel\-\_\-allocfunc@{toplevel\-\_\-allocfunc}}
 \index{toplevel\-\_\-allocfunc@{toplevel\-\_\-allocfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -392,7 +422,7 @@ Definition at line 209 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_aaee887b7ce2a7ee1033bb722ee84f646}
 
 
-Definition at line 386 of file ei\-\_\-widgetclass.\-c.
+Definition at line 396 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a19c8e6cebbeae114949090b490b4e905}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!toplevel\-\_\-drawfunc@{toplevel\-\_\-drawfunc}}
 \index{toplevel\-\_\-drawfunc@{toplevel\-\_\-drawfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -406,7 +436,7 @@ Definition at line 386 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a19c8e6cebbeae114949090b490b4e905}
 
 
-Definition at line 394 of file ei\-\_\-widgetclass.\-c.
+Definition at line 404 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_abf57b97db914479643a25158f58119cc}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!toplevel\-\_\-geomnotifyfunc@{toplevel\-\_\-geomnotifyfunc}}
 \index{toplevel\-\_\-geomnotifyfunc@{toplevel\-\_\-geomnotifyfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -418,7 +448,7 @@ Definition at line 394 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_abf57b97db914479643a25158f58119cc}
 
 
-Definition at line 417 of file ei\-\_\-widgetclass.\-c.
+Definition at line 493 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a4ae69d77ca5a782217f3a11e8ab21dac}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!toplevel\-\_\-handlefunc@{toplevel\-\_\-handlefunc}}
 \index{toplevel\-\_\-handlefunc@{toplevel\-\_\-handlefunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -430,7 +460,7 @@ Definition at line 417 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a4ae69d77ca5a782217f3a11e8ab21dac}
 
 
-Definition at line 428 of file ei\-\_\-widgetclass.\-c.
+Definition at line 510 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a913d4e207a0cb55d064ab0f1e0978ca0}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!toplevel\-\_\-releasefunc@{toplevel\-\_\-releasefunc}}
 \index{toplevel\-\_\-releasefunc@{toplevel\-\_\-releasefunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -441,7 +471,7 @@ Definition at line 428 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_a913d4e207a0cb55d064ab0f1e0978ca0}
 
 
-Definition at line 390 of file ei\-\_\-widgetclass.\-c.
+Definition at line 400 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_ab0f51b6a3a49d44aa637eb164173cbae}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!toplevel\-\_\-setdefaultsfunc@{toplevel\-\_\-setdefaultsfunc}}
 \index{toplevel\-\_\-setdefaultsfunc@{toplevel\-\_\-setdefaultsfunc}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
@@ -452,7 +482,7 @@ Definition at line 390 of file ei\-\_\-widgetclass.\-c.
 )}}\label{ei__widgetclass_8c_ab0f51b6a3a49d44aa637eb164173cbae}
 
 
-Definition at line 400 of file ei\-\_\-widgetclass.\-c.
+Definition at line 474 of file ei\-\_\-widgetclass.\-c.
 
 
 
@@ -462,19 +492,19 @@ Definition at line 400 of file ei\-\_\-widgetclass.\-c.
 \subsubsection[{action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-interaction\-\_\-t} action = {\bf ei\-\_\-none}\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__widgetclass_8c_a737f04065fd7e321eafcb046b3834806}
 
 
-Definition at line 21 of file ei\-\_\-widgetclass.\-c.
+Definition at line 31 of file ei\-\_\-widgetclass.\-c.
 
-\hypertarget{ei__widgetclass_8c_ab776dcd78407499efd16bd4868fd5165}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!position\-\_\-precedente@{position\-\_\-precedente}}
+\hypertarget{ei__widgetclass_8c_ae2214e7bfea077ed5795cd3dfc2f02b1}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!position\-\_\-precedente@{position\-\_\-precedente}}
 \index{position\-\_\-precedente@{position\-\_\-precedente}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
-\subsubsection[{position\-\_\-precedente}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-point\-\_\-t}$\ast$ position\-\_\-precedente\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__widgetclass_8c_ab776dcd78407499efd16bd4868fd5165}
+\subsubsection[{position\-\_\-precedente}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-point\-\_\-t} position\-\_\-precedente\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__widgetclass_8c_ae2214e7bfea077ed5795cd3dfc2f02b1}
 
 
-Definition at line 20 of file ei\-\_\-widgetclass.\-c.
+Definition at line 30 of file ei\-\_\-widgetclass.\-c.
 
 \hypertarget{ei__widgetclass_8c_a5447becf90b1967386b53be7a2313880}{\index{ei\-\_\-widgetclass.\-c@{ei\-\_\-widgetclass.\-c}!widgetsclass@{widgetsclass}}
 \index{widgetsclass@{widgetsclass}!ei_widgetclass.c@{ei\-\_\-widgetclass.\-c}}
 \subsubsection[{widgetsclass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-widgetclass\-\_\-t}$\ast$ widgetsclass = N\-U\-L\-L\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__widgetclass_8c_a5447becf90b1967386b53be7a2313880}
 
 
-Definition at line 19 of file ei\-\_\-widgetclass.\-c.
+Definition at line 29 of file ei\-\_\-widgetclass.\-c.
 

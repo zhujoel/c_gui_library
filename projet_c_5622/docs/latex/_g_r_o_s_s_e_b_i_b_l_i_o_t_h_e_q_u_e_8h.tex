@@ -3,12 +3,19 @@
 }
 
 
-Fonctions implémentés à nous.  
+Fonctions implémentées à nous.  
 
 
 {\ttfamily \#include $<$stdint.\-h$>$}\\*
 {\ttfamily \#include \char`\"{}ei\-\_\-types.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}hw\-\_\-interface.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_affe776513b24d84b39af8ab0930fef7f}{max}(a, b)~( ((a) $>$ (b)) ? (a) \-: (b) )
+\item 
+\#define \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_ac6afabdc09a49a433ee19d8a9486056d}{min}(a, b)~( ((a) $<$ (b)) ? (a) \-: (b) )
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -21,11 +28,19 @@ Fonctions implémentés à nous.
 void \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a1d926277069452048dc6ff691abe2077}{ei\-\_\-draw\-\_\-widget\-\_\-with\-\_\-relief\-\_\-and\-\_\-corner\-\_\-radius\-\_\-that\-\_\-is\-\_\-optional} (\hyperlink{hw__interface_8h_ad9970ae727c438faaf09c58c5defb796}{ei\-\_\-surface\-\_\-t} surface, const \hyperlink{structei__rect__t}{ei\-\_\-rect\-\_\-t} rect, const \hyperlink{structei__color__t}{ei\-\_\-color\-\_\-t} color, const \hyperlink{structei__rect__t}{ei\-\_\-rect\-\_\-t} $\ast$clipper, float rayon, \hyperlink{ei__types_8h_aa79a32b1d8ece0e44cfa394e870b270b}{ei\-\_\-relief\-\_\-t} relief\-Type, int distance\-Rectangle)
 \begin{DoxyCompactList}\small\item\em Dessine un bouton enfoncé en relief. \end{DoxyCompactList}\item 
 void \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a6299220ab2b772500f439eef0ef8126f}{ei\-\_\-draw\-\_\-image} (const char $\ast$filename, \hyperlink{hw__interface_8h_ad9970ae727c438faaf09c58c5defb796}{ei\-\_\-surface\-\_\-t} surface, \hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} $\ast$where, const \hyperlink{structei__rect__t}{ei\-\_\-rect\-\_\-t} $\ast$clipper)
-\begin{DoxyCompactList}\small\item\em Dessine une image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Dessine une image. \end{DoxyCompactList}\item 
+void \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a5908f0805ccaa819c38ebaf0ca4d886f}{apply\-\_\-anchor\-\_\-text} (\hyperlink{ei__types_8h_a3852c963af609d31d7cfcff79c4c8450}{ei\-\_\-anchor\-\_\-t} anchor, int $\ast$x, int $\ast$y, int $\ast$w, int $\ast$h, int $\ast$w\-\_\-parent, int $\ast$h\-\_\-parent)
+\item 
+void \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a12492e1fdb4487ea86d8a5a6fae828c6}{apply\-\_\-anchor} (\hyperlink{ei__types_8h_a3852c963af609d31d7cfcff79c4c8450}{ei\-\_\-anchor\-\_\-t} anchor, int $\ast$x, int $\ast$y, int $\ast$w, int $\ast$h)
+\item 
+uint32\-\_\-t \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_abbdc25a2464306d6082ef65af7d882eb}{convert\-Color\-To\-Id} (\hyperlink{structei__color__t}{ei\-\_\-color\-\_\-t} $\ast$pick\-\_\-color)
+\item 
+\hyperlink{structei__color__t}{ei\-\_\-color\-\_\-t} $\ast$ \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a96ec50879dccb8a96a961ad1159f64ae}{convert\-Id\-To\-Color} (uint32\-\_\-t id)
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Fonctions implémentés à nous. \begin{DoxyAuthor}{Author}
+Fonctions implémentées à nous. \begin{DoxyAuthor}{Author}
 Created by J\-O\-E\-L Z\-H\-U, P\-A\-U\-L C\-H\-A\-L\-A\-S, T\-H\-O\-M\-A\-S Z\-H\-A\-N\-G Copyright 2040 Ensimag. All rights reserved. 
 \end{DoxyAuthor}
 
@@ -34,7 +49,66 @@ Definition in file \hyperlink{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source}{G\
 
 
 
+\subsection{Macro Definition Documentation}
+\hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_affe776513b24d84b39af8ab0930fef7f}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!max@{max}}
+\index{max@{max}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}\#define max(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~( ((a) $>$ (b)) ? (a) \-: (b) )}}\label{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_affe776513b24d84b39af8ab0930fef7f}
+
+
+Definition at line 20 of file G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h.
+
+\hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_ac6afabdc09a49a433ee19d8a9486056d}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!min@{min}}
+\index{min@{min}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}\#define min(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~( ((a) $<$ (b)) ? (a) \-: (b) )}}\label{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_ac6afabdc09a49a433ee19d8a9486056d}
+
+
+Definition at line 24 of file G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h.
+
+
+
 \subsection{Function Documentation}
+\hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a12492e1fdb4487ea86d8a5a6fae828c6}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!apply\-\_\-anchor@{apply\-\_\-anchor}}
+\index{apply\-\_\-anchor@{apply\-\_\-anchor}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
+\subsubsection[{apply\-\_\-anchor}]{\setlength{\rightskip}{0pt plus 5cm}void apply\-\_\-anchor (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-anchor\-\_\-t}}]{anchor, }
+\item[{int $\ast$}]{x, }
+\item[{int $\ast$}]{y, }
+\item[{int $\ast$}]{w, }
+\item[{int $\ast$}]{h}
+\end{DoxyParamCaption}
+)}}\label{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a12492e1fdb4487ea86d8a5a6fae828c6}
+
+
+Definition at line 65 of file ei\-\_\-widgetclass.\-c.
+
+\hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a5908f0805ccaa819c38ebaf0ca4d886f}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!apply\-\_\-anchor\-\_\-text@{apply\-\_\-anchor\-\_\-text}}
+\index{apply\-\_\-anchor\-\_\-text@{apply\-\_\-anchor\-\_\-text}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
+\subsubsection[{apply\-\_\-anchor\-\_\-text}]{\setlength{\rightskip}{0pt plus 5cm}void apply\-\_\-anchor\-\_\-text (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-anchor\-\_\-t}}]{anchor, }
+\item[{int $\ast$}]{x, }
+\item[{int $\ast$}]{y, }
+\item[{int $\ast$}]{w, }
+\item[{int $\ast$}]{h, }
+\item[{int $\ast$}]{w\-\_\-parent, }
+\item[{int $\ast$}]{h\-\_\-parent}
+\end{DoxyParamCaption}
+)}}\label{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a5908f0805ccaa819c38ebaf0ca4d886f}
+
+
+Definition at line 102 of file ei\-\_\-widgetclass.\-c.
+
 \hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a76b1a8803bd5a2ce4dc8ef85950f7242}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!arc@{arc}}
 \index{arc@{arc}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
 \subsubsection[{arc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-linked\-\_\-point\-\_\-t}$\ast$ arc (
@@ -65,7 +139,29 @@ Retourne la liste de points définissant l'arc
 \end{DoxyReturn}
 
 
-Definition at line 702 of file ei\-\_\-draw.\-c.
+Definition at line 683 of file ei\-\_\-draw.\-c.
+
+\hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_abbdc25a2464306d6082ef65af7d882eb}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!convert\-Color\-To\-Id@{convert\-Color\-To\-Id}}
+\index{convert\-Color\-To\-Id@{convert\-Color\-To\-Id}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
+\subsubsection[{convert\-Color\-To\-Id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t convert\-Color\-To\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-color\-\_\-t} $\ast$}]{pick\-\_\-color}
+\end{DoxyParamCaption}
+)}}\label{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_abbdc25a2464306d6082ef65af7d882eb}
+
+
+Definition at line 20 of file ei\-\_\-widget.\-c.
+
+\hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a96ec50879dccb8a96a961ad1159f64ae}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!convert\-Id\-To\-Color@{convert\-Id\-To\-Color}}
+\index{convert\-Id\-To\-Color@{convert\-Id\-To\-Color}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
+\subsubsection[{convert\-Id\-To\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-color\-\_\-t}$\ast$ convert\-Id\-To\-Color (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a96ec50879dccb8a96a961ad1159f64ae}
+
+
+Definition at line 11 of file ei\-\_\-widget.\-c.
 
 \hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a6299220ab2b772500f439eef0ef8126f}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!ei\-\_\-draw\-\_\-image@{ei\-\_\-draw\-\_\-image}}
 \index{ei\-\_\-draw\-\_\-image@{ei\-\_\-draw\-\_\-image}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
@@ -94,7 +190,7 @@ Dessine une image.
 \end{DoxyParams}
 
 
-Definition at line 965 of file ei\-\_\-draw.\-c.
+Definition at line 950 of file ei\-\_\-draw.\-c.
 
 \hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a1d926277069452048dc6ff691abe2077}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!ei\-\_\-draw\-\_\-widget\-\_\-with\-\_\-relief\-\_\-and\-\_\-corner\-\_\-radius\-\_\-that\-\_\-is\-\_\-optional@{ei\-\_\-draw\-\_\-widget\-\_\-with\-\_\-relief\-\_\-and\-\_\-corner\-\_\-radius\-\_\-that\-\_\-is\-\_\-optional}}
 \index{ei\-\_\-draw\-\_\-widget\-\_\-with\-\_\-relief\-\_\-and\-\_\-corner\-\_\-radius\-\_\-that\-\_\-is\-\_\-optional@{ei\-\_\-draw\-\_\-widget\-\_\-with\-\_\-relief\-\_\-and\-\_\-corner\-\_\-radius\-\_\-that\-\_\-is\-\_\-optional}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
@@ -132,7 +228,7 @@ Dessine un bouton enfoncé en relief.
 \end{DoxyParams}
 
 
-Definition at line 825 of file ei\-\_\-draw.\-c.
+Definition at line 804 of file ei\-\_\-draw.\-c.
 
 \hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_acf0d400d71f1e217ccb484d2a49617c3}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!ei\-\_\-map\-\_\-color@{ei\-\_\-map\-\_\-color}}
 \index{ei\-\_\-map\-\_\-color@{ei\-\_\-map\-\_\-color}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
@@ -158,7 +254,7 @@ une variable \hyperlink{structei__color__t}{ei\-\_\-color\-\_\-t} qui correspond
 \end{DoxyReturn}
 Prend une couleur en représentation 32 bits et renvoie une \hyperlink{structei__color__t}{ei\-\_\-color\-\_\-t} 
 
-Definition at line 66 of file ei\-\_\-draw.\-c.
+Definition at line 60 of file ei\-\_\-draw.\-c.
 
 \hypertarget{_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_a25cdd5b73097114d6efbf660b5158818}{\index{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}!rounded\-\_\-frame@{rounded\-\_\-frame}}
 \index{rounded\-\_\-frame@{rounded\-\_\-frame}!GROSSEBIBLIOTHEQUE.h@{G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h}}
@@ -187,5 +283,5 @@ Retourne liste de points définissant un cadre aux bords arrondis
 \end{DoxyReturn}
 
 
-Definition at line 733 of file ei\-\_\-draw.\-c.
+Definition at line 713 of file ei\-\_\-draw.\-c.
 

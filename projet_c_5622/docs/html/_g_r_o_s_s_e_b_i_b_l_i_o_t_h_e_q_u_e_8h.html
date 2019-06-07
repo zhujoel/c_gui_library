@@ -84,13 +84,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">GROSSEBIBLIOTHEQUE.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Fonctions implémentés à nous.  
+<p>Fonctions implémentées à nous.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="ei__types_8h_source.html">ei_types.h</a>&quot;</code><br/>
@@ -98,6 +99,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <p><a href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:affe776513b24d84b39af8ab0930fef7f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#affe776513b24d84b39af8ab0930fef7f">max</a>(a, b)&#160;&#160;&#160;( ((a) &gt; (b)) ? (a) : (b) )</td></tr>
+<tr class="separator:affe776513b24d84b39af8ab0930fef7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6afabdc09a49a433ee19d8a9486056d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#ac6afabdc09a49a433ee19d8a9486056d">min</a>(a, b)&#160;&#160;&#160;( ((a) &lt; (b)) ? (a) : (b) )</td></tr>
+<tr class="separator:ac6afabdc09a49a433ee19d8a9486056d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:acf0d400d71f1e217ccb484d2a49617c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__color__t.html">ei_color_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#acf0d400d71f1e217ccb484d2a49617c3">ei_map_color</a> (<a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, const uint32_t *color)</td></tr>
@@ -115,13 +123,182 @@ Functions</h2></td></tr>
 <tr class="memitem:a6299220ab2b772500f439eef0ef8126f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#a6299220ab2b772500f439eef0ef8126f">ei_draw_image</a> (const char *filename, <a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a> surface, <a class="el" href="structei__point__t.html">ei_point_t</a> *where, const <a class="el" href="structei__rect__t.html">ei_rect_t</a> *clipper)</td></tr>
 <tr class="memdesc:a6299220ab2b772500f439eef0ef8126f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine une image.  <a href="#a6299220ab2b772500f439eef0ef8126f">More...</a><br/></td></tr>
 <tr class="separator:a6299220ab2b772500f439eef0ef8126f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5908f0805ccaa819c38ebaf0ca4d886f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#a5908f0805ccaa819c38ebaf0ca4d886f">apply_anchor_text</a> (<a class="el" href="ei__types_8h.html#a3852c963af609d31d7cfcff79c4c8450">ei_anchor_t</a> anchor, int *x, int *y, int *w, int *h, int *w_parent, int *h_parent)</td></tr>
+<tr class="separator:a5908f0805ccaa819c38ebaf0ca4d886f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12492e1fdb4487ea86d8a5a6fae828c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#a12492e1fdb4487ea86d8a5a6fae828c6">apply_anchor</a> (<a class="el" href="ei__types_8h.html#a3852c963af609d31d7cfcff79c4c8450">ei_anchor_t</a> anchor, int *x, int *y, int *w, int *h)</td></tr>
+<tr class="separator:a12492e1fdb4487ea86d8a5a6fae828c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbdc25a2464306d6082ef65af7d882eb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#abbdc25a2464306d6082ef65af7d882eb">convertColorToId</a> (<a class="el" href="structei__color__t.html">ei_color_t</a> *pick_color)</td></tr>
+<tr class="separator:abbdc25a2464306d6082ef65af7d882eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ec50879dccb8a96a961ad1159f64ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__color__t.html">ei_color_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h.html#a96ec50879dccb8a96a961ad1159f64ae">convertIdToColor</a> (uint32_t id)</td></tr>
+<tr class="separator:a96ec50879dccb8a96a961ad1159f64ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Fonctions implémentés à nous. </p>
+<div class="textblock"><p>Fonctions implémentées à nous. </p>
 <dl class="section author"><dt>Author</dt><dd>Created by JOEL ZHU, PAUL CHALAS, THOMAS ZHANG Copyright 2040 Ensimag. All rights reserved. </dd></dl>
 
 <p>Definition in file <a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">GROSSEBIBLIOTHEQUE.h</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="affe776513b24d84b39af8ab0930fef7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define max</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">a, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;( ((a) &gt; (b)) ? (a) : (b) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html#l00020">20</a> of file <a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">GROSSEBIBLIOTHEQUE.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac6afabdc09a49a433ee19d8a9486056d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define min</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">a, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;( ((a) &lt; (b)) ? (a) : (b) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html#l00024">24</a> of file <a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">GROSSEBIBLIOTHEQUE.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a12492e1fdb4487ea86d8a5a6fae828c6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void apply_anchor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ei__types_8h.html#a3852c963af609d31d7cfcff79c4c8450">ei_anchor_t</a>&#160;</td>
+          <td class="paramname"><em>anchor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>h</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00065">65</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5908f0805ccaa819c38ebaf0ca4d886f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void apply_anchor_text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ei__types_8h.html#a3852c963af609d31d7cfcff79c4c8450">ei_anchor_t</a>&#160;</td>
+          <td class="paramname"><em>anchor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>w_parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>h_parent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00102">102</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a76b1a8803bd5a2ce4dc8ef85950f7242"></a>
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +347,43 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Retourne la liste de points définissant l'arc </dd></dl>
 
-<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00702">702</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00683">683</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abbdc25a2464306d6082ef65af7d882eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t convertColorToId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__color__t.html">ei_color_t</a> *&#160;</td>
+          <td class="paramname"><em>pick_color</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__widget_8c_source.html#l00020">20</a> of file <a class="el" href="ei__widget_8c_source.html">ei_widget.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a96ec50879dccb8a96a961ad1159f64ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structei__color__t.html">ei_color_t</a>* convertIdToColor </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__widget_8c_source.html#l00011">11</a> of file <a class="el" href="ei__widget_8c_source.html">ei_widget.c</a>.</p>
 
 </div>
 </div>
@@ -221,7 +434,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00965">965</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00950">950</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
 
 </div>
 </div>
@@ -293,7 +506,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00825">825</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00804">804</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
 
 </div>
 </div>
@@ -332,7 +545,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>une variable <a class="el" href="structei__color__t.html" title="A color with transparency. ">ei_color_t</a> qui correspond au couleur 32 bits converti</dd></dl>
 <p>Prend une couleur en représentation 32 bits et renvoie une <a class="el" href="structei__color__t.html" title="A color with transparency. ">ei_color_t</a> </p>
 
-<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00066">66</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00060">60</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
 
 </div>
 </div>
@@ -377,14 +590,14 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Retourne liste de points définissant un cadre aux bords arrondis </dd></dl>
 
-<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00733">733</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__draw_8c_source.html#l00713">713</a> of file <a class="el" href="ei__draw_8c_source.html">ei_draw.c</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 5 2019 16:53:19 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 7 2019 16:28:53 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

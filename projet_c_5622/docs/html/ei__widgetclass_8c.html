@@ -97,6 +97,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="ei__widgets_8h_source.html">../include/ei_widgets.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="ei__event_8h_source.html">../include/ei_event.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="ei__utils_8h_source.html">../include/ei_utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="ei__draw_8h_source.html">../include/ei_draw.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">../include/GROSSEBIBLIOTHEQUE.h</a>&quot;</code><br/>
 <code>#include &lt;stdlib.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
 <code>#include &lt;stdio.h&gt;</code><br/>
@@ -113,6 +115,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:affad856111aef69022d4f3c560ec825c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#affad856111aef69022d4f3c560ec825c">ei_get_toplevel_font</a> ()</td></tr>
+<tr class="separator:affad856111aef69022d4f3c560ec825c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af742f16921cbf9c4a1a662ade31d91cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#af742f16921cbf9c4a1a662ade31d91cc">ei_widgetclass_register</a> (<a class="el" href="structei__widgetclass__t.html">ei_widgetclass_t</a> *widgetclass)</td></tr>
 <tr class="memdesc:af742f16921cbf9c4a1a662ade31d91cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a class to the program so that widgets of this class can be created. This must be done only once per widged class in the application.  <a href="#af742f16921cbf9c4a1a662ade31d91cc">More...</a><br/></td></tr>
 <tr class="separator:af742f16921cbf9c4a1a662ade31d91cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,6 +163,8 @@ Functions</h2></td></tr>
 <tr class="separator:abf57b97db914479643a25158f58119cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb4ac8d56afe36469f6dd4cbd3832f9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#afb4ac8d56afe36469f6dd4cbd3832f9c">dedans</a> (<a class="el" href="structei__point__t.html">ei_point_t</a> point, int x1, int y1, int x2, int y2)</td></tr>
 <tr class="separator:afb4ac8d56afe36469f6dd4cbd3832f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb50426ecd681f107ec3bf5089e4b7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#acfb50426ecd681f107ec3bf5089e4b7a">danscercle</a> (<a class="el" href="structei__point__t.html">ei_point_t</a> point, <a class="el" href="structei__point__t.html">ei_point_t</a> centre, int rayon)</td></tr>
+<tr class="separator:acfb50426ecd681f107ec3bf5089e4b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ae69d77ca5a782217f3a11e8ab21dac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#a4ae69d77ca5a782217f3a11e8ab21dac">toplevel_handlefunc</a> (struct <a class="el" href="structei__widget__t.html">ei_widget_t</a> *widget, struct <a class="el" href="structei__event__t.html">ei_event_t</a> *event)</td></tr>
 <tr class="separator:a4ae69d77ca5a782217f3a11e8ab21dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdfaf4883aa16509c0d51e35177eb6b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#acdfaf4883aa16509c0d51e35177eb6b9">ei_frame_register_class</a> ()</td></tr>
@@ -175,8 +181,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a5447becf90b1967386b53be7a2313880"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structei__widgetclass__t.html">ei_widgetclass_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#a5447becf90b1967386b53be7a2313880">widgetsclass</a> = NULL</td></tr>
 <tr class="separator:a5447becf90b1967386b53be7a2313880"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab776dcd78407499efd16bd4868fd5165"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structei__point__t.html">ei_point_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#ab776dcd78407499efd16bd4868fd5165">position_precedente</a></td></tr>
-<tr class="separator:ab776dcd78407499efd16bd4868fd5165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2214e7bfea077ed5795cd3dfc2f02b1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structei__point__t.html">ei_point_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#ae2214e7bfea077ed5795cd3dfc2f02b1">position_precedente</a></td></tr>
+<tr class="separator:ae2214e7bfea077ed5795cd3dfc2f02b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a737f04065fd7e321eafcb046b3834806"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ei__widgetclass_8c.html#a0a8c78bdff8165f440932e659a4a7335">ei_interaction_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__widgetclass_8c.html#a737f04065fd7e321eafcb046b3834806">action</a> = <a class="el" href="ei__widgetclass_8c.html#a0a8c78bdff8165f440932e659a4a7335ae4d9d461ed8fcebe4212326a4cf629fd">ei_none</a></td></tr>
 <tr class="separator:a737f04065fd7e321eafcb046b3834806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -199,7 +205,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00013">13</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00023">23</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -246,7 +252,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00053">53</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00065">65</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -304,7 +310,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00090">90</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00102">102</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -321,7 +327,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00239">239</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00247">247</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -361,7 +367,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00247">247</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00255">255</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -389,7 +395,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00364">364</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00369">369</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -417,7 +423,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00368">368</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00373">373</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -435,7 +441,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00243">243</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00251">251</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -453,7 +459,41 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00341">341</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00352">352</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acfb50426ecd681f107ec3bf5089e4b7a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a> danscercle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structei__point__t.html">ei_point_t</a>&#160;</td>
+          <td class="paramname"><em>point</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structei__point__t.html">ei_point_t</a>&#160;</td>
+          <td class="paramname"><em>centre</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rayon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00505">505</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -499,7 +539,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00423">423</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00499">499</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -518,7 +558,7 @@ Variables</h2></td></tr>
 
 <p>Registers the "button" widget class in the program. This must be called only once before widgets of the class "button" can be created and configured with <a class="el" href="ei__widget_8c.html#a6aef3afd6aa8e6bab563735a0c54a76b">ei_button_configure</a>. </p>
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00515">515</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00615">615</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -537,7 +577,24 @@ Variables</h2></td></tr>
 
 <p>Registers the "frame" widget class in the program. This must be called only once before widgets of the class "frame" can be created and configured with <a class="el" href="ei__widget_8c.html#aaaeb8447f509b20478940b514b542106">ei_frame_configure</a>. </p>
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00501">501</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00601">601</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="affad856111aef69022d4f3c560ec825c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a> ei_get_toplevel_font </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00161">161</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -556,7 +613,7 @@ Variables</h2></td></tr>
 
 <p>Registers the "toplevel" widget class in the program. This must be called only once before widgets of the class "toplevel" can be created and configured with <a class="el" href="ei__widget_8c.html#a853349fd4f65ae575a1989a9713059b4">ei_toplevel_configure</a>. </p>
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00529">529</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00629">629</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -583,7 +640,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The structure describing the class. </dd></dl>
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00037">37</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00049">49</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -609,7 +666,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00023">23</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00035">35</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -626,7 +683,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00130">130</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00142">142</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -666,7 +723,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00138">138</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00150">150</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -694,7 +751,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00228">228</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00236">236</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -722,7 +779,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00232">232</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00240">240</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -740,7 +797,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00134">134</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00146">146</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -758,7 +815,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00209">209</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00216">216</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -775,7 +832,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00386">386</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00396">396</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -815,7 +872,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00394">394</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00404">404</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -843,7 +900,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00417">417</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00493">493</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -871,7 +928,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00428">428</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00510">510</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -889,7 +946,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00390">390</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00400">400</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -907,7 +964,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00400">400</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00474">474</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -930,11 +987,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00021">21</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00031">31</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab776dcd78407499efd16bd4868fd5165"></a>
+<a class="anchor" id="ae2214e7bfea077ed5795cd3dfc2f02b1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -942,7 +999,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structei__point__t.html">ei_point_t</a>* position_precedente</td>
+          <td class="memname"><a class="el" href="structei__point__t.html">ei_point_t</a> position_precedente</td>
         </tr>
       </table>
   </td>
@@ -952,7 +1009,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00020">20</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00030">30</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
@@ -974,14 +1031,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00019">19</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__widgetclass_8c_source.html#l00029">29</a> of file <a class="el" href="ei__widgetclass_8c_source.html">ei_widgetclass.c</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 5 2019 16:53:19 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 7 2019 16:28:53 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

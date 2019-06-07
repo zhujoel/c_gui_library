@@ -5,6 +5,8 @@
 {\ttfamily \#include \char`\"{}../include/ei\-\_\-utils.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/ei\-\_\-event.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/ei\-\_\-widget.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/ei\-\_\-widgetclass.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/\-G\-R\-O\-S\-S\-E\-B\-I\-B\-L\-I\-O\-T\-H\-E\-Q\-U\-E.\-h\char`\"{}}\\*
 {\ttfamily \#include $<$stdlib.\-h$>$}\\*
 {\ttfamily \#include $<$string.\-h$>$}\\*
 {\ttfamily \#include $<$stdio.\-h$>$}\\*
@@ -17,9 +19,7 @@ void \hyperlink{ei__application_8c_a4bb2bfc3248b18adad2b272b011883ab}{ei\-\_\-ap
 \begin{DoxyCompactList}\small\item\em Creates an application. \end{DoxyCompactList}\item 
 void \hyperlink{ei__application_8c_ad7ab77d706b9648b49c33ef3d2c830c0}{ei\-\_\-app\-\_\-free} ()
 \begin{DoxyCompactList}\small\item\em Releases all the resources of the application, and releases the hardware (ie. calls \hyperlink{hw__interface_8h_a6e856924f3b4c8966a870e56a3b1dcb1}{hw\-\_\-quit}). \end{DoxyCompactList}\item 
-void \hyperlink{ei__application_8c_a0b36829b9a2f2805b883b0726da6304f}{parcours\-\_\-profondeur\-\_\-draw} (\hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget)
-\item 
-\hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28}{ei\-\_\-bool\-\_\-t} \hyperlink{ei__application_8c_af8ee52362c789802afc96976e6e03095}{dans\-\_\-frame} (\hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} point, \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget)
+\hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28}{ei\-\_\-bool\-\_\-t} \hyperlink{ei__application_8c_a4b5be95e7d8dbf7a8079d8e97899c285}{dans\-\_\-w} (\hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} point, \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget)
 \item 
 \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$ \hyperlink{ei__application_8c_a120369c037eb13b67229b31874ebfaed}{parcours\-\_\-profondeur\-\_\-pick} (\hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget, \hyperlink{structei__point__t}{ei\-\_\-point\-\_\-t} point)
 \item 
@@ -32,7 +32,9 @@ void \hyperlink{ei__application_8c_a05dff77e07ed2d7a896b14c15a939457}{ei\-\_\-ap
 \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$ \hyperlink{ei__application_8c_a97eeb53e6bac85cfb5f19f4baa77e114}{ei\-\_\-app\-\_\-root\-\_\-widget} ()
 \begin{DoxyCompactList}\small\item\em Returns the \char`\"{}root widget\char`\"{} of the application\-: a \char`\"{}frame\char`\"{} widget that encapsulate the root window. \end{DoxyCompactList}\item 
 \hyperlink{hw__interface_8h_ad9970ae727c438faaf09c58c5defb796}{ei\-\_\-surface\-\_\-t} \hyperlink{ei__application_8c_adf0b5ac3d996e47e37c65907671fb9b7}{ei\-\_\-app\-\_\-root\-\_\-surface} ()
-\begin{DoxyCompactList}\small\item\em Returns the surface of the root window. Used to create surfaces with similar r, g, b channels. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Returns the surface of the root window. Used to create surfaces with similar r, g, b channels. \end{DoxyCompactList}\item 
+\hyperlink{ei__types_8h_a22c8198e4d641e4bc67bb17f9c6bcda7}{ei\-\_\-font\-\_\-t} \hyperlink{ei__application_8c_affad856111aef69022d4f3c560ec825c}{ei\-\_\-get\-\_\-toplevel\-\_\-font} ()
+\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -43,21 +45,23 @@ static \hyperlink{hw__interface_8h_ad9970ae727c438faaf09c58c5defb796}{ei\-\_\-su
 static \hyperlink{hw__interface_8h_ad9970ae727c438faaf09c58c5defb796}{ei\-\_\-surface\-\_\-t} \hyperlink{ei__application_8c_af5370f71f366ddb5bb1aaa661e144ac4}{picking\-\_\-surface} = N\-U\-L\-L
 \item 
 static \hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28}{ei\-\_\-bool\-\_\-t} \hyperlink{ei__application_8c_a8820e706fff7a60fbee24ab065a287b9}{continuer} = \hyperlink{ei__types_8h_a383b9af13bd6a0a893096ead3c4d8e28a26fdc833ef14f44fa15d81522b6802ec}{E\-I\-\_\-\-T\-R\-U\-E}
+\item 
+static \hyperlink{ei__types_8h_a22c8198e4d641e4bc67bb17f9c6bcda7}{ei\-\_\-font\-\_\-t} \hyperlink{ei__application_8c_a797fe3116f6cc41c0cac5b2df0409a9c}{toplevel\-\_\-font}
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\hypertarget{ei__application_8c_af8ee52362c789802afc96976e6e03095}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!dans\-\_\-frame@{dans\-\_\-frame}}
-\index{dans\-\_\-frame@{dans\-\_\-frame}!ei_application.c@{ei\-\_\-application.\-c}}
-\subsubsection[{dans\-\_\-frame}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-bool\-\_\-t} dans\-\_\-frame (
+\hypertarget{ei__application_8c_a4b5be95e7d8dbf7a8079d8e97899c285}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!dans\-\_\-w@{dans\-\_\-w}}
+\index{dans\-\_\-w@{dans\-\_\-w}!ei_application.c@{ei\-\_\-application.\-c}}
+\subsubsection[{dans\-\_\-w}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-bool\-\_\-t} dans\-\_\-w (
 \begin{DoxyParamCaption}
 \item[{{\bf ei\-\_\-point\-\_\-t}}]{point, }
 \item[{{\bf ei\-\_\-widget\-\_\-t} $\ast$}]{widget}
 \end{DoxyParamCaption}
-)}}\label{ei__application_8c_af8ee52362c789802afc96976e6e03095}
+)}}\label{ei__application_8c_a4b5be95e7d8dbf7a8079d8e97899c285}
 
 
-Definition at line 56 of file ei\-\_\-application.\-c.
+Definition at line 50 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_a4bb2bfc3248b18adad2b272b011883ab}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-create@{ei\-\_\-app\-\_\-create}}
 \index{ei\-\_\-app\-\_\-create@{ei\-\_\-app\-\_\-create}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -88,7 +92,7 @@ Creates an application.
 \end{DoxyParams}
 
 
-Definition at line 16 of file ei\-\_\-application.\-c.
+Definition at line 20 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_ad7ab77d706b9648b49c33ef3d2c830c0}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-free@{ei\-\_\-app\-\_\-free}}
 \index{ei\-\_\-app\-\_\-free@{ei\-\_\-app\-\_\-free}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -103,7 +107,7 @@ Releases all the resources of the application, and releases the hardware (ie. ca
 
 
 
-Definition at line 37 of file ei\-\_\-application.\-c.
+Definition at line 43 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_a670d0bcb22879506fdb9944ae26df2f5}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-invalidate\-\_\-rect@{ei\-\_\-app\-\_\-invalidate\-\_\-rect}}
 \index{ei\-\_\-app\-\_\-invalidate\-\_\-rect@{ei\-\_\-app\-\_\-invalidate\-\_\-rect}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -123,7 +127,7 @@ Adds a rectangle to the list of rectangles that must be updated on screen. The r
 \end{DoxyParams}
 
 
-Definition at line 130 of file ei\-\_\-application.\-c.
+Definition at line 145 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_a05dff77e07ed2d7a896b14c15a939457}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-quit\-\_\-request@{ei\-\_\-app\-\_\-quit\-\_\-request}}
 \index{ei\-\_\-app\-\_\-quit\-\_\-request@{ei\-\_\-app\-\_\-quit\-\_\-request}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -138,7 +142,7 @@ Tells the application to quite. Is usually called by an event handler (for examp
 
 
 
-Definition at line 134 of file ei\-\_\-application.\-c.
+Definition at line 149 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_adf0b5ac3d996e47e37c65907671fb9b7}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-root\-\_\-surface@{ei\-\_\-app\-\_\-root\-\_\-surface}}
 \index{ei\-\_\-app\-\_\-root\-\_\-surface@{ei\-\_\-app\-\_\-root\-\_\-surface}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -156,7 +160,7 @@ The surface of the root window.
 \end{DoxyReturn}
 
 
-Definition at line 142 of file ei\-\_\-application.\-c.
+Definition at line 157 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_a97eeb53e6bac85cfb5f19f4baa77e114}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-root\-\_\-widget@{ei\-\_\-app\-\_\-root\-\_\-widget}}
 \index{ei\-\_\-app\-\_\-root\-\_\-widget@{ei\-\_\-app\-\_\-root\-\_\-widget}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -174,7 +178,7 @@ The root widget.
 \end{DoxyReturn}
 
 
-Definition at line 138 of file ei\-\_\-application.\-c.
+Definition at line 153 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_a4b18dede5829aec0e5b246ccf66bf439}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-app\-\_\-run@{ei\-\_\-app\-\_\-run}}
 \index{ei\-\_\-app\-\_\-run@{ei\-\_\-app\-\_\-run}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -189,7 +193,18 @@ Runs the application\-: enters the main event loop. Exits when \hyperlink{ei__ap
 
 
 
-Definition at line 89 of file ei\-\_\-application.\-c.
+Definition at line 100 of file ei\-\_\-application.\-c.
+
+\hypertarget{ei__application_8c_affad856111aef69022d4f3c560ec825c}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-get\-\_\-toplevel\-\_\-font@{ei\-\_\-get\-\_\-toplevel\-\_\-font}}
+\index{ei\-\_\-get\-\_\-toplevel\-\_\-font@{ei\-\_\-get\-\_\-toplevel\-\_\-font}!ei_application.c@{ei\-\_\-application.\-c}}
+\subsubsection[{ei\-\_\-get\-\_\-toplevel\-\_\-font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-font\-\_\-t} ei\-\_\-get\-\_\-toplevel\-\_\-font (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ei__application_8c_affad856111aef69022d4f3c560ec825c}
+
+
+Definition at line 161 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_a9fd1d997304992258113ca816a322638}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!ei\-\_\-widget\-\_\-create\-\_\-root@{ei\-\_\-widget\-\_\-create\-\_\-root}}
 \index{ei\-\_\-widget\-\_\-create\-\_\-root@{ei\-\_\-widget\-\_\-create\-\_\-root}!ei_application.c@{ei\-\_\-application.\-c}}
@@ -203,17 +218,6 @@ Definition at line 89 of file ei\-\_\-application.\-c.
 
 Definition at line 26 of file ei\-\_\-widget.\-c.
 
-\hypertarget{ei__application_8c_a0b36829b9a2f2805b883b0726da6304f}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!parcours\-\_\-profondeur\-\_\-draw@{parcours\-\_\-profondeur\-\_\-draw}}
-\index{parcours\-\_\-profondeur\-\_\-draw@{parcours\-\_\-profondeur\-\_\-draw}!ei_application.c@{ei\-\_\-application.\-c}}
-\subsubsection[{parcours\-\_\-profondeur\-\_\-draw}]{\setlength{\rightskip}{0pt plus 5cm}void parcours\-\_\-profondeur\-\_\-draw (
-\begin{DoxyParamCaption}
-\item[{{\bf ei\-\_\-widget\-\_\-t} $\ast$}]{widget}
-\end{DoxyParamCaption}
-)}}\label{ei__application_8c_a0b36829b9a2f2805b883b0726da6304f}
-
-
-Definition at line 42 of file ei\-\_\-application.\-c.
-
 \hypertarget{ei__application_8c_a120369c037eb13b67229b31874ebfaed}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!parcours\-\_\-profondeur\-\_\-pick@{parcours\-\_\-profondeur\-\_\-pick}}
 \index{parcours\-\_\-profondeur\-\_\-pick@{parcours\-\_\-profondeur\-\_\-pick}!ei_application.c@{ei\-\_\-application.\-c}}
 \subsubsection[{parcours\-\_\-profondeur\-\_\-pick}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-widget\-\_\-t}$\ast$ parcours\-\_\-profondeur\-\_\-pick (
@@ -224,7 +228,7 @@ Definition at line 42 of file ei\-\_\-application.\-c.
 )}}\label{ei__application_8c_a120369c037eb13b67229b31874ebfaed}
 
 
-Definition at line 66 of file ei\-\_\-application.\-c.
+Definition at line 72 of file ei\-\_\-application.\-c.
 
 
 
@@ -234,26 +238,33 @@ Definition at line 66 of file ei\-\_\-application.\-c.
 \subsubsection[{continuer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-bool\-\_\-t} continuer = {\bf E\-I\-\_\-\-T\-R\-U\-E}\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__application_8c_a8820e706fff7a60fbee24ab065a287b9}
 
 
-Definition at line 12 of file ei\-\_\-application.\-c.
+Definition at line 14 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_af9c62b4f1677b5e86312769094c4a00f}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!main\-\_\-window@{main\-\_\-window}}
 \index{main\-\_\-window@{main\-\_\-window}!ei_application.c@{ei\-\_\-application.\-c}}
 \subsubsection[{main\-\_\-window}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-surface\-\_\-t} main\-\_\-window = N\-U\-L\-L\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__application_8c_af9c62b4f1677b5e86312769094c4a00f}
 
 
-Definition at line 10 of file ei\-\_\-application.\-c.
+Definition at line 12 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_af5370f71f366ddb5bb1aaa661e144ac4}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!picking\-\_\-surface@{picking\-\_\-surface}}
 \index{picking\-\_\-surface@{picking\-\_\-surface}!ei_application.c@{ei\-\_\-application.\-c}}
 \subsubsection[{picking\-\_\-surface}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-surface\-\_\-t} picking\-\_\-surface = N\-U\-L\-L\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__application_8c_af5370f71f366ddb5bb1aaa661e144ac4}
 
 
-Definition at line 11 of file ei\-\_\-application.\-c.
+Definition at line 13 of file ei\-\_\-application.\-c.
 
 \hypertarget{ei__application_8c_ad2cced8dfcb0dc937f72fa334a43cbc2}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!root@{root}}
 \index{root@{root}!ei_application.c@{ei\-\_\-application.\-c}}
 \subsubsection[{root}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-widget\-\_\-t}$\ast$ root\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__application_8c_ad2cced8dfcb0dc937f72fa334a43cbc2}
 
 
-Definition at line 9 of file ei\-\_\-application.\-c.
+Definition at line 11 of file ei\-\_\-application.\-c.
+
+\hypertarget{ei__application_8c_a797fe3116f6cc41c0cac5b2df0409a9c}{\index{ei\-\_\-application.\-c@{ei\-\_\-application.\-c}!toplevel\-\_\-font@{toplevel\-\_\-font}}
+\index{toplevel\-\_\-font@{toplevel\-\_\-font}!ei_application.c@{ei\-\_\-application.\-c}}
+\subsubsection[{toplevel\-\_\-font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-font\-\_\-t} toplevel\-\_\-font\hspace{0.3cm}{\ttfamily [static]}}}\label{ei__application_8c_a797fe3116f6cc41c0cac5b2df0409a9c}
+
+
+Definition at line 16 of file ei\-\_\-application.\-c.
 

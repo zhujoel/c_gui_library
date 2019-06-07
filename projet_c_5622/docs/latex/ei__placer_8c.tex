@@ -12,8 +12,12 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+\hyperlink{ei__types_8h_a22c8198e4d641e4bc67bb17f9c6bcda7}{ei\-\_\-font\-\_\-t} \hyperlink{ei__placer_8c_affad856111aef69022d4f3c560ec825c}{ei\-\_\-get\-\_\-toplevel\-\_\-font} ()
+\item 
 void \hyperlink{ei__placer_8c_ae7e1c98d8ae1be26ad3ff0c3fde9d8e2}{ei\-\_\-place} (struct \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget, \hyperlink{ei__types_8h_a3852c963af609d31d7cfcff79c4c8450}{ei\-\_\-anchor\-\_\-t} $\ast$anchor, int $\ast$x, int $\ast$y, int $\ast$width, int $\ast$height, float $\ast$rel\-\_\-x, float $\ast$rel\-\_\-y, float $\ast$rel\-\_\-width, float $\ast$rel\-\_\-height)
 \begin{DoxyCompactList}\small\item\em Configures the geometry of a widget using the \char`\"{}placer\char`\"{} geometry manager. If the widget was already managed by another geometry manager, then it is first removed from the previous geometry manager. If the widget was already managed by the \char`\"{}placer\char`\"{}, then this calls simply updates the placer parameters\-: arguments that are not N\-U\-L\-L replace previous values. When the arguments are passed as N\-U\-L\-L, the placer uses default values (detailed in the argument descriptions below). If no size is provided (either absolute or relative), then the requested size of the widget is used, i.\-e. the minimal size required to display its content. \end{DoxyCompactList}\item 
+void \hyperlink{ei__placer_8c_a12492e1fdb4487ea86d8a5a6fae828c6}{apply\-\_\-anchor} (\hyperlink{ei__types_8h_a3852c963af609d31d7cfcff79c4c8450}{ei\-\_\-anchor\-\_\-t} anchor, int $\ast$x, int $\ast$y, int $\ast$w, int $\ast$h)
+\item 
 void \hyperlink{ei__placer_8c_af6ab9a9a1147224d5c107ff5d950ec6f}{ei\-\_\-placer\-\_\-run} (struct \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget)
 \begin{DoxyCompactList}\small\item\em Tells the placer to recompute the geometry of a widget. The widget must have been previsouly placed by a call to \hyperlink{ei__placer_8c_ae7e1c98d8ae1be26ad3ff0c3fde9d8e2}{ei\-\_\-place}. Geometry re-\/computation is necessary for example when the text label of a widget has changed, and thus the widget \char`\"{}natural\char`\"{} size has changed. \end{DoxyCompactList}\item 
 void \hyperlink{ei__placer_8c_a277bbc4cb6e175127219ddcea161c1bc}{ei\-\_\-placer\-\_\-forget} (struct \hyperlink{structei__widget__t}{ei\-\_\-widget\-\_\-t} $\ast$widget)
@@ -21,6 +25,32 @@ void \hyperlink{ei__placer_8c_a277bbc4cb6e175127219ddcea161c1bc}{ei\-\_\-placer\
 
 
 \subsection{Function Documentation}
+\hypertarget{ei__placer_8c_a12492e1fdb4487ea86d8a5a6fae828c6}{\index{ei\-\_\-placer.\-c@{ei\-\_\-placer.\-c}!apply\-\_\-anchor@{apply\-\_\-anchor}}
+\index{apply\-\_\-anchor@{apply\-\_\-anchor}!ei_placer.c@{ei\-\_\-placer.\-c}}
+\subsubsection[{apply\-\_\-anchor}]{\setlength{\rightskip}{0pt plus 5cm}void apply\-\_\-anchor (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-anchor\-\_\-t}}]{anchor, }
+\item[{int $\ast$}]{x, }
+\item[{int $\ast$}]{y, }
+\item[{int $\ast$}]{w, }
+\item[{int $\ast$}]{h}
+\end{DoxyParamCaption}
+)}}\label{ei__placer_8c_a12492e1fdb4487ea86d8a5a6fae828c6}
+
+
+Definition at line 65 of file ei\-\_\-widgetclass.\-c.
+
+\hypertarget{ei__placer_8c_affad856111aef69022d4f3c560ec825c}{\index{ei\-\_\-placer.\-c@{ei\-\_\-placer.\-c}!ei\-\_\-get\-\_\-toplevel\-\_\-font@{ei\-\_\-get\-\_\-toplevel\-\_\-font}}
+\index{ei\-\_\-get\-\_\-toplevel\-\_\-font@{ei\-\_\-get\-\_\-toplevel\-\_\-font}!ei_placer.c@{ei\-\_\-placer.\-c}}
+\subsubsection[{ei\-\_\-get\-\_\-toplevel\-\_\-font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ei\-\_\-font\-\_\-t} ei\-\_\-get\-\_\-toplevel\-\_\-font (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ei__placer_8c_affad856111aef69022d4f3c560ec825c}
+
+
+Definition at line 161 of file ei\-\_\-application.\-c.
+
 \hypertarget{ei__placer_8c_ae7e1c98d8ae1be26ad3ff0c3fde9d8e2}{\index{ei\-\_\-placer.\-c@{ei\-\_\-placer.\-c}!ei\-\_\-place@{ei\-\_\-place}}
 \index{ei\-\_\-place@{ei\-\_\-place}!ei_placer.c@{ei\-\_\-placer.\-c}}
 \subsubsection[{ei\-\_\-place}]{\setlength{\rightskip}{0pt plus 5cm}void ei\-\_\-place (
@@ -66,7 +96,7 @@ Configures the geometry of a widget using the \char`\"{}placer\char`\"{} geometr
 \end{DoxyParams}
 
 
-Definition at line 12 of file ei\-\_\-placer.\-c.
+Definition at line 13 of file ei\-\_\-placer.\-c.
 
 \hypertarget{ei__placer_8c_a277bbc4cb6e175127219ddcea161c1bc}{\index{ei\-\_\-placer.\-c@{ei\-\_\-placer.\-c}!ei\-\_\-placer\-\_\-forget@{ei\-\_\-placer\-\_\-forget}}
 \index{ei\-\_\-placer\-\_\-forget@{ei\-\_\-placer\-\_\-forget}!ei_placer.c@{ei\-\_\-placer.\-c}}
@@ -86,7 +116,7 @@ Tells the placer to remove a widget from the screen and forget about it. Note\-:
 \end{DoxyParams}
 
 
-Definition at line 114 of file ei\-\_\-placer.\-c.
+Definition at line 121 of file ei\-\_\-placer.\-c.
 
 \hypertarget{ei__placer_8c_af6ab9a9a1147224d5c107ff5d950ec6f}{\index{ei\-\_\-placer.\-c@{ei\-\_\-placer.\-c}!ei\-\_\-placer\-\_\-run@{ei\-\_\-placer\-\_\-run}}
 \index{ei\-\_\-placer\-\_\-run@{ei\-\_\-placer\-\_\-run}!ei_placer.c@{ei\-\_\-placer.\-c}}
@@ -106,5 +136,5 @@ Tells the placer to recompute the geometry of a widget. The widget must have bee
 \end{DoxyParams}
 
 
-Definition at line 40 of file ei\-\_\-placer.\-c.
+Definition at line 42 of file ei\-\_\-placer.\-c.
 

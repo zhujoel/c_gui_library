@@ -94,6 +94,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="ei__utils_8h_source.html">../include/ei_utils.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="ei__event_8h_source.html">../include/ei_event.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="ei__widget_8h_source.html">../include/ei_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="ei__widgetclass_8h_source.html">../include/ei_widgetclass.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_g_r_o_s_s_e_b_i_b_l_i_o_t_h_e_q_u_e_8h_source.html">../include/GROSSEBIBLIOTHEQUE.h</a>&quot;</code><br/>
 <code>#include &lt;stdlib.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
 <code>#include &lt;stdio.h&gt;</code><br/>
@@ -110,10 +112,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ad7ab77d706b9648b49c33ef3d2c830c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#ad7ab77d706b9648b49c33ef3d2c830c0">ei_app_free</a> ()</td></tr>
 <tr class="memdesc:ad7ab77d706b9648b49c33ef3d2c830c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases all the resources of the application, and releases the hardware (ie. calls <a class="el" href="hw__interface_8h.html#a6e856924f3b4c8966a870e56a3b1dcb1">hw_quit</a>).  <a href="#ad7ab77d706b9648b49c33ef3d2c830c0">More...</a><br/></td></tr>
 <tr class="separator:ad7ab77d706b9648b49c33ef3d2c830c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b36829b9a2f2805b883b0726da6304f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#a0b36829b9a2f2805b883b0726da6304f">parcours_profondeur_draw</a> (<a class="el" href="structei__widget__t.html">ei_widget_t</a> *widget)</td></tr>
-<tr class="separator:a0b36829b9a2f2805b883b0726da6304f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8ee52362c789802afc96976e6e03095"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#af8ee52362c789802afc96976e6e03095">dans_frame</a> (<a class="el" href="structei__point__t.html">ei_point_t</a> point, <a class="el" href="structei__widget__t.html">ei_widget_t</a> *widget)</td></tr>
-<tr class="separator:af8ee52362c789802afc96976e6e03095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b5be95e7d8dbf7a8079d8e97899c285"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#a4b5be95e7d8dbf7a8079d8e97899c285">dans_w</a> (<a class="el" href="structei__point__t.html">ei_point_t</a> point, <a class="el" href="structei__widget__t.html">ei_widget_t</a> *widget)</td></tr>
+<tr class="separator:a4b5be95e7d8dbf7a8079d8e97899c285"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a120369c037eb13b67229b31874ebfaed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structei__widget__t.html">ei_widget_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#a120369c037eb13b67229b31874ebfaed">parcours_profondeur_pick</a> (<a class="el" href="structei__widget__t.html">ei_widget_t</a> *widget, <a class="el" href="structei__point__t.html">ei_point_t</a> point)</td></tr>
 <tr class="separator:a120369c037eb13b67229b31874ebfaed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b18dede5829aec0e5b246ccf66bf439"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#a4b18dede5829aec0e5b246ccf66bf439">ei_app_run</a> ()</td></tr>
@@ -131,6 +131,8 @@ Functions</h2></td></tr>
 <tr class="memitem:adf0b5ac3d996e47e37c65907671fb9b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hw__interface_8h.html#ad9970ae727c438faaf09c58c5defb796">ei_surface_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#adf0b5ac3d996e47e37c65907671fb9b7">ei_app_root_surface</a> ()</td></tr>
 <tr class="memdesc:adf0b5ac3d996e47e37c65907671fb9b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the surface of the root window. Used to create surfaces with similar r, g, b channels.  <a href="#adf0b5ac3d996e47e37c65907671fb9b7">More...</a><br/></td></tr>
 <tr class="separator:adf0b5ac3d996e47e37c65907671fb9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affad856111aef69022d4f3c560ec825c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#affad856111aef69022d4f3c560ec825c">ei_get_toplevel_font</a> ()</td></tr>
+<tr class="separator:affad856111aef69022d4f3c560ec825c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -142,14 +144,16 @@ Variables</h2></td></tr>
 <tr class="separator:af5370f71f366ddb5bb1aaa661e144ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8820e706fff7a60fbee24ab065a287b9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#a8820e706fff7a60fbee24ab065a287b9">continuer</a> = <a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28a26fdc833ef14f44fa15d81522b6802ec">EI_TRUE</a></td></tr>
 <tr class="separator:a8820e706fff7a60fbee24ab065a287b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a797fe3116f6cc41c0cac5b2df0409a9c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ei__application_8c.html#a797fe3116f6cc41c0cac5b2df0409a9c">toplevel_font</a></td></tr>
+<tr class="separator:a797fe3116f6cc41c0cac5b2df0409a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="af8ee52362c789802afc96976e6e03095"></a>
+<a class="anchor" id="a4b5be95e7d8dbf7a8079d8e97899c285"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a> dans_frame </td>
+          <td class="memname"><a class="el" href="ei__types_8h.html#a383b9af13bd6a0a893096ead3c4d8e28">ei_bool_t</a> dans_w </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structei__point__t.html">ei_point_t</a>&#160;</td>
           <td class="paramname"><em>point</em>, </td>
@@ -168,7 +172,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00056">56</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00050">50</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -215,7 +219,7 @@ creates the root widget to accress the root window.  </li>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00016">16</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00020">20</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -234,7 +238,7 @@ creates the root widget to accress the root window.  </li>
 
 <p>Releases all the resources of the application, and releases the hardware (ie. calls <a class="el" href="hw__interface_8h.html#a6e856924f3b4c8966a870e56a3b1dcb1">hw_quit</a>). </p>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00037">37</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00043">43</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -260,7 +264,7 @@ creates the root widget to accress the root window.  </li>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00130">130</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00145">145</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -279,7 +283,7 @@ creates the root widget to accress the root window.  </li>
 
 <p>Tells the application to quite. Is usually called by an event handler (for example when pressing the "Escape" key). </p>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00134">134</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00149">149</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -299,7 +303,7 @@ creates the root widget to accress the root window.  </li>
 <p>Returns the surface of the root window. Used to create surfaces with similar r, g, b channels. </p>
 <dl class="section return"><dt>Returns</dt><dd>The surface of the root window. </dd></dl>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00142">142</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00157">157</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -319,7 +323,7 @@ creates the root widget to accress the root window.  </li>
 <p>Returns the "root widget" of the application: a "frame" widget that encapsulate the root window. </p>
 <dl class="section return"><dt>Returns</dt><dd>The root widget. </dd></dl>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00138">138</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00153">153</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -338,7 +342,24 @@ creates the root widget to accress the root window.  </li>
 
 <p>Runs the application: enters the main event loop. Exits when <a class="el" href="ei__application_8c.html#a05dff77e07ed2d7a896b14c15a939457">ei_app_quit_request</a> is called. </p>
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00089">89</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00100">100</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="affad856111aef69022d4f3c560ec825c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a> ei_get_toplevel_font </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00161">161</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -370,24 +391,6 @@ creates the root widget to accress the root window.  </li>
 
 </div>
 </div>
-<a class="anchor" id="a0b36829b9a2f2805b883b0726da6304f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void parcours_profondeur_draw </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structei__widget__t.html">ei_widget_t</a> *&#160;</td>
-          <td class="paramname"><em>widget</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00042">42</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a120369c037eb13b67229b31874ebfaed"></a>
 <div class="memitem">
 <div class="memproto">
@@ -412,7 +415,7 @@ creates the root widget to accress the root window.  </li>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00066">66</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00072">72</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -435,7 +438,7 @@ creates the root widget to accress the root window.  </li>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00012">12</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00014">14</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -457,7 +460,7 @@ creates the root widget to accress the root window.  </li>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00010">10</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00012">12</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -479,7 +482,7 @@ creates the root widget to accress the root window.  </li>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00011">11</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00013">13</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
@@ -501,14 +504,36 @@ creates the root widget to accress the root window.  </li>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00009">9</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00011">11</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a797fe3116f6cc41c0cac5b2df0409a9c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ei__types_8h.html#a22c8198e4d641e4bc67bb17f9c6bcda7">ei_font_t</a> toplevel_font</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ei__application_8c_source.html#l00016">16</a> of file <a class="el" href="ei__application_8c_source.html">ei_application.c</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 5 2019 16:53:18 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 7 2019 16:28:52 for Projet C - Interaction Graphique by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
