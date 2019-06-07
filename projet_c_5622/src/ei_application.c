@@ -27,7 +27,7 @@ void ei_app_create(ei_size_t* main_window_size, ei_bool_t fullscreen){
   ei_toplevel_register_class();
 
   //Load font
-  toplevel_font = hw_text_font_create("fonts/BigCheese.ttf", ei_style_normal, 30);
+  toplevel_font = hw_text_font_create("misc/font.ttf", ei_style_normal, 20);
 
   //Creates the root window
   main_window =	hw_create_window(main_window_size, fullscreen);
@@ -136,13 +136,14 @@ void ei_app_run(){
     if (actif != NULL)
     {
       actif->wclass->handlefunc(actif, event);
+      hw_surface_lock(ei_app_root_surface());
       ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location);
+      hw_surface_unlock(ei_app_root_surface());
     }
     else
     {
       if ((event->type == ei_ev_mouse_buttondown)
-          || (event->type == ei_ev_mouse_buttonup)
-          || (event->type == ei_ev_mouse_move))
+          || (event->type == ei_ev_mouse_buttonup))
       {
         actif = parcours_profondeur_pick(ei_app_root_widget(), event->param.mouse.where);
         //pixel_ptr_pick_surface += event->param.mouse.where.x + event->param.mouse.where.y*hw_surface_get_size(ei_app_root_surface()).width;
@@ -150,11 +151,13 @@ void ei_app_run(){
         //pixel_ptr_pick_surface -= event->param.mouse.where.x + event->param.mouse.where.y*hw_surface_get_size(ei_app_root_surface()).width;
         //actif = parcours_profondeur_pick_id(ei_app_root_widget(), pick_id);
         //printf("Pick ID : %i\n", pick_id);
-        printf("Pick ID de actif : : %i\n", actif->pick_id);
-        printf("Souris : %i %i\n", event->param.mouse.where.x, event->param.mouse.where.y);
+        // printf("Pick ID de actif : : %i\n", actif->pick_id);
+        // printf("Souris : %i %i\n", event->param.mouse.where.x, event->param.mouse.where.y);
         actif->wclass->handlefunc(actif, event);
 
+        hw_surface_lock(ei_app_root_surface());
         ei_app_root_widget()->wclass->drawfunc(ei_app_root_widget(), ei_app_root_surface(), picking_surface, &ei_app_root_widget()->screen_location);
+        hw_surface_unlock(ei_app_root_surface());
       }
       else
       {
@@ -166,6 +169,7 @@ void ei_app_run(){
       }
     }
     hw_surface_update_rects(ei_app_root_surface(), NULL);
+
   }
   free(event);
 }

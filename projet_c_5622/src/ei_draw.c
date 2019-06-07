@@ -76,8 +76,6 @@ ei_color_t ei_map_color (ei_surface_t surface, const uint32_t* color){
 }
 
 void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_point, const ei_color_t color, const ei_rect_t* clipper){
-	hw_surface_lock(surface);
-
 	// indice 1er pixel de la surface
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 
@@ -255,8 +253,6 @@ void ei_draw_polyline (ei_surface_t surface, const ei_linked_point_t*	first_poin
 			suiveur_arrivee = suiveur_arrivee->next;
 		}
 	}
-
-	hw_surface_unlock(surface);
 }
 
 typedef struct ei_cellule_t			// Définition du type cellule pour la fonction draw_polygon
@@ -376,7 +372,6 @@ int nbr_TCA(ei_cellule_t** TCA)
 void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point, const ei_color_t color, const ei_rect_t* clipper)
 {
 	if(first_point != NULL && first_point->next != NULL){
-		hw_surface_lock(surface);
 		uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
 		uint32_t color32 = ei_map_rgba(surface,&color);
 		// dimensions de la surface pour réaliser le clipping
@@ -501,7 +496,6 @@ void ei_draw_polygon (ei_surface_t surface, const ei_linked_point_t* first_point
 		// 		//free(courant2);
 		// 	}
 		// 	//free(TCA);
-		hw_surface_unlock(surface);
 	}
 }
 
@@ -546,7 +540,6 @@ void ei_draw_text (ei_surface_t surface, const ei_point_t* where, const char* te
 
 
 void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	clipper){
-	hw_surface_lock(surface);
 
 	uint32_t color32 = ei_map_rgba(surface, color);
 	uint32_t* pixel_ptr = (uint32_t*)hw_surface_get_buffer(surface);
@@ -566,12 +559,10 @@ void ei_fill (ei_surface_t surface, const ei_color_t*	color, const ei_rect_t*	cl
 		}
 	}
 
-	hw_surface_unlock(surface);
 }
 
 
 int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const ei_surface_t source, const ei_rect_t*	src_rect, const ei_bool_t	alpha){
-	hw_surface_lock(destination);
 	// @ du pixel courant de la surface source/destination
 	uint32_t* pixel_ptr_dest = (uint32_t*)hw_surface_get_buffer(destination);
 	uint32_t* pixel_ptr_src = (uint32_t*)hw_surface_get_buffer(source);
@@ -689,8 +680,6 @@ int	ei_copy_surface (ei_surface_t destination, const ei_rect_t*	dst_rect, const 
 				pixel_ptr_dest -= (i_dest + i) + (j + j_dest)*hw_surface_get_size(destination).width;
 		}
 	}
-
-	hw_surface_unlock(destination);
 	return 1;
 
 }
@@ -818,7 +807,6 @@ ei_linked_point_t* rounded_frame(const ei_rect_t rectangle, float rayon, ei_bool
 
 
 void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t surface, const ei_rect_t rect, const ei_color_t color, const ei_rect_t* clipper, float rayon, ei_relief_t reliefType, int distanceRectangle){
-	hw_surface_lock(surface);
 
 	// dessine le rectangle extérieur du bouton
 	ei_linked_point_t* rounded_rect = rounded_frame(rect, rayon, NULL);
@@ -954,7 +942,6 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 	ei_linked_point_t* rounded_rect_int = rounded_frame(rect_int, rayon*0.9, NULL);
 
 	ei_draw_polygon(surface, rounded_rect_int, color, clipper);
-	hw_surface_unlock(surface);
 	free(arc_topleft);
 	free(semi_arc_topright_sup);
 	free(semi_arc_bottomleft_sup);
@@ -966,7 +953,6 @@ void ei_draw_widget_with_relief_and_corner_radius_that_is_optional(ei_surface_t 
 }
 
 void ei_draw_image(const char* filename, ei_surface_t surface, ei_point_t* where, const ei_rect_t* clipper){
-	hw_surface_lock(surface);
 
 	ei_surface_t image = hw_image_load(filename, surface);
 
@@ -1001,7 +987,5 @@ void ei_draw_image(const char* filename, ei_surface_t surface, ei_point_t* where
 	else{
 		ei_copy_surface(surface, &dst_rect, image, NULL, 1);
 	}
-
-	hw_surface_unlock(surface);
 	hw_surface_free(image);
 }
